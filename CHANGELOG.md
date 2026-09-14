@@ -15,3 +15,8 @@
 - Self dump written; meta snapshot updated; secret scan clean
 - Extra agent not in registry: New Bot (f613268a-…) — not archived
 - Push deferred until parent confirms dumps clean
+
+## 2026-09-14 quanfu late ingest
+
+- Ingested 全富決策副手 (quanfu / 2410937) memory dump; fleet now 20/20.
+- Secret scan clean.

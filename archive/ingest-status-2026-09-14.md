@@ -1,6 +1,6 @@
 # Ingest status 2026-09-14
 
-ok=19 missing=1 empty=0 redacted=0
+ok=20 missing=0 empty=0 redacted=0
 
 | slug | messaging-id | dump lines | status |
 |------|--------------|------------|--------|
@@ -17,7 +17,7 @@ ok=19 missing=1 empty=0 redacted=0
 | market-awareness | 2410919 | 72 | ok |
 | prompt-architect | 2410922 | 83 | ok |
 | hk-swing-scanner | 2410932 | 61 | ok |
-| quanfu | 2410937 | 0 | missing |
+| quanfu | 2410937 | 68 | ok |
 | travel | 2410940 | 63 | ok |
 | hk-swing-setup | 2410941 | 48 | ok |
 | sweeper | 2725798 | 52 | ok |
@@ -25,4 +25,5 @@ ok=19 missing=1 empty=0 redacted=0
 | x-brief | 156683 | 91 | ok |
 | video-transcriber | 174592 | 90 | ok |
 
-Still missing: 2410937
+Still missing: (none)
+补缺: none — quanfu (2410937) ingested late.
