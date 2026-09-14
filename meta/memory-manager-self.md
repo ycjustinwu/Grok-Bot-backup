@@ -6,6 +6,6 @@
 - Manual trigger: 「存档」
 
 ## Pending setup
-- Private Git remote: not configured
+- Private Git remote: https://github.com/ycjustinwu/Grok-Bot-backup
 - Slack channel id: not set
 - Durable agent memories: write failed (platform error); retry later

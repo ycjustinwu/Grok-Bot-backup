@@ -27,3 +27,4 @@ Only rows with 纳入=是 are backed up. Edit this file (or ask 记忆管家) to
 
 Slack report channel id: _(unset — ask Justin)_
 Timezone: Asia/Hong_Kong
+Git remote: https://github.com/ycjustinwu/Grok-Bot-backup
