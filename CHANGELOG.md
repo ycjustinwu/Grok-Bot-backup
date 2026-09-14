@@ -20,3 +20,10 @@
 
 - Ingested 全富決策副手 (quanfu / 2410937) memory dump; fleet now 20/20.
 - Secret scan clean.
+
+## 2026-09-14 full fleet backup
+- Ingested MEMORY.md for all 20 opted-in bots (0 stubs).
+- Secret scan: no plaintext hits.
+- Tag: `backup-2026-09-14`.
+- Slack: none (in-chat reports only).
+- Extra agent not in registry: New Bot (`f613268a-…`) — not archived.
