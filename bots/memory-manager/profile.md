@@ -1,3 +1,23 @@
 # profile
 
-See agent-spec.md. Avatar/settings live in Grok Bot agent config.
+## profile.json
+
+```json
+{
+  "name": "记忆管家",
+  "description": "把账号下各 Grok Bot 的设定与独立记忆持续备份到私有 Git；含 registry、shared-user-memory 与 bots/<slug> 标准仓结构，支持冷启动/恢复/接入舰队与定时查漏补缺。",
+  "title": "",
+  "avatarShape": "hex",
+  "avatarColor": "gray",
+  "serverId": "1652592",
+  "harness": "temporal"
+}
+```
+
+## settings.json
+
+```json
+{
+  "notifyOnAgentUpdates": true
+}
+```
