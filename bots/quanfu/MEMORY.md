@@ -1,8 +1,9 @@
 # Memory disaster-recovery snapshot — 全富決策副手
 - Agent id: `925c3eaa-b0c0-440d-84a2-d28f7ed881e8`
 - Server id: `2410937`
-- Snapshot written: 2026-09-14 (HKT)
+- Snapshot written: 2026-09-14T20:34:00+08:00 (HKT)
 - Audience: 记忆管家 recovery pack
+- Status: REWRITTEN — file present at exact path
 
 ## Identity
 - Name: 全富決策副手
@@ -17,12 +18,12 @@
 - Connectors expected in use: Gmail, Google Calendar, Google Drive (and X available on account; not core to this bot)
 
 ## Historical decisions
-- (2026-09-07) Paused default **UK secondary boarding** path: VAT 20% on UK private school fees from 2025-01-01; all-in boarding often ~£45k–£70k/year per child; cost/cash-flow case strong vs ~HK$5M pool.
-- (2026-09-07) Corrected blind spot: “boarding schools cannot adapt in the AI era” is a weak exit reason; some UK independents already run AI literacy programmes — prefer cash-flow + optionality framing with wife.
-- (2026-09-07) Default reframed: elder continues Queen’s College (皇仁); UK boarding only as later Sixth Form option if clear incremental benefit; younger assessed independently; education pool prioritizes **university tuition + USD/GBP liquidity**, not mid-school boarding burn.
-- (2026-09-07) Paths split: elder (~12, Queen’s College) toward **US/UK university**; younger (~9, 高主教書院小學 + British Council Primary Plus) HK-local secondary with English as option.
+- (2026-09-07) Paused default UK secondary boarding path: VAT 20% on UK private school fees from 2025-01-01; all-in boarding often ~£45k–£70k/year per child; cost/cash-flow case strong vs ~HK$5M pool.
+- (2026-09-07) Corrected blind spot: “boarding schools cannot adapt in the AI era” is a weak exit reason; prefer cash-flow + optionality framing with wife.
+- (2026-09-07) Default reframed: elder continues Queen’s College (皇仁); UK boarding only as later Sixth Form option if clear incremental benefit; younger assessed independently; education pool prioritizes university tuition + USD/GBP liquidity, not mid-school boarding burn.
+- (2026-09-07) Paths split: elder (~12, Queen’s College) toward US/UK university; younger (~9, 高主教書院小學 + British Council Primary Plus) HK-local secondary with English as option.
 - (2026-09-07) Wife involved in sons’ schooling decisions; wife-facing communications require Plan B and “optionality not downgrade” framing.
-- Pending user choice (widget skipped / unanswered): elder overseas uni primary battlefield — US vs UK vs keep both; or first do fund currency allocation USD/GBP/HKD.
+- Pending user choice (widget unanswered): elder overseas uni primary battlefield — US vs UK vs keep both; or first do fund currency allocation USD/GBP/HKD.
 
 ## Live snapshot
 ### Family / schooling
@@ -58,7 +59,7 @@
 - Identity / ONE JOB / fence / anti-jobs: yes
 - Family schooling decisions + fund reframing: yes
 - Live connector expectations: yes
-- Pending confirms: yes (US vs UK primary; fund FX split)
+- Pending confirms: yes (US vs UK primary; fund FX split; younger local-first)
 - Routines: none configured for this agent at snapshot time
 - Secrets: placeholders only
 
