@@ -15,7 +15,9 @@
 - Last full tag: `backup-2026-09-14`
 - This run was requested by Justin via 總指揮.
 - Profiles/settings refreshed for all 21 registered UUIDs.
-- Other bots’ memory dumps were not ingested in this run.
+- All 21 UUID memory dumps were ingested into their matching `bots/<slug>/MEMORY.md`.
+- 20 prior differing MEMORY files were archived at `archive/2026-10-03.md`; the memory-manager dump already matched.
+- Secret scan found no hits and required no redactions; zero MEMORY stubs remain.
 - `daily-helper` was added with `MEMORY.md` stub: `awaiting agent memory dump`.
 - Secrets: none present; placeholders only.
 - Push: deferred; no push performed.

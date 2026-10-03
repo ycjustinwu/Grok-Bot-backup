@@ -1,79 +1,60 @@
 # Memory backup — US Market Daily Brief
-- **Agent id:** `44fb5c78-45d1-4716-b849-a5a6a0c1867b`
-- **Backup time:** 2026-09-14 (HKT) — disaster-recovery snapshot for 记忆管家
-- **Secrets:** none held; placeholders only below if ever needed
+
+Snapshot time: 2026-10-03 (Asia/Hong_Kong). Agent id: 44fb5c78-45d1-4716-b849-a5a6a0c1867b. Server id: 2410917.
 
 ## Identity
-- **Name:** US Market Daily Brief
-- **Role:** 美股市場焦點分析師 — daily US cash-session market-focus brief（美股市場每日簡報）
-- **User:** Justin Wu（Asia/Hong_Kong）
-- **Output language:** 繁體中文；report starts at `## 美股市場每日簡報`
-- **Primary job:** On `US-ETF_[DATE].csv` and/or `abnormal-volume-spike-US_[DATE].csv` (or ask for 美股每日簡報): run [US Market Daily Brief](sand-workflow:us-market-daily-brief)
-- **Pipeline skills:**
-  1. [US ETF Theme Scan](sand-workflow:us-etf-theme-scan) — Tier 1 39 always; Tier 2 confirm; Tier 3 on trigger
-  2. [US Abnormal Volume](sand-workflow:us-abnormal-volume) — |Δ|>5%, RelVol>2, mcap>$10B + ETF linkage
-  3. [US Focus Catalyst](sand-workflow:us-focus-catalyst) — 3 names + live web search
-  4. [US Rotation Structure](sand-workflow:us-rotation-structure) — flows, RSP/SPY, SCHD/IWM, MEME, tape+VIX
-  5. Trump / 港股影響 — omit unless material
-- **VIX:** user paste, else FRED / Breadth Daily Report / StockCharts (shared with Orchestrator OK)
-- **Boundary vs Market Awareness Orchestrator:** THIS bot = themes/movers/catalysts/rotation narrative; Orchestrator = regime TOTAL/21.5 — never emit competing scorecard
-- **DATA GATE (highest priority — Justin 2026-09-09):** Data quality beats finishing. On missing/stale/abnormal critical input → STOP phase, do not invent, notify 總指揮 with what failed / source / expected vs got / what Justin must fix. Trip on: yfinance fail, StockCharts not updated, Stockbee not updated, empty/truncated CSV, OCR/vision cross-check fail
-- **Non-negotiable:** never `[待補充]` / `[工具搜尋結果]`; never invent prices/RelVol/mcap/VIX/catalysts; one-line `來源：…`; silent steps 1–5
-- **Refs:** `/workspace/refactored_us_market_daily_brief/docs/`
-- **Avatar shape:** wedge
-- **Routines:** none configured at backup time
+
+- Name: US Market Daily Brief. Role: 美股市場焦點分析師. One job: 美股市場每日簡報 for the US cash session, 繁體中文, first line `## 美股市場每日簡報`.
+- User: Justin Wu, timezone Asia/Hong_Kong.
+- Liaison: 總指揮 (id 7aa7a8a6-b16b-4740-a4df-1d5d7eded8c4). Tickets arrive from 總指揮. Reply against the ticket id with path + TLDR. Do not treat the brief as Final until 總指揮 routes Work Verifier (id 037de516-dbc1-4565-a127-5dbb0f691729). Do not self-call Work Verifier as the final pass.
+- Boundary: this agent owns themes, movers, catalysts, and rotation narrative. Market Awareness Orchestrator owns regime TOTAL / pillars / stance. Never emit a competing TOTAL/21.5 scorecard.
+- Skills: us-market-daily-brief, us-etf-theme-scan, us-abnormal-volume, us-focus-catalyst, us-rotation-structure. Docs under /workspace/refactored_us_market_daily_brief/docs/.
+- Gold sample (Justin, 2026-09-22): 2026-09-05 Perplexity Finance PDF (9/4 close). Dense VIX+macro open, 強/弱主題 with 驅動/代表股/聯動程度, 3 focus with 催化劑+板塊對照, ETF inflow/outflow tables, RSP/SCHD/IWM/MEME, tape+VIX. One-line 來源 only.
+- Header: `[session] 收市 | 香港時間翌日早上7:00`.
+- No routines. Avatar wedge / magenta. No secrets stored in memory.
 
 ## Historical decisions
-1. **Gold-standard sample (2026-09-08):** Justin attached Perplexity Finance PDF for 2026-09-05 (reflects 9/4 close). Locked shape: dense VIX+macro open; 強/弱主題 with 驅動/代表股/聯動程度; 3 focus stocks with 催化劑+板塊對照+可行動洞察; ETF inflow/outflow tables; RSP/SCHD/IWM/MEME rules; optional Trump/HK; tape+VIX; cite one-line 來源 only — no footnote dumps. Attachment path (session): agent attachments PDF under this agent’s attachments folder.
-2. **TC-20260909-03 (2026-09-09):** 總指揮 ordered US brief only for session **2026-09-08** (no Regime). Inputs: `/workspace/us-brief-inputs/2026-09-08/` (US-ETF + tv-abnormal-rise/drop); VIX **15.72** from StockCharts/`breadth-1b.json`. Deliverable: `/workspace/us-brief-output/2026-09-08/US brief-2026-09-08.md`; self-VERIFY PASS; focus BE / LITE / AMGN; Part 4/6 omitted that run; Work Verifier routed as TC-20260909-04.
-3. **Claude compare learn (2026-09-09):** Justin: different focus stocks acceptable. Gaps vs Claude for same session: weaker 震央 (missed NVS del-desiran + Canada tariffs live); AMGN spillover over NVS epicenter; thinner catalysts; ETF tables missing 1W/YTD; Part 4 wrongly omitted. Do **not** copy Claude footnotes, fuzzy index ranges, or soft 港股.
-4. **Skill deltas applied (2026-09-09 ~10:12 HKT):** Justin approved “Apply all draft skill deltas.” Updated us-focus-catalyst, us-rotation-structure, us-market-daily-brief, docs/output-shape.md. Archives: `/workspace/prompt_history/2026-09-09_1012_*.md`. Live rules now include:
-   - Opening: VIX path + **1–2 震央** before Part 1
-   - Epicenter boost: |1D|≥10% AND RelVol≥4× into top 3; prefer epicenter over spillover
-   - ≥2 sourced catalyst facts per focus name
-   - ETF flow tables: **1D + 1W + YTD** when CSV columns exist
-   - Part 4 material when same-day tariff effective/retaliation, pharma deals tied to movers, or named exec action
-   - Reader-friendly header OK; keep one-line 來源; single verified index points; omit soft 港股
-5. **Hybrid verification:** High-stakes briefs go through Work Verifier (`037de516-dbc1-4565-a127-5dbb0f691729`) after self-VERIFY; 總指揮 routes before Justin treats as final. Output dir for verifier: `/workspace/work-verifier/output/`
+
+- 2026-09-09: Claude-vs-Grok skill deltas applied (震央開篇, epicenter priority, ≥2 sourced catalyst facts, ETF 1D+1W+YTD). Archives under /workspace/prompt_history/2026-09-09_1012_*.md.
+- 2026-09-09 DATA GATE (highest): missing, stale, or abnormal critical input → STOP and notify 總指揮. Never invent prices, RelVol, mcap, VIX, or catalysts. Never use [待補充] or [工具搜尋結果].
+- 2026-09-17: screener script and upstream cron were documented (mcap>$5B at screener, brief keepers mcap>$10B). SUPERSEDED 2026-09-18 — do not run it.
+- 2026-09-18 lock TC-20260918-04: abnormal volume is Justin manual paste/CSV only. Never run /workspace/scripts/us_abnormal_volume_screener.py, tradingview_screener, or scanner.tradingview.com. Missing list → DATA GATE STOP. Do not scrape TradingView to backfill. Empty UP or DOWN is valid if Justin states it.
+- Keeper filter: |Δ|>5%, RelVol>2, market cap strictly greater than $10B, plus ETF linkage. Epicenter: |1D|≥10% AND RelVol≥4× AND mcap>$10B. Soft FAIL (label, do not force epicenter) when size/RV pass but mcap fails — used for LQDA, CTVA/Vylor.
+- 2026-09-22/23 Justin locks: Part 4 is any market-moving Trump/admin statement, not tariffs only. Part 6 港股影響 is always on: map US strong/weak sectors to HK themes/tickers. Do not invent HK same-day prices or causation. Profile description still says "omit unless material" — live lock wins. See pending confirms.
+- 2026-09-20 USAGE GATE: reuse fresh artifacts; same approach failed twice → stop and report; prefer connector/API over browser.
+- 2026-09-30 research escalation (locked): Sheets MCP → Tavily → Firecrawl CLI (env name only) → Browserless → Browser Use → box desktop last.
+- 2026-10-02 onward (總指揮, repeated 2026-10-03): Justin AV tape is authoritative. Do not overwrite close, chg%, RelVol, or names against Yahoo. Still look up mcap for the gate. Still verify ETF 1D%, index closes, and VIX from real sources. Non-AV percentages in the prose must match a real source.
+- Session date: CUP export dated D+1 = cash session D. Confirmed 2026-10-03: Justin label 「2026-10-03（週五收市）」 was Saturday; CSV stamp 2026-10-03 HKT + Yahoo last bar → session 2026-10-02. Do not invent a session the file does not contain.
+- Verifier lessons (9/25 FAIL, applied since): no blanket "all fell over N%" without checking each name; cite RelVol only from Justin's list, the ETF CSV, or a stated Yahoo volume ratio; name the commodity contract; spreads from own settles; round YTD once from raw CSV; label inflow/outflow tables 節錄 or 全列; sources line = sources actually cited.
+- Delivery: recent tickets want MD at /workspace/us-brief-inputs/<session>/US brief-<session>.md plus ASCII twin, abnormal-volume.md, _work-notes.json, and a mirror under /workspace/us-brief-output/<session>/. Some tickets say reply to 總指揮 only, not Justin.
+- 2026-10-02 Justin correction: SNPS 10/01 move is the Ansys acquisition (~$35B, closed 2025-07-17; IR banner SYNOPSYS COMPLETES ACQUISITION OF ANSYS). Investor Day is secondary. Do not lead with OpenAI/Amazon.
 
 ## Live snapshot
-### Agent memory (disk)
-- Profile: `/home/box/agent-data/agents/44fb5c78-45d1-4716-b849-a5a6a0c1867b/memory/profile.md`
-  - Gold-standard sample fact (2026-09-07)
-- Log: `/home/box/agent-data/agents/44fb5c78-45d1-4716-b849-a5a6a0c1867b/memory/log/2026-09.md`
-  - Applied Claude-vs-Grok skill deltas (2026-09-09)
-### Skills (current SKILL.md under `/home/box/agent-data/workflows/`)
-- `us-market-daily-brief` (~85 lines) — post-Claude deltas + DATA GATE in agent profile
-- `us-focus-catalyst` (~46 lines) — epicenter boost + ≥2 facts
-- `us-rotation-structure` (~39 lines) — 1D+1W+YTD tables
-- Related (unchanged this wave): `us-etf-theme-scan`, `us-abnormal-volume`, `fred-vix-term-structure`, `breadth-daily-report`, `work-verify`
-### Docs
-- `/workspace/refactored_us_market_daily_brief/docs/output-shape.md` (updated 2026-09-09)
-- Also: etf-tiers.md, mover-filters.md, checklist.md
-### Recent artifacts
-- Brief: `/workspace/us-brief-output/2026-09-08/US brief-2026-09-08.md`
-- Notes: `/workspace/us-brief-output/2026-09-08/_work-notes.json`
-- Self-VERIFY: `/workspace/work-verifier/output/verify-20260909-self-us-brief.md`
-- Draft learnings (applied): `/workspace/us-brief-output/2026-09-08/DRAFT-skill-learnings-from-claude.md`
-- Learnings log entries: `/workspace/learnings.md` (Claude compare + apply)
-### Inputs pattern
-- `/workspace/us-brief-inputs/[DATE]/US-ETF_*.csv`, `tv-abnormal-rise.csv`, `tv-abnormal-drop.csv`
-- Shared VIX/breadth often under `/workspace/regime-output/[DATE]/`
-### Teammates (coordination)
-- 總指揮 `7aa7a8a6-b16b-4740-a4df-1d5d7eded8c4` — tickets / DATA GATE notify path
-- Market Awareness Orchestrator `e4e8d80f-26c5-48c1-bd11-f56c0a9cc077` — regime only
-- Work Verifier `037de516-dbc1-4565-a127-5dbb0f691729` — second-pass QA
-- 记忆管家 `bae6933d-92a5-4d8c-8bf0-3a4f9fb7b1ed` — this backup request
 
-## Secrets placeholders only
-- No API tokens, passwords, or session cookies stored by this agent.
-- `[REDACTED:any-future-credential]` — none currently.
+Last completed brief: session 2026-10-02, ticket TC-20261003-01, gate PASS. Path: /workspace/us-brief-inputs/2026-10-02/US brief-2026-10-02.md (mirrored under us-brief-output). VIX 16.39→15.31. No formal epicenter. Focus STX / WDC (Toshiba HDD capacity) and HPE. DATA GAPS left as flags, seed numbers not overwritten: HPE Justin 176.95 vs Yahoo ~69.33; CTVA paste name Celanese vs Yahoo Corteva, mcap soft FAIL ~$7.95B (Vylor spin pattern from 10/01).
 
-## Coverage checklist
-- [x] Identity / JD / DATA GATE / Orchestrator boundary
-- [x] Gold sample + Claude compare + skill apply decisions
-- [x] TC-20260909-03 deliverable paths
-- [x] Profile + log memory facts
-- [x] Skill ids + archive paths
-- [x] Secrets: none / redacted policy
-- [ ] Pending confirms: none at backup time
+Prior sessions this thread (all gate PASS unless noted):
+
+- 2026-09-23 TC-20260924-01: focus ABNB / EXPE / PAYX. Path under /workspace/us-brief-output/2026-09-23/.
+- 2026-09-24 TC-20260925-01: focus FSLR / KGC / GEN. ETF CSV 124 rows not 123; RSHO missing. Path /workspace/us-brief/2026-09-24/.
+- 2026-09-25 TC-20260926-01 then fix TC-20260926-03: 6084-row full ETF export filtered to 124. Focus GEN / ZS / MSFT. Verifier FAIL fixed (miners not "all >5%"; empty-UP RelVol wording; Brent Nov spread $11.91; FXY/CLOU YTD). Path /workspace/us-brief-output/2026-09-25/.
+- 2026-09-28 TC-20260929-01: epicenter MDB. BA/PA is Boeing NYSE 6% Series A mandatory convertible preferred (BA-PA), not Paris. Path /workspace/us-brief-output/2026-09-28/.
+- 2026-09-29 TC-20260930-01: epicenter FICO (FHFA/VantageScore). Keepers FICO/CCL/SMMT. ANDG = Andersen Group, IPO 2025-12-17, dropped on mcap. Reply was 總指揮-only.
+- 2026-09-30 TC-20261001-01: epicenter UTHR. LQDA −57% soft FAIL mcap ~$2.7B. CBRS = Cerebras Systems. IBRX at $10.00B dropped (rule is >$10B). Path /workspace/us-brief-inputs/2026-09-30/ plus mirror.
+- 2026-10-01 TC-20261002-01 then rewrite TC-20261002-03: epicenter ACN. CTVA −83.81% Vylor spin soft FAIL. SNPS rewritten to Ansys acquisition. False DATA GATE (worker missed the paste in the ticket) was corrected without asking Justin to re-paste. Path /workspace/us-brief-inputs/2026-10-01/.
+
+Work Verifier on the 9/30 brief was running as TC-20261001-02 with no further action unless FAIL. No open FAIL on 10/01 or 10/02 at snapshot time.
+
+Standing operating notes: FRED VIX often lags; Yahoo ^VIX + CNBC .VIX used when FRED stops early. Brent contract must be named (front month); do not mix Dec vs Nov settles. RSHO has been missing from the 124-name ETF list since at least 9/24.
+
+## Secrets
+
+- Firecrawl API key: [REDACTED:FIRECRAWL_API_KEY]. Name only. Value is not in this snapshot and must not be copied into briefs or chat.
+- No other credentials, tokens, or session cookies are stored in this agent's memory.
+
+## Pending confirms
+
+1. AV TV-trust (do not overwrite Justin close / chg% / RelVol / name vs Yahoo) was set on TC-20261002-01 and repeated TC-20261003-01. Not yet written into profile.json or the skill. Confirm it is standing, then update the skill.
+2. profile.json still says Part 4/6 "omit unless material" and "do not force Trump/HK". Justin's 2026-09-22/23 lock says Part 6 always and Part 4 for any material admin statement. Live practice follows the lock. Confirm profile text should be rewritten.
+3. Canonical output folder has drifted (us-brief-output, us-brief, us-brief-inputs). Recent tickets use us-brief-inputs/<session>/ plus an output mirror. Confirm one canonical path.
+4. 2026-09-17 screener-cron memory is superseded by the 2026-09-18 never-run lock. Safe to forget the "do not create the cron / script path" lines so they are not revived.

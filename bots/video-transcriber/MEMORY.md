@@ -2,17 +2,18 @@
 
 - Agent id: `8483d4a7-8144-46c8-900b-a55b5f17630a`
 - Server id: `174592`
-- Written: 2026-09-14 (HKT)
+- Written: 2026-10-03 (HKT)
 - User: Justin Wu
 - Timezone: Asia/Hong_Kong
 
 ## Identity
 
 - Name: Video Transcriber
-- Title: (empty / Video Transcriber role)
+- Title: empty
 - Description: Drop a YouTube, Instagram, TikTok, or X link — get a clean transcript (plain text, SRT/VTT, optional speakers). Captions first; ASR only when needed.
-- Avatar: default blob / black (no custom picture required for restore)
-- Settings: `notifyOnAgentUpdates=true`; not hidden from sidebar
+- Avatar: default blob / black (no custom picture)
+- Settings: notifyOnAgentUpdates=true; not hidden from sidebar
+- Harness: temporal
 - Role: Marketplace transcription specialist for YouTube, Instagram, TikTok, X, and video; caption-first, ASR fallback
 
 ## Historical decisions
@@ -22,8 +23,9 @@
 - (2026-09-08) Default local ASR: faster-whisper + large-v3-turbo (EN) or large-v3 (multilingual); always prefer platform captions (manual over auto) before downloading audio.
 - (2026-09-08) Production hygiene: `condition_on_previous_text=False`; Silero/VAD before ASR; 16 kHz mono; WhisperX for word timestamps / speakers; set min=max speakers only when count known.
 - (2026-09-08) Output presets: plain (default), timestamped (SRT+VTT), speakers (diarized), summary+quotes; “everything” → speakers + timestamped + brief summary+quotes.
-- (2026-09-08) Recursive Learning stack preferences recorded (models, APIs, diarization, hosted ASR, open models) — see Live snapshot / memory log.
 - (2026-09-14) Per Justin via Sweeper: appended stay-quiet clause to Recursive Learning prompt; left paused; schedule unchanged.
+- (2026-09-14) Prior backup written to `/workspace/174592-memory-backup.md` (90 lines) for 记忆管家.
+- (2026-09-20) Standing usage gate from Justin via 總指揮: reuse a fresh artifact; stop after the same approach fails twice; chat-only when no tools are needed; prefer connector or API over clicking a site; do not create more bots or routines to save usage. Canon: `/workspace/fleet-policies/USAGE_GATE.md`.
 
 ### Memory log facts (tier: log)
 
@@ -36,15 +38,15 @@
 - (2026-09-08) Recursive Learning hosted ASR: OpenAI gpt-4o-transcribe-diarize on /v1/audio/transcriptions with response_format=diarized_json (optional known_speaker_names/references; no Realtime/streaming, ~1400s chunk limit); Deepgram Nova-3 with diarize_model=v2 for batch speaker labels (pin v2, not latest); keep AssemblyAI Universal-3.5 Pro, ElevenLabs Scribe v2, Gladia Solaria, Speechmatics Melia as top accuracy APIs; use Deepgram/AssemblyAI when streaming diarization is required.
 - (2026-09-08) Recursive Learning open models: prefer nvidia/parakeet-tdt-0.6b-v3 for high-throughput multilingual ASR (25 European languages, auto language detect, timestamps, CC-BY-4.0) and nvidia/canary-1b-v2 when ASR plus EN bidirectional speech translation is needed; SoulX-Transcriber (Qwen3-Omni E2E SDR) is SOTA on Mandarin meeting benchmarks but still research/offline-heavy—not default production for English social video.
 
-- Profile tier facts: none (no profile.md facts recorded).
+- Profile tier facts: none.
 
 ## Live snapshot
 
 ### Routines
 
-1. **Recursive Learning** — folder `recursive-learning`
-   - Schedule: `0 8 * * 6` (Every Saturday at 8:00 AM, user local / HKT)
-   - Enabled: **paused** (`enabled: false`)
+1. **Recursive Learning** — folder `76f92929-3c2c-547a-a108-1337bdb91114` (on-disk folder still `recursive-learning`)
+   - Schedule: `0 8 * * 6` (Every Saturday at 8:00 AM HKT)
+   - Enabled: paused (`enabled: false`)
    - Provenance: untrusted
    - lastRunAt: null (never run)
    - Prompt:
@@ -52,28 +54,26 @@
      >
      > If you find nothing new worth applying, stay quiet — do not send filler like "(no change.)".
 
-### Skills (authored / owned)
+### Skills
 
-1. [Video to transcript pipeline](sand-workflow:video-to-transcript-pipeline) — id `video-to-transcript-pipeline`
-   - When: converting YouTube, Instagram, TikTok, X, or other video URLs into accurate transcripts or captions, including choosing an output preset.
-2. [First transcript](sand-workflow:first-transcript) — id `first-transcript`
-   - When: first run after import, or whenever a new user needs paste-a-link onboarding before orientation questions.
+1. Video to transcript pipeline — id `video-to-transcript-pipeline`
+2. First transcript — id `first-transcript`
 
-### Stack preferences (from memory)
+### Stack preferences
 
-- Caption-first → ASR: faster-whisper / WhisperX / hosted APIs as needed
+- Caption-first, then ASR
 - Local default: faster-whisper large-v3-turbo (EN) or large-v3 (multilingual)
 - Diarization: WhisperX + pyannote, or DiariZen ± DiCoW, or `diarize` CPU package
 - Hosted: AssemblyAI Universal-3.5 Pro, ElevenLabs Scribe v2, Gladia Solaria, Speechmatics Melia, Groq Whisper turbo; OpenAI gpt-4o-transcribe-diarize; Deepgram Nova-3 diarize_model=v2
 
 ### Connectors / plugins
 
-- None installed specifically for this bot (template plugins list was empty).
+- None installed for this bot.
 
-## Secrets placeholders only
+## Secrets
 
 - No API keys or tokens stored in this agent’s durable memory.
-- If restored and cloud ASR is used later, expect placeholders only:
+- Placeholders only if cloud ASR is added later:
   - `[REDACTED:ASSEMBLYAI_API_KEY]`
   - `[REDACTED:ELEVENLABS_API_KEY]`
   - `[REDACTED:GLADIA_API_KEY]`
@@ -81,10 +81,10 @@
   - `[REDACTED:GROQ_API_KEY]`
   - `[REDACTED:OPENAI_API_KEY]`
   - `[REDACTED:DEEPGRAM_API_KEY]`
-  - `[REDACTED:HUGGINGFACE_TOKEN]` (pyannote / WhisperX when required)
-  - `[REDACTED:PROXY_URL]` (residential proxy if platform download blocked)
+  - `[REDACTED:HUGGINGFACE_TOKEN]`
+  - `[REDACTED:PROXY_URL]`
 
 ## Pending confirms
 
-- Recursive Learning remains **paused**; user was asked whether to enable it — no confirmed “turn on” yet.
-- No other pending user confirms for this bot.
+- Recursive Learning remains paused; user was asked whether to enable it — no confirmed “turn on” yet.
+- No other pending user confirms.

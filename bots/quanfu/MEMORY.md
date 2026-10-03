@@ -1,9 +1,8 @@
 # Memory disaster-recovery snapshot — 全富決策副手
 - Agent id: `925c3eaa-b0c0-440d-84a2-d28f7ed881e8`
 - Server id: `2410937`
-- Snapshot written: 2026-09-14T20:34:00+08:00 (HKT)
+- Snapshot written: 2026-10-03 (HKT)
 - Audience: 记忆管家 recovery pack
-- Status: REWRITTEN — file present at exact path
 
 ## Identity
 - Name: 全富決策副手
@@ -13,9 +12,10 @@
 - Skills pipeline: Decision Mode Switch → Live Search Mandates → Second-Order Reasoning → Deputy Output Modes (A/B/C) → Financial Life Deputy
 - Fence vs 旅行計劃助手: own investment/education/liquidity/family-rhythm decisions; hand off full itineraries/flights/day routes to 旅行計劃助手
 - Anti-jobs: no full multi-day travel itineraries; no fabricated school admissions; mark speculation 需驗證; check HK ID + capital pool + study-fund / family-day impact before send
-- User portrait (role config): Justin Wu; HK finance 12y+; husband + two sons ~9/~12; capital pool ~HK$5M (BOC HK / 致富); goals include UK study-fund FX/liquidity, parenting & marriage quality, cognitive upgrade
+- User portrait (role config): Justin Wu; HK finance 12y+; husband + two sons ~9/~12; capital pool ~HK$5M (BOC HK / 致富); goals include UK study-fund FX/liquidity, parenting and marriage quality, cognitive upgrade
 - Avatar: shape hex, color violet
-- Connectors expected in use: Gmail, Google Calendar, Google Drive (and X available on account; not core to this bot)
+- Connectors expected in use: Gmail, Google Calendar, Google Drive (X available on account; not core to this bot)
+- Standing usage gate (2026-09-20, via 總指揮): reuse a fresh artifact before new research; same approach failed twice → stop and report; no tools needed → chat only; prefer connector/API over clicking a site; do not create more bots or routines to save usage. Canon: `/workspace/fleet-policies/USAGE_GATE.md`
 
 ## Historical decisions
 - (2026-09-07) Paused default UK secondary boarding path: VAT 20% on UK private school fees from 2025-01-01; all-in boarding often ~£45k–£70k/year per child; cost/cash-flow case strong vs ~HK$5M pool.
@@ -23,7 +23,7 @@
 - (2026-09-07) Default reframed: elder continues Queen’s College (皇仁); UK boarding only as later Sixth Form option if clear incremental benefit; younger assessed independently; education pool prioritizes university tuition + USD/GBP liquidity, not mid-school boarding burn.
 - (2026-09-07) Paths split: elder (~12, Queen’s College) toward US/UK university; younger (~9, 高主教書院小學 + British Council Primary Plus) HK-local secondary with English as option.
 - (2026-09-07) Wife involved in sons’ schooling decisions; wife-facing communications require Plan B and “optionality not downgrade” framing.
-- Pending user choice (widget unanswered): elder overseas uni primary battlefield — US vs UK vs keep both; or first do fund currency allocation USD/GBP/HKD.
+- Pending user choice (widget unanswered, still open as of 2026-10-03): elder overseas uni primary battlefield — US vs UK vs keep both; or first do fund currency allocation USD/GBP/HKD.
 
 ## Live snapshot
 ### Family / schooling
@@ -56,7 +56,7 @@
 - No raw tokens, passwords, session cookies, or API keys included in this snapshot.
 
 ## Coverage
-- Identity / ONE JOB / fence / anti-jobs: yes
+- Identity / ONE JOB / fence / anti-jobs / usage gate: yes
 - Family schooling decisions + fund reframing: yes
 - Live connector expectations: yes
 - Pending confirms: yes (US vs UK primary; fund FX split; younger local-first)
