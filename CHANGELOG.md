@@ -30,3 +30,8 @@
 
 ## 2026-10-03
 - Full fleet backup: 21/21 MEMORY dumps ingested (added 日常小助手). Registry ids switched to agent UUIDs. Usage gate copied to meta/USAGE_GATE.md. Secret scan clean. Prior MEMORY archived under archive/2026-10-03.md.
+
+## 2026-10-03 skills backup
+- Archived 84 user-created skills from `/home/box/agent-data/workflows/` (folders with `SKILL.md`) into `skills/`, plus `skills/INDEX.md`.
+- Skipped: `kami-md2pdf` (no SKILL.md); `kami/scripts/__pycache__` (cache). Did not copy managed-skills or plugins.
+- Secret scan of copied skill files: no tokens, API keys, passwords, oauth secrets, private keys, or cookies. No redactions.
