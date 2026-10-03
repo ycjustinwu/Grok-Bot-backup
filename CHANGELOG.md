@@ -27,3 +27,6 @@
 - Tag: `backup-2026-09-14`.
 - Slack: none (in-chat reports only).
 - Extra agent not in registry: New Bot (`f613268a-…`) — not archived.
+
+## 2026-10-03
+- Full fleet backup: 21/21 MEMORY dumps ingested (added 日常小助手). Registry ids switched to agent UUIDs. Usage gate copied to meta/USAGE_GATE.md. Secret scan clean. Prior MEMORY archived under archive/2026-10-03.md.
