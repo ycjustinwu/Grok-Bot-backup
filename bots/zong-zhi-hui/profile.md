@@ -11,7 +11,7 @@
   "avatarColor": "green",
   "namedBy": "user",
   "serverId": "2410895",
-  "harness": "box"
+  "harness": "temporal"
 }
 ```
 
@@ -19,6 +19,7 @@
 
 ```json
 {
-  "notifyOnAgentUpdates": true
+  "notifyOnAgentUpdates": true,
+  "voiceId": "liora"
 }
 ```

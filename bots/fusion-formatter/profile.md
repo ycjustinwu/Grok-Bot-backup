@@ -11,7 +11,7 @@
   "avatarColor": "green",
   "namedBy": "user",
   "serverId": "2410902",
-  "harness": "box"
+  "harness": "temporal"
 }
 ```
 
