@@ -2,9 +2,9 @@
 - Agent: Prompt Architect
 - Agent id: cfe4ca9b-b60f-49d3-bd0d-454c269f4388
 - Server id: 2410922
-- Snapshot time: 2026-10-03 20:09 HKT (UTC+8)
-- Requested by: 记忆管家 (full fleet memory backup)
-- Sources: profile.json, settings.json, memory/profile.md, memory/log/2026-09.md, memory/USAGE_GATE.md, this agent's conversation through ticket close. No secrets copied.
+- Snapshot time: 2026-10-26 20:46 HKT (UTC+8)
+- Requested by: 记忆管家 (full fleet memory backup 2026-10-26)
+- Sources: profile.json, memory/profile.md, memory/log/2026-09.md, memory/USAGE_GATE.md, conversation through 文章分析 create. No secrets copied.
 
 ## Identity
 - Name: Prompt Architect (named by user)
@@ -12,24 +12,16 @@
 - Avatar: hex / yellow
 - Harness: temporal
 - User: Justin Wu (Asia/Hong_Kong)
-- Coordinator: 總指揮 (id 7aa7a8a6-b16b-4740-a4df-1d5d7eded8c4) — live profile writes go through 總指揮, not this bot
-- Partners: dr eggbot (drafts new bots under the same gate); Work Verifier (id 037de516-dbc1-4565-a127-5dbb0f691729, independent QA); Self Improver (post-deploy corrections)
+- Coordinator: 總指揮 (`7aa7a8a6-b16b-4740-a4df-1d5d7eded8c4`) — live CreateAgent / UpdateAgent via 總指揮 or Justin-approved dr eggbot
+- Partners: dr eggbot (`cfe284bb-b01f-4f60-81af-4345d37a42f8`); Work Verifier (`037de516-dbc1-4565-a127-5dbb0f691729`); Self Improver (`1d369773-e1f5-4fdf-9a3a-2a38b1f54e16`)
 
 ### ONE JOB
-When given a raw prompt (paste or `/workspace/raw_prompts/`): produce a Job Description + modular skills + docs that pass harness-bot-standard.
+When given a raw prompt (paste or `/workspace/raw_prompts/`): produce Job Description + modular skills + docs that pass harness-bot-standard.
 
 ### 3-TIER OUTPUT
-1. JOB DESCRIPTION (<400 words) — ONE_JOB, ANTI_JOBS, folders, skill index, VERIFY, handoff → `job_description.txt`
-2. SKILLS — each ends with a VERIFY checklist → `/workspace/refactored_[bot]/skills/*.md`
-3. DOCS — static reference → `/workspace/refactored_[bot]/docs/*.md`
-
-Also write a chat summary with copy-paste blocks. Batch: `/workspace/raw_prompts/` → `/workspace/refactored_output/`.
-
-### CREATION GATE
-Refuse to mark done if any harness gate is missing. High-stakes bots must name Work Verifier in handoff when appropriate.
-
-### VERIFY
-Confirm `job_description.txt` and skill files exist on disk; spot-check ANTI_JOBS + VERIFY sections present.
+1. JOB DESCRIPTION (<400 words) → `job_description.txt`
+2. SKILLS with VERIFY → `/workspace/refactored_[bot]/skills/*.md`
+3. DOCS → `/workspace/refactored_[bot]/docs/*.md`
 
 ### ANTI-JOBS
 - Do not invent domain facts not in the source prompt.
@@ -37,57 +29,43 @@ Confirm `job_description.txt` and skill files exist on disk; spot-check ANTI_JOB
 - Do not run Self Improver’s weekly reflection.
 - Do not leave procedures only in docs — procedures belong in skills.
 
-### Settings
-- notifyOnAgentUpdates: true
-- hidden_from_sidebar: not set
-- Routines: none
+### Hung on live profile (applied)
+- **Jev B+C** (TypeSafe): skill jev-fleet-decisions; front-door A OFF; pre_task before grind; exit before Final; never invent tickers/prices via Jev; key `process.env.TYPESAFE_API_KEY` only.
+- **pstack principles hang v1** (meta Option A): Read-when-relevant seven principles only; encode-lessons + subtract/laziness for this bot; ANTI no poteto/architect/arena/tdd/Firstmate CLI.
 
 ## Historical decisions
-User profile (2026-09-07, from memory/profile.md):
-- Justin is a Hong Kong senior financial practitioner (12+ years) specializing in structured products (Accumulator/ELN), derivatives, and cryptocurrency.
-- Manages about 5M HKD (BOC HK, 致富證券). Tools: Bloomberg Terminal, TradingView Premium, Excel Advanced, Word, openclaw, Perplexity, Grok bots; Google ecosystem (Gemini primary).
-- Hong Kong high-net-worth family (2 adults, 2 boys aged 9 and 12). Values efficiency. Travel preference: food, deep experiences, smooth logistics.
-- Husband who values ritual and quality time with his wife; preparing both sons for British boarding school (critical thinking, international outlook, moderate financial literacy).
-- Devices: Samsung S26+ and MacBook Air.
-- Not for coding. Prefers non-coding tools for finance, decisions, and family planning (Matt Pocock productivity skills, baoyu-design) over coding/engineering suites like gstack.
+User profile (2026-09-07):
+- HK structured-products practitioner; ~5M HKD (BOC HK, 致富證券); Bloomberg / TradingView / Excel / Google (Gemini).
+- Family: 2 adults + boys ~9 and ~12; devices Samsung S26+ / MacBook Air.
+- Prefers non-coding toolkit (Matt Pocock, baoyu-design) over gstack for daily work.
 
-Work log (2026-09-07, from memory/log/2026-09.md):
-- visual-director skill (Propose → Audit → Execute). Decision: skill only, no dedicated Visual Director bot. Package: `/workspace/refactored_visual_director/`. Any bot can invoke it even if slash autocomplete does not list it.
-- sketchnote-infographic skill (cream-paper educational sketchnote). Package: `/workspace/refactored_sketchnote_infographic/`.
-- youtube-detailed-summary skill (繁體中文 finance/tech, 極詳細摘要). Package: `/workspace/refactored_youtube_detailed_summary/`. No YouTube connector; transcripts or attachments required.
-- Bot 港股收市簡報 with skills hk-after-close-brief, hk-unusual-movers, hk-catalyst-research, hk-sector-rotation, hk-market-alerts. Package: `/workspace/refactored_hk_after_close_brief/`. Weekday auto-run at 18:00 HKT despite missing HKEX marketplace connectors.
-- Bot Story Search with story-search-report, story-handoff-parse, story-theme-match, story-web-search, story-narrative-validate. Package: `/workspace/refactored_story_search/`. Upstream 港股 Swing Setup; downstream Fusion Formatter.
-- Bot Fusion Formatter with fusion-bridge, fusion-ingest, fusion-report, fusion-infographic-prompt, fusion-swing-infographic. Package: `/workspace/refactored_fusion_formatter/`. Pipeline: Swing Setup → Story Search → Fusion → Fusion Swing Infographic → baoyu-infographic (16:9). Fusion report ≤500 字 繁體中文.
-- fusion-swing-infographic skill. Examples (Henlius / Hinge Health / Coty) under `refactored_fusion_formatter/docs/infographic-examples/`.
-- Bot 港美股 Swing Setup (v4.7 Scenario-Anchored Stop / PB_STRUCT) with hk-swing-trade-analysis, hk-swing-csv-validate, hk-swing-setup-playbook, hk-swing-scenario-stop, extended for HK and US. Package: `/workspace/refactored_swing_setup_dual/`. 港股 Swing Setup kept as HK-focused twin on the same skills.
-- Swing → Story Search handoff contract: labeled GEMINI HANDOFF including MARKET, RS_SCORE, v4.7 STOP TYPE/ANCHOR/SCENARIO ENTRY. Story Handoff Parse requires those fields and handles UNKNOWN earnings.
-- Bot 旅行計劃助手 with travel-plan-architect, travel-consultative-intake, travel-hk-safety-net, travel-logistics-links, travel-itinerary-table. Package: `/workspace/refactored_travel_planner/`.
-- Bot 全富決策副手 with financial-life-deputy, decision-mode-switch, live-search-mandates, second-order-reasoning, deputy-output-modes. Package: `/workspace/refactored_decision_deputy/`.
-- StockCharts breadth → 4 skills (breadth-daily-report, breadth-chart-capture, breadth-ocr-verify, fred-vix-term-structure). Package: `/workspace/refactored_breadth_monitor/`. Charts in `/workspace/breadth/`. FRED VIX uses public series pages for VIXCLS and VXVCLS, no API key, pair VIX/VXV on the same date only.
-- Stockbee T2108 → 4 skills (stockbee-t2108-monitor, stockbee-t2108-fetch, stockbee-t2108-excel, telegram-xlsx-send). Package: `/workspace/refactored_stockbee_t2108/`. Telegram delivery uses env `[REDACTED:TELEGRAM_BOT_TOKEN]` only; Grok attach by default.
-- Market Awareness Orchestrator (id e4e8d80f-26c5-48c1-bd11-f56c0a9cc077), Regime Scoring v6.3 at packaging time. Package: `/workspace/refactored_market_awareness/`. Skills: market-awareness-orchestrator, regime-data-ingest, regime-pillar-a, regime-pillar-b, regime-layer-context, regime-modifiers-and-stance, regime-daily-report. Inputs: TradingView ETF CSV + Stockbee T2108 + StockCharts breadth/FRED.
-- Bot US Market Daily Brief. Package: `/workspace/refactored_us_market_daily_brief/`. Skills: us-market-daily-brief, us-etf-theme-scan, us-abnormal-volume, us-focus-catalyst, us-rotation-structure.
-- Installed baoyu-design (JimLiu) at `/home/box/agent-data/workflows/baoyu-design/` with references/grok.md. HTML-first; prefer baoyu-infographic for finance boards and kami for print. Package mirror: `/workspace/refactored_baoyu_design/`.
-- Installed Matt Pocock skills (mattpocock/skills@3cca18b): grill-me, grilling, handoff, teach, to-questionnaire, wait-what, writing-for-agents. Mirror: `/workspace/refactored_mattpocock_productivity/`.
-- gstack 1.81.0.0 at `/home/box/.gstack/repos/gstack`. `./setup` was Auto-review blocked; manual install. Upgrade via gstack-upgrade skill. Package: `/workspace/refactored_gstack_upgrade/`. Justin deprioritized gstack for daily finance/family work.
-- Installed diagram-design (cathrynlavery/diagram-design v2.6) with EXTEND.md Justin defaults. Package: `/workspace/refactored_diagram_design/`. Editorial HTML/SVG process diagrams; prefer baoyu-infographic for finance boards and baoyu-design for decks.
-- Toolkit priority: Matt Pocock grill-me/grilling, to-questionnaire, wait-what, handoff for decisions; baoyu-design for decks; baoyu-infographic for market one-pagers; diagram-design for process diagrams; leave gstack unused day to day.
+Locked / standing rules:
+- (2026-09-20) Usage gate — reuse fresh artifact; stop after two failures; prefer connector/API; do not invent bots/routines to save usage. Canon: this agent `memory/USAGE_GATE.md`.
+- (2026-09-08) Hybrid verification — every skill VERIFY; WV independent second pass on high-stakes (default pool later narrowed).
+- (2026-10-21 via 總指揮) WV default pool = Regime + US Market Daily Brief + 港股收市簡報 only; else WV if Jev needs_wv or Justin asks; 美股 Swing Setup off WV unless re-opened.
+- Research escalation for US/HK briefs: Sheets → Tavily → Firecrawl → Browserless → Browser Use → box desktop last.
 
-Standing rules after the September log:
-- (2026-09-20) Usage gate, Justin locked, all bots. Canon also in this agent's `memory/USAGE_GATE.md`. Before browser, multi-source research, retry, extra skill load, or subagent: reuse a fresh artifact if one exists; if the same approach failed twice, stop and report; if no tools are needed, chat only. Prefer a connector or API over clicking a site. Do not create more bots or routines to save usage.
-- (2026-09-08, fleet via 總指揮) Hybrid verification: every bot/skill includes a VERIFY step (harness-bot-standard + work-verify). Work Verifier does an independent second pass on high-stakes outputs (Swing Setup, Story, Fusion, Regime, Daily Briefs).
-- (2026-09-24 ticket, closed 2026-10-03 by 總指揮) TC-20260924-08. ETF Relative Strength Dashboard is an overlay only for Market Awareness Orchestrator and US Swing Scanner. Do not change regime scoring math or invent RS numbers. Sheet file id `1cgrNJNg0hX7mQV9H-0gU6dcGQ5OCwVaU9aTkVrq2iLQ`. Local copy `/workspace/etf-rs/ETF_Relative_Strength_Dashboard.xlsx`. RS actual = 30d PERCENTRANK of (ETF/VOO), not “beat VOO by X%”. Skills written to disk: etf-rs-overlay-ingest, etf-rs-theme-tilt, us-swing-sector-wind (plus sector-proxy-map.md). Draft package: `/workspace/refactored_etf_rs_overlay/`. 總指揮 applied UpdateAgent on Market Awareness and US Swing Scanner. Prompt Architect did not CreateAgent. Ticket closed; no further Prompt Architect action.
+Work log (2026-09-07 packaging wave — see memory/log/2026-09.md): visual-director (skill only); sketchnote-infographic; youtube-detailed-summary; 港股收市簡報; Story Search; Fusion Formatter; 港美股 Swing Setup; 旅行計劃助手; 全富決策副手; breadth monitor; Stockbee T2108; Market Awareness; US Market Daily Brief; baoyu-design; Matt Pocock; gstack (deprioritized); diagram-design.
+
+Later tickets (this chat / disk):
+- TC-20260924-08 CLOSED — ETF RS overlay skills (`etf-rs-overlay-ingest`, `etf-rs-theme-tilt`, `us-swing-sector-wind`); package `/workspace/refactored_etf_rs_overlay/`; sheet id `1cgrNJNg0hX7mQV9H-0gU6dcGQ5OCwVaU9aTkVrq2iLQ`. PA did not UpdateAgent.
+- TC-20261016-08 — Jev hang-block + roster: `/workspace/typesafe-jev/hang-block-v1.md`, `hang-roster-v1.md`. A OFF. dr eggbot mass-apply.
+- TC-20261016-10 — pstack principles hang (Option A): `/workspace/typesafe-jev/pstack-principles-hang-v1.md` (meta only).
+- ~2026-10-05 — HK IPO research skill wording review for 總指揮 (keep locked calendar/brief/stages/bands; change 繁體 + no-average + HKEJ-missing rows + filename date + pin stage URLs).
+- 2026-10-21 — Bot「文章分析」package `/workspace/refactored_article_analysis/` (article-ingest + article-analysis-report). dr eggbot CreateAgent after Justin yes → id `51d50b94-d49a-4d13-8e97-70b57d3c1e31`. Notion sync for Finals (shared journal via 文章分析).
 
 ## Live snapshot
 - Routines: none
-- This bot does not own a production market job. It writes specs and shared skills; 總指揮 applies live job descriptions.
-- Skill files confirmed on disk for the last ticket: `/home/box/agent-data/workflows/etf-rs-overlay-ingest/SKILL.md`, `etf-rs-theme-tilt/SKILL.md`, `us-swing-sector-wind/SKILL.md`.
-- Refactored packages present under `/workspace/`: refactored_baoyu_design, refactored_breadth_monitor, refactored_decision_deputy, refactored_diagram_design, refactored_etf_rs_overlay, refactored_fusion_formatter, refactored_gstack_upgrade, refactored_hk_after_close_brief, refactored_hk_swing_setup, refactored_market_awareness, refactored_mattpocock_productivity, refactored_sketchnote_infographic, refactored_stockbee_t2108, refactored_story_search, refactored_swing_setup_dual, refactored_travel_planner, refactored_us_market_daily_brief, refactored_visual_director, refactored_youtube_detailed_summary.
-- Open work: none. TC-20260924-08 closed.
-- Pending confirms: none. (During apply, skill-write via the state API returned “brain docs snapshot was cut short”; files were already on disk. 總指揮 later confirmed the three ETF RS skills live and closed the ticket.)
+- Open work: none
+- Pending confirms: none
+- Skills authored / on disk for recent work: article-ingest, article-analysis-report; ETF RS trio; Jev hang assets under `/workspace/typesafe-jev/`
+- Refactored packages under `/workspace/`: ~20 `refactored_*` dirs including `refactored_article_analysis`, `refactored_etf_rs_overlay`, market/swing/travel/decision packs
+- Out folders used by specs: `/workspace/article-analysis/`, `/workspace/typesafe-jev/logs/`
+- Prior backup: `/workspace/cfe4ca9b-b60f-49d3-bd0d-454c269f4388-memory-backup.md` (overwritten this run)
 
 ## Secrets
-- No API keys or tokens are stored in this agent's profile, settings, or memory files.
-- Telegram delivery for the Stockbee skill uses env `[REDACTED:TELEGRAM_BOT_TOKEN]` only. Value not recorded here.
-- Google connector credentials: `[REDACTED:google-oauth]` (connector-owned; not copied into this agent).
-- Drive file id for the ETF RS sheet is a resource locator, not a secret.
+- No API keys stored in this agent’s profile, settings, or memory files.
+- TypeSafe / OpenRouter: `[REDACTED:TYPESAFE_API_KEY]` / `[REDACTED:OPENROUTER_API_KEY]` — env only; never pasted.
+- Telegram (Stockbee skill family): `[REDACTED:TELEGRAM_BOT_TOKEN]`
+- Google connector: `[REDACTED:google-oauth]` (connector-owned)
+- Drive / sheet file ids in specs are resource locators, not secrets

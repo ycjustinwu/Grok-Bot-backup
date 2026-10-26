@@ -1,126 +1,180 @@
-# 總指揮 — durable memory snapshot
-- Agent: 總指揮
-- Agent id: 7aa7a8a6-b16b-4740-a4df-1d5d7eded8c4
-- Server id: 2410895
-- Snapshot time: 2026-10-03 20:10 HKT (UTC+8)
-- Requested by: 记忆管家 (full fleet memory backup)
-- Prior snapshot: `/workspace/2410895-memory-backup.md` (2026-09-14). This file supersedes it for restore.
+# 總指揮 memory backup — 2026-10-26
 
-## Identity
-- Name: 總指揮 (named by user)
-- Title: empty
-- Avatar: pebble / green; voice id liora; notify on agent updates: true
-- User: Justin Wu · Asia/Hong_Kong
-- ONE JOB: Coordinate bots and handoffs. Do not do specialist analysis when a specialist exists.
-- Justin talks here; crew reports outcomes and blockers here, not past this chat, unless he opened their chat.
-- Handoffs carry `TC-YYYYMMDD-##`. High-stakes (Swing Setup, Story, Fusion, Regime, Daily Briefs) go through Work Verifier before Justin treats them as Final. Scanners skip verifier unless asked.
-- Final form: full artifact in chat (one-click copy) plus the file. A short TLDR may lead but is not the Final.
-- Speak outcomes, not internals. One decision card per decision. Escalate money, deletes, ambiguous go/no-go, conflicting bots, irreversible actions.
-- Creation gate: new or rewritten bots/skills must pass harness-bot-standard. Prefer UpdateAgent over a duplicate bot. Prompt Architect / dr eggbot fix failures first.
+- Bot id: `7aa7a8a6-b16b-4740-a4df-1d5d7eded8c4`
+- Name / title: 總指揮
+- Backup requested by: 记忆管家
+- Written: 2026-10-26 ~20:46 HKT (Asia/Hong_Kong)
+- Owner: Justin Wu
 
-### Roster (ids)
-- Work Verifier `037de516-dbc1-4565-a127-5dbb0f691729`
-- X Brief `0ba0445d-a3df-4430-8a47-0eeb0cbbafcf`
-- HK Swing Scanner `162f41b3-b93f-4d05-abdf-07b938f6ab56`
-- Self Improver `1d369773-e1f5-4fdf-9a3a-2a38b1f54e16`
-- 港股 Swing Setup `28b5646e-bfc2-440b-8a63-b68440a1de4b`
-- US Swing Scanner `293d30a5-d04e-4443-89d9-f313f9ca873e`
-- 投資敘事分析師 `3f297e81-4667-4dae-b517-b4f7ddee3537`
-- US Market Daily Brief `44fb5c78-45d1-4716-b849-a5a6a0c1867b`
-- 日常小助手 `553a3812-2d16-4787-879c-f8f05ba6182d`
-- 美股 Swing Setup `747b3374-ada7-44d7-8cf4-73098b1c10af`
-- 旅行計劃助手 `83647ac1-ec27-4889-aa08-1e376d4b738c`
-- Video Transcriber `8483d4a7-8144-46c8-900b-a55b5f17630a`
-- Sweeper / 清道夫 `8dbca7e8-e0d0-4447-821a-f9a3ad9d7e06`
-- 全富決策副手 `925c3eaa-b0c0-440d-84a2-d28f7ed881e8`
-- 港股收市簡報 `b9d6b823-8ae3-46a7-bc08-9beb4a35c631`
-- 记忆管家 `bae6933d-92a5-4d8c-8bf0-3a4f9fb7b1ed`
-- Fusion Formatter `c45141fc-c050-49e2-9635-dca556a0cc1f`
-- dr eggbot `cfe284bb-b01f-4f60-81af-4345d37a42f8`
-- Prompt Architect `cfe4ca9b-b60f-49d3-bd0d-454c269f4388`
-- Market Awareness Orchestrator `e4e8d80f-26c5-48c1-bd11-f56c0a9cc077`
+---
 
-Lanes: Market Awareness ‖ US Market Daily Brief ‖ 港股收市簡報 ‖ X Brief. Swing HK: HK Swing Scanner → 港股 Swing Setup → 投資敘事分析師 → Fusion Formatter. Swing US: US Swing Scanner → 美股 Swing Setup → 投資敘事分析師 → Fusion Formatter. Life: 旅行計劃助手 (trips only) ‖ 全富決策副手 (family/finance, no full itineraries). 日常小助手: Gmail + Calendar scan, read-only.
+## 1. Identity
 
-## Historical decisions
-### Research and usage (locked)
-- Usage gate (2026-09-20): reuse a fresh artifact; if the same approach failed twice, stop and report; prefer connector/API over clicking; do not create extra bots or routines to save usage. Canon `/workspace/fleet-policies/USAGE_GATE.md`.
-- Research order (2026-09-30): Google Sheets MCP → Tavily → Firecrawl CLI (`[REDACTED:FIRECRAWL_API_KEY]`) → Browserless MCP → Browser Use MCP → box desktop last. Browser only when MCP exhausted, login needed, fail twice, or cannot access.
-- Connectors Justin uses: Gmail, Google Calendar, Google Drive, Google Sheets, Tavily, X. Collapse plan 2026-09-30: keep plugin Gmail/Drive/Calendar/Sheets; thin xAI Drive and xAI Calendar duplicates were to be disconnected by Justin.
-- Firecrawl is CLI/skills only (no MCP). Browserless MCP needsAuth until connected. Browser Use MCP was already connected.
+### Profile (from profile.json)
+- **ONE JOB:** Coordinate bots and handoffs. Do not do specialist analysis yourself when a specialist exists.
+- Role: Justin’s single Grok Bot liaison (Firstmate-style captain contact). Justin talks to 總指揮; crew reports outcomes/blockers to 總指揮, not past him to Justin (unless he opened their chat).
+- Server harness: temporal; avatar green pebble; namedBy user.
 
-### Briefs and AV lists
-- HK and US abnormal-volume lists are Justin-manual only. TradingView paste is always valid: do not cross-check or overwrite price, RV, or name against Yahoo.
-- From 2026-09-30: no 100億 H-share market-cap gate. Hide verification/method noise when checks are clean.
-- HK briefs: Markdown only `HK brief-YYYY-MM-DD.md` under `/workspace/hk-brief-inputs/YYYY-MM-DD/`. No Kami/PDF unless he asks that day. Infographic preference is baoyu (dashboard / dense), not photo covers.
-- Final always includes the full markdown in chat plus the file.
+### CAPTAIN LIAISON (locked ops)
+- Default handoff for >quick tool call / multi-minute grind.
+- Every tasked handoff: `TC-YYYYMMDD-##`; crew replies against that id (incl. empty).
+- Async: hand off → tell Justin what’s under way → relay results.
+- One decision = one message + one choice card.
+- Speak outcomes/consequences, not internals.
+- Secrets: never paste in chat; Justin gives credentials via secure card to the target bot.
 
-### Dates
-- US CUP / Market Monitor stamp D+1 = US cash session D. HK Market Monitor is NOT D+1: session D uses the sheet label D.
-- HK Market Monitor sheet: `1yIZLgTIqq38i_fK-q5oBWFogk0OCH1WuZ9a6AiAP8WI`.
-- For US Market Monitor Up4/Down4, prefer Summary / D+1 numbers when they match Stockbee direction (locked 2026-09-18, TC-20260918-08).
+### ROSTER MAP (partners)
+- **Market:** Market Awareness Orchestrator ‖ US Market Daily Brief ‖ 港股收市簡報 ‖ X Brief
+- **Swing HK:** HK Swing Scanner → 港股 Swing Setup → 投資敘事分析師 → Fusion Formatter
+- **Swing US:** US Swing Scanner → 美股 Swing Setup → 投資敘事分析師 → Fusion Formatter
+- **Life:** 旅行計劃助手 ‖ 旅行酒店比價 ‖ 高級餐廳訂位助理 ‖ 全富決策副手
+- **Meta:** Prompt Architect ‖ Self Improver ‖ dr eggbot ‖ Work Verifier
+- **Also routed often:** Second brain; US swing 模擬倉; X Monitor; ETF RS Cross; Market Master Apps Script; 北極星; Sweeper; 记忆管家; Researchy; HTML Motion Studio; YouTube Analyzer Deep; 文章分析; 日常小助手; Career Coaching; 家庭成長副手; Feature RE Spec; Video Transcriber; Explainer Video bot
 
-### US scanner and Drive
-- From 2026-09-24: scanner runs only Justin’s supplied list. No auto pullback-sheet dedupe. 總指揮 uploads Drive; scanner does not.
-- Drive parent `US_Stock_Data` id `1Jn7yi0sXFBqVjLvjCsIazZnOvw0_E4TY`. Folder name = US bars/session date (e.g. "Oct 2"), not HKT run day. Search and reuse a same-name folder. Native CSVs only: Summary_US, Claude_Input_Slim, Data_Quality_Report, *_SwingAnalysis. Stop at Potential Setups. Do not auto-handoff to 美股 Swing Setup.
-- Script: `/workspace/us-swing-scanner/scripts/us_swing_v451.py`. Outputs: `/workspace/us-swing-scanner/output/run-*/`.
+### DISPATCH (summary)
+1. Prefer specialist; exact `/workspace/...` paths + TC id; remind Jev B pre_task (`jev-fleet-decisions`).
+2. **WV gate v1.1 (2026-10-21):** default pool = Regime/Market Awareness + US Market Daily Brief + 港股收市簡報 only. Others: WV only if Jev C `needs_wv` ≥ threshold OR Justin asks OR hard conflict. **美股 Swing Setup** off WV unless re-opened. Scanners / empty Second brain skip. Policy: `/workspace/typesafe-jev/wv-gate-jev-v1.md`.
+3. After PASS / PASS_WITH_NOTES → short verdict; FAIL → escalate with verify path; WV skipped → soft Final.
+4. Google connectors first for calendar/email/Drive.
+5. Escalate to Justin: money, deletes, ambiguous go/no-go, conflicting bots, irreversible actions.
 
-### Setup Master (replaced Pullback buy Excel from 2026-09-26)
-- Sheet id `1CXYi_h8t26x_ABZmTiqQSpJc91uZWZ3ad-QQ5qnI2UU`, tab US_MASTER. Lives in Drive folder "pullback buy US/HK" id `1tnTfbYp13vdjEV4Bc123ehloII-iodor`. Date = HK file date, so US data = prior US session.
-- Trigger phrase "get setups from setup master": re-download, name the US session, run `/workspace/screener-sheet-review/pull_top5.py` for top 5 by Score from TC_shallow, TC_deep, CB (no BB/ARB; drop flag_breakdown/flag_arb; keep both tiers). Three tables plus a comma ticker line, then stop. Never auto-run the scanner. Justin picks the list.
-- Older rule that both Drive Pullback Excel and Pine lists are Potential Setups is superseded for the auto-pull. Pine lists Justin pastes remain a separate optional path.
+### Jev (light-C only)
+- Front-door A OFF (總指揮 owns routing).
+- Skip B on pure route/TC fan-out.
+- Run C when this bot claims a Final / stand-in, or WV-gate on non-pool when `needs_wv` missing/unclear.
+- Key: `[REDACTED:TYPESAFE_API_KEY]` via `process.env.TYPESAFE_API_KEY` — never paste.
+- Docs: `/workspace/typesafe-jev/fleet-decision-layer-v1.md`, `wv-gate-jev-v1.md`, client `/workspace/typesafe-jev/jev_client.py`, thresholds `/workspace/typesafe-jev/config/thresholds.json`.
 
-### Market Awareness
-- Order: T2108 Excel → StockCharts breadth → regime with Stockbee + breadth + US-ETF. Stage `/workspace/market-inputs/YYYY-MM-DD/` and `/workspace/us-brief-inputs/YYYY-MM-DD/`.
-- Regime v6.4.6: pillar A floor −4. Two consecutive raw days in the same band can force an effective upgrade and allow band jumps. Index DD Gate before V-REVERSAL only when T2108 < 20.
-- ETF RS overlay is non-scoring. Sheet `1cgrNJNg0hX7mQV9H-0gU6dcGQ5OCwVaU9aTkVrq2iLQ`. Skills etf-rs-overlay-ingest and etf-rs-theme-tilt. Scanner gets ETF_RS_theme / sector_wind / sector_wind_note; scores unchanged. Unmapped names stay N/A (do not force a sector).
-- Print the revised prior Stockbee row when Stockbee revises a past day.
-- DATA GATE: missing/stale/abnormal sources → stop that phase, tell Justin expected vs actual date, never invent.
+### pstack (meta Option A)
+- `/workspace/typesafe-jev/pstack-principles-hang-v1.md`
+- Use guard-context + never-block (reversible) + outcome; lean TC/handoffs.
+- Do NOT hang poteto/architect/arena/tdd/create-verification-skill or invent Firstmate CLI.
 
-### Fusion and visuals
-- After Justin picks a setup: Setup → Story → Fusion delivers report MD + ACHR-style infographic prompt (`/workspace/fusion/templates/INFOGRAPHIC_PROMPT_FORMAT_REF_ACHR.md`: 股票/行業/標題/主題故事/時間線/關鍵維度/操作劇本/一句講晒), then Work Verifier. Stop before baoyu image generation unless he explicitly asks.
-- Kami for PDF/DOCX when a print doc is wanted. Sketchnote for cream educational notes. Visual-director for other assets.
+### CREATION GATE
+- New/rewritten bots/skills must pass `harness-bot-standard`. Else refuse or send Prompt Architect / dr eggbot.
 
-### 日常小助手 (2026-10-03)
-- Bot already existed. dr eggbot wrote the instruction; UpdateAgent applied (no new bot, no new routine).
-- Job: scan Gmail + Google Calendar for mail that needs a reply and events/deadlines in the next 7 days. Traditional Chinese, short lists. Read-only. Draft only if Justin says 起草/draft. No send, no calendar edits.
-- Optional notes `/workspace/daily-assistant/notes/YYYY-MM-DD.md`. Travel → 旅行計劃助手. Family/finance decisions → 全富決策副手. Market briefs stay with the specialist bots.
+### ROUTINE DELIVERY RISK (fleet) — Justin 2026-10-23
+- Enabled + scheduled ≠ delivered.
+- Modes: (A) never-run; (B) wake then “Activity task failed” before tools.
+- Diagnose: automation_status + transcript for Activity task failed.
+- Do not assume asleep / clock / X quota first.
+- Time-critical: post-deadline follow-through or one-shot recovery; do not recreate already-enabled routine.
 
-### Ops still held
-- Weekly self-improve reflection paused 2026-09-14 (folder `fc876dfe-75a7-5341-91ad-6b47295e8a98`, cron `0 18 * * 5` HKT). Last run 2026-09-11 succeeded.
-- Kick HK after-close brief paused, never run (folder `7fab2cfd-90de-5938-bfe8-5237cd89db62`, cron `5 18 * * 1-5` HKT). HK briefs are manual when Justin pastes movers.
-- Self-improve items A–D from 2026-09-11 were held: apply nothing yet. Not reconfirmed since.
-- Work Verifier refined 2026-09-11, same id. Pipeline Launch → Doctor → Drive → Evidence → Cleanup. Reports under `/workspace/work-verifier/output/`.
-- Family note from the 2026-09-14 snapshot only (not reconfirmed this run): elder son ~12 at Queen’s College; younger ~9 at Raimondi College Primary + British Council Primary Plus. X handle recorded then as @Ycjustinwu.
+### ANTI-JOBS
+- No swing math / regime scoring / specialist research by 總指揮.
+- No inventing tickers, prices, VERDICTs.
+- No auto-WV non-pool work.
+- Never use 「港美股 Swing Setup」.
+- No bots that fail harness gate.
+- No multi-minute grind kept in this chat when a crewmate owns it.
+- Do not become Firstmate CLI; coding fleets prefer Cursor cloud agents via coding crewmate if Justin asks.
 
-## Live snapshot
-As of this chat, 2026-10-03 evening HKT. Latest US cash session covered: **2026-10-02**. Next unused task id about **TC-20261003-06**. Nothing pending.
+### IO
+- Shared computer is the bus.
+- Verify reports: `/workspace/work-verifier/output/`.
 
-| Deliverable | Session | Result |
-|---|---|---|
-| 港股收市簡報 | 2026-10-02 | PASS_WITH_NOTES. `/workspace/hk-brief-inputs/2026-10-02/HK brief-2026-10-02.md`. HSI 23,972.29 −2.60%. UP 0 / DOWN 0005, 02888, 09698. Connect pause 10/1–10/7, next southbound 10/8. |
-| US Market Daily Brief | 2026-10-02 cash (CUP stamp 10/03; 10/03 is Saturday) | PASS_WITH_NOTES. `/workspace/us-brief-inputs/2026-10-02/US brief-2026-10-02.md`. Epicenter NONE. Focus STX/WDC and HPE. CTVA paste name Celanese kept. |
-| Market Awareness | 2026-10-02 | PASS_WITH_NOTES. `/workspace/market-awareness/2026-10-02/regime-daily-2026-10-02.md`. TOTAL +0.5/21.5. Effective Bear/Avoid CONFIRM day 2. T2108 20.53 (Reversal Watch off). Exposure 0%. VIX/VXV 0.882 labelled 1d stale. |
-| US Swing Scanner | 2026-10-02 | GATE PASS 49/49. Box `/workspace/us-swing-scanner/output/run-20261003-1656/`. Drive folder "Oct 2" https://drive.google.com/drive/folders/1mY4RD2dnGyR74G_PdamBjkL8OG_mvCDo — 52/52 native CSVs. SPY close 769.64. SBLK wind UNMAPPED/N/A. BUY 18 / STALK 3 (FIVN 100 through U 55). Stopped at Potential Setups. |
-| Prior US scan | 2026-10-01 | GATE PASS 47/47. Drive "Oct 1" folder id `12VoSCAgQx1R86xr0oyFx5CVinONniIA_`. |
+---
 
-Earlier Oct 1 session also has US brief + Market Awareness finals in this thread. SNPS focus was rewritten around the Ansys ~$35B deal (not a scanner row).
+## 2. Historical decisions / locked rules
 
-### Routines
-Both paused. Do not re-enable on restore unless Justin says so.
+### WV / QA
+- **2026-10-21:** WV default pool = Regime + US Market Daily Brief + 港股收市簡報 only; 美股 Swing Setup outside unless re-opened. Policy v1.1.
+- Hybrid verification live: Work Verifier id `037de516-dbc1-4565-a127-5dbb0f691729` writes to `/workspace/work-verifier/output/`.
 
-## Secrets
-Names only. No values, tokens, or file contents.
-- `[REDACTED:FIRECRAWL_API_KEY]` — Firecrawl CLI
-- `[REDACTED:~/.grok/auth.json]` — Grok Build OAuth session recorded 2026-09-14; do not copy into git
-- `[REDACTED:XAI_API_KEY]` — not the preferred path; SuperGrok OAuth was used
-- `[REDACTED:Google connector tokens]` — Gmail, Calendar, Drive, Sheets
-- `[REDACTED:X connector]`
-- `[REDACTED:box-browser-sessions]` — StockCharts / Stockbee / TradingView cookies, not copied
+### Market Master
+- **Canonical sheet (2026-10-22):** id `1Xu9VX4S3VuS3BrzW42Yf9WRSaYn8Znp3X6XC-2SFmEk` — tabs 美股市寬／美股行業／港股市寬／港股行業／ETF 輪動／形態篩選／Setup_Latest. Old Setup Master / US+HK Market Monitor retired. Doc `/workspace/docs/market-master-canonical-2026-10-22.md`.
+- Setup shortlist: Setup_Latest / 形態篩選; Primary in TC_shallow/TC_deep/CB; top-by-Score = Justin-pick only — **never auto-run US Swing Scanner**.
+- **Market Master Apps Script** bot `b091ceb4-c770-457a-861d-d9b7c9911a0b`; inbox `/workspace/market-master/apps-script/`; skills mm-gas-intake / mm-gas-merge-charts / mm-gas-verify. First ticket = US/HK breadth axis distortion (merge friend viewWindow into existing stack).
 
-## Pending confirms
-- Re-enable the two paused routines? Still no.
-- Self-improve A–D from 2026-09-11: still held, not re-asked.
-- Family schools and X handle above are from the 2026-09-14 snapshot, not reconfirmed 2026-10-03.
-- Grok Build auth may need a fresh device login on a new machine.
-- 日常小助手 instruction was applied in chat on 2026-10-03. An older memory line still said "confirmation pending"; treat the applied instruction as current.
+### Regime
+- Scoring v6.4.6; Intermediate Land lock (2026-10-23): pending FAIL + raw higher than prior effective → effective lands on raw, pending clears; TOTAL unchanged; Day-1 ladder still forbidden.
+- Daily requires top-bar 今日動作 (准試倉／觀望／收手) + linkage + Trial carve-out (skills regime-daily-report / regime-modifiers-and-stance / market-awareness-orchestrator); WV feature regime-today-action. Does not change TOTAL/hysteresis.
+
+### US / HK briefs & AV
+- Research prefer MCP: Google Sheets → Tavily → Firecrawl → Browserless → Browser Use → box desktop last.
+- US-ETF Drive folder `1k5dJy7ny5n-W_EV5Aglt0QeeXS_-5Ijn` — notify if missing.
+- AV UP/DOWN: TradingView MCP (`tv-abnormal-volume-mcp`); Justin paste overrides.
+- HK: no 100億 H-share mcap gate; trust TV AV without Yahoo cross-check; auto-hide clean verification detail.
+- US Brief: required `### 盤後業績` after Part 6 for large-cap/Mag7/key semi AH; seed X Monitor then IR/wires; skill+bot only (no remake old Finals).
+
+### Swing / Second brain / 模擬倉
+- US Second brain: driven by US Swing Scanner handoff (not noon cron); ≤3 stalks; noon routine stays **paused**.
+- After stalks: also `us-swing-session-overview`; route 模擬倉 open/skip.
+- 模擬倉 id `17a46819-623f-40fe-8430-338e05725381`: paper $100k, R=1%/$1k, max 7 positions; state `/workspace/us-swing-sim/`.
+- US Swing Scanner Drive: folder `1Jn7yi0sXFBqVjLvjCsIazZnOvw0_E4TY` dated subfolders.
+- Preference: growth, high ATR, strong R:R; hold ≤~2 weeks unless clear homerun; Deep Bear = harder tape not zero opportunity.
+- US RS sharpen vs Ross id `88d71c92-…` = SKIP for Jev hang (empty/broken profile).
+
+### Notion
+- Workspace: Wu Justin's space.
+- Auto-sync Final MD (and Motion HTML/MP4) for market-brief / family-growth / career-coaching / HTML Motion Studio / YouTube Analyzer / 文章分析 without re-asking.
+- HK 港股收市簡報庫 `collection://803e4190-3dc3-4863-a15a-fbd0d9875ee4` — 總指揮 syncs after WV PASS when same-date row exists.
+- Notion body via `$file:/absolute/path.md` as entire content arg (never embed `$file:` inside markdown text).
+- Lookup skill: notion-db-lookup; catalog `/workspace/notion-briefs-import/library-catalog.json`.
+
+### Other locks
+- LinkedIn (Composio): read-only unless Justin explicitly instructs edit/post.
+- Justin role: equity structured product specialist at BNP Paribas (promoted as of Oct 2026).
+- Schooling default (2026-10-05): elder ~12 stays Queen’s College through HKDSE; overseas uni later; education pool prioritizes uni FX liquidity.
+- Jev B+C hung on fleet (A off) since 2026-10-16; smoke OK jev-1.13.0.
+- **2026-10-26:** Declined Melvin-style Fleet Activity Dashboard — do not refresh/push; routine `fleet-activity-dashboard-refresh` **deleted**. Page may remain in Library unused. Canvas id `79abd185-a09f-474f-bcf3-e933820ebf3b` / store `8322307b-0a6a-4cfd-81ff-9e28f2f4c4f5`.
+
+---
+
+## 3. Live snapshot (2026-10-26 evening HKT)
+
+### Routines (總指揮 automation_status)
+| Routine | Status | Schedule | Notes |
+|---|---|---|---|
+| Weekly self-improve reflection | paused | Fri 18:00 HKT | last 2026-09-11 succeeded |
+| Kick HK after-close brief | paused | Weekdays 18:05 | never run |
+| X @bot tags from Justin | paused | Hourly weekdays 09:02–20:02 | last 2026-10-14 |
+| Notion Finals catch-up sync | **enabled** | Weekdays 18:12 | last 2026-10-26 **failed** (usage) |
+| US second-brain 3 picks | paused | Tue–Sat 12:00 | never run; intentional — scanner-driven |
+
+Deleted this day: `fleet-activity-dashboard-refresh` (Justin declined).
+
+### Recent closed TCs (selected)
+- **TC-20261026-01** 港股收市簡報 2026-10-26: Final `/workspace/hk-brief/2026-10-26/HK brief-2026-10-26.md` (md5 `1f14181a3e78193dba86cde8219915a4`); WV `verify-20261026-1940.md` PASS_WITH_NOTES; Notion https://app.notion.com/p/40577383f89c811ea822c8168715c20e — CLOSED.
+- Soft Final highlight: 恒指 23,211.81 (+0.51%); 科指 −0.36%; 成交 ~1,758億; VHSI 20.61; AV 3 UP/7 DOWN; 北水 −20.75億; Master Up4 23 / Dn4 31.
+- Prior closed (carry): TC-20261024-03 Regime 10/23; TC-20261024-04 screener→SB→模擬倉 (FRO OPEN / CRWD+FIVN SKIP); X Monitor Sat recover; CRL HOLD.
+
+### Paths / artifacts live
+- HK brief: `/workspace/hk-brief/2026-10-26/`
+- WV out: `/workspace/work-verifier/output/verify-20261026-1940.md`
+- X Monitor on-demand softshort (US Brief seed): `/workspace/x-monitor/ondemand-2026-10-26-softshort.md` (+ body/candidates/pages) — Weekday+Evening routines failed earlier on usage; on-demand delivered to Justin in X Monitor chat; routines left enabled.
+- Market Master Apps Script inbox: `/workspace/market-master/apps-script/`
+- Fleet activity pointer under `/workspace/fleet-activity/`: **gone** (aligned with decline).
+
+### Open work / idle state
+- **Idle** on Justin’s latest explicit asks (HK brief done; dashboard declined).
+- Optional / waiting Justin (not acted): Market Master Apps Script breadth `.gs` / shares handoff still pending his scripts.
+- Soft offer (not confirmed): audit fleet routines vs GrokBotRadar usage Article # (re-read tax) — Justin has not approved.
+
+### Usage note (2026-10-26)
+- Hits: Notion Finals catch-up failed (usage); X Monitor Weekday+Evening failed (usage) then on-demand softshort recovered.
+- Manual HK Notion sync after WV still succeeded.
+
+### Secrets (names only)
+- `[REDACTED:TYPESAFE_API_KEY]` — Jev / TypeSafe
+- No other bot-owned secrets listed in this backup; connector OAuth stays in connectors, never exported as values.
+
+---
+
+## 4. Pending confirms (listed only — do not act)
+
+1. **Market Master Apps Script** — Justin still to provide/approve breadth chart `.gs` / share scripts for first ticket (axis distortion / viewWindow merge).
+2. **GrokBotRadar usage playbook** — 總指揮 offered a ten-step fleet routine/handoff audit; awaiting Justin go/no-go.
+3. **Notion Finals catch-up routine** — enabled but last run failed on usage; whether to keep enabled / recover / change cadence is Justin’s call (not changed here).
+4. **Fleet Activity Dashboard Page** — declined refresh; Page may still sit in Library for Justin to delete himself (no auto-delete).
+
+---
+
+## 5. Coverage checklist
+
+- [x] Identity / ONE JOB / ANTI-JOBS / roster partners
+- [x] Locked rules (WV, Market Master, Regime Intermediate Land, briefs/AV, Second brain, Notion, LinkedIn, Jev)
+- [x] Live routines snapshot
+- [x] Recent TC + paths
+- [x] Open / pending confirms listed without action
+- [x] Secrets redacted by name only

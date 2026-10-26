@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-10-26 full fleet bot backup
+- Ingested MEMORY.md for all **40** registry bots (纳入=是). Prior MEMORY archived under `bots/<slug>/archive/2026-10-26.md`.
+- Disk-stub dumps (SendToAgent unreachable): `stop`, `us-rs-sharpen` (profile/settings only).
+- Newly added vs prior 21-bot backup (2026-10-03): article-analysis, career-coaching, etf-rs-cross, explainer-video, family-growth, feature-re-spec, hotel-compare, html-motion-studio, market-master-apps-script, north-star, researchy, restaurant-booking, second-brain, stop, trade-journal, us-rs-sharpen, us-swing-sim, x-monitor, youtube-analyzer-deep (19 new).
+- shared-user-memory: left as-is (disk `/home/box/agent-data/user-memory/` still only Self Improver log + 總指揮/全富 profile facts from 2026-09; no fresher shared files).
+- Secret scan: no plaintext live secrets; dumps already use `[REDACTED:…]` placeholders. Skills tree left unstaged.
+- Tag: `backup-2026-10-26`.
+
 ## 2026-09-14
 - Cold-start scaffold: standard archive layout created on shared computer.
 

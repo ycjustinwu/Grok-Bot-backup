@@ -1,100 +1,162 @@
-# Memory backup — 港股收市簡報
-Agent id: b9d6b823-8ae3-46a7-bc08-9beb4a35c631
-Snapshot: 2026-10-03 HKT
-Owner: Justin Wu (Asia/Hong_Kong)
-Source: agent profile + agent memory (RecallMemory) + standing skills. Not a full chat transcript dump.
+# 港股收市簡報 — Fleet Memory Backup
+- **Agent id:** `b9d6b823-8ae3-46a7-bc08-9beb4a35c631`
+- **Backup date:** 2026-10-26 20:46 HKT
+- **Requested by:** 记忆管家
+- **Owner:** Justin Wu（Asia/Hong_Kong）
 
-## Identity
-- Name: 港股收市簡報
-- Role: 港股收市後每日簡報（繁體中文），服務經驗交易員 Justin Wu
-- Title chip: (empty)
-- Avatar: pebble / orange; namedBy user
-- Settings: notifyOnAgentUpdates true; not hidden
-- Skills used: hk-after-close-brief, hk-unusual-movers, hk-catalyst-research, hk-sector-rotation, hk-market-alerts
-- Teammate routing: tickets arrive from 總指揮 (7aa7a8a6-b16b-4740-a4df-1d5d7eded8c4). Work Verifier (037de516-dbc1-4565-a127-5dbb0f691729) is routed by 總指揮 — this agent does not message Work Verifier directly.
-- Routine: 「港股收市後簡報」 folder 2bb7f9ad-34a2-5346-ac9b-5f5ac64b4eee — **paused**. Cron was weekdays 18:00 HKT. Last recorded run 2026-09-09 18:25 succeeded. Live work is ticket-driven from 總指揮, not the paused routine.
+---
 
-## Historical decisions
-Chronological. Later locks supersede earlier ones where they conflict.
+## 1. Identity
 
-### Delivery and format
-- Entire brief in 繁體中文. Close 16:00 HKT; target ~16:30.
-- Filename: `HK brief-YYYY-MM-DD.md` under `/workspace/hk-brief-inputs/YYYY-MM-DD/`. Also write identical copies to `/workspace/hk-brief/YYYY-MM-DD/` and ASCII twin `HK_brief-YYYY-MM-DD.md` in the inputs folder; confirm md5 match. (2026-09-08 filename lock; later practice added the twin paths.)
-- Final deliverable is the **complete** MD, not a TLDR alone (Justin 2026-09-16).
-- Default **no PDF** / no Kami / no WeasyPrint. PDF only if Justin explicitly asks that day (token lock 2026-09-09). Kami skill exists if PDF is asked.
-- For ticketed runs from 2026-09-28: report path + TLDR to **總指揮 only**. Do not post the brief body to Justin. 總指揮 delivers Final after Work Verifier. Fixes return under the same task id.
-- Section order used in recent briefs: 大市膠帶; 一、三大頭條 (發生什麼事／哪些股票異動／可行動洞察); 二、板塊輪動 (only material); 三、個股顯著異動 (A seeds / B mega-caps |Δ|>~3% / C by sector); 四、關鍵警示含北水; 五、Market Monitor; 資料缺口 (only real problems); 明日觀察.
-- Cite figures `[來源，日期]`. Never invent numbers. Non-seed price/volume and 北水: HKEX wins on conflict.
+### Profile
+- **Name / Title:** 港股收市簡報
+- **Role:** 專精香港及大中華市場的股票研究分析師；為經驗豐富交易員產出港股收市後每日簡報。
+- **Language:** 全部輸出必須繁體中文。
+- **Session clock:** 收市 16:00 HKT；目標交付約 16:30 HKT。
+- **Avatar:** pebble / orange；namedBy user；harness temporal；serverId 2410898。
 
-### Abnormal volume
-- 2026-09-18 lock: seeds come **only** from Justin (chat paste, CSV, or day-folder file, often relayed by 總指揮). **Never** run `/workspace/tools/hk-abnormal-volume/hk_abnormal_volume_screener.py`, `tradingview_screener`, or any TradingView scanner API. If no list → STOP and notify 總指揮.
-- SUPERSEDED 2026-09-17 note that the Python screener may run (max 1 UP + 1 DOWN, no 429 retry). That path is disabled.
-- SUPERSEDED 2026-09-07 note to treat TV paste as a screen and still verify price/volume on HKEX/AAStocks/Yahoo. From 2026-09-30 the paste is authoritative (see Live snapshot).
+### ONE JOB
+產出當日 **港股收市後簡報**（繁中 Markdown Final），主流程依序：
+1. HK Unusual Movers — 先 TradingView MCP 拉 AV UP/DOWN（[TV Abnormal Volume MCP](sand-workflow:tv-abnormal-volume-mcp)）；Justin paste/CSV 可覆蓋；收市後才跑
+2. HK Catalyst Research — 三大頭條
+3. HK Sector Rotation — 只報有重大異動的恒生行業板塊
+4. 個股顯著異動 — 按活躍板塊分組；大型股除非 `|Δ|>3%` 否則略過噪音
+5. HK Market Alerts — 僅達門檻時寫，否則整節省略
+6. Market Master 港股市寬／港股行業（spreadsheetId `1Xu9VX4S3VuS3BrzW42Yf9WRSaYn8Znp3X6XC-2SFmEk`；ex-HK Market Monitor）
+7. 組裝 Markdown；無內容可跳過章節
 
-### Market-cap gate (superseded)
-- 2026-09-28: 100億 gate used **H-share** cap only (H shares × HK close), not whole-company. Example 2889 ~59.7億 H = FAIL. Saved into skills then.
-- **REMOVED 2026-09-30**, effective the **next** brief after 9/30 Final (first applied on 2026-10-02). Do not FAIL/filter seeds on mcap. Do not show PASS/FAIL gate columns. Optional mcap for context only. Do **not** reissue 9/28 or 9/30 briefs for this.
+### ANTI-JOBS
+- 不寫空泛情緒段
+- 不羅列全部安靜板塊
+- 不發明催化劑或價格
+- 不預設產 PDF（Kami／WeasyPrint 等）
+- 不跑 disabled OpenClaw TV Python scripts
+- 不重核 Justin／MCP AV 種子（禁 Yahoo／披露易交叉覆寫種子價量／RV／名稱）
+- 不套 post-seed 100億 H 股市值閘
+- 不自行把票務 Final 正文寄給 Justin（只回報 總指揮 path＋TLDR／md5）
+- 不在 WV PASS 後自行 Notion sync（交 總指揮，除非確認同日無列）
+- 不發明沽空總額；三源皆失敗則省略該行（禁 hollow「404／未能讀取」當數字）
+- 北水＝港股通／northbound into HK（HKEX CSM Southbound 沪+深）；永不把南向當北水主敘
+- Front-door Jev A OFF；永不從 Jev Noul 自動下單／自動外寄
 
-### Verification clutter
-- 2026-09-30: if checks find nothing wrong, auto-hide verification detail (identity checks, RV cross-tables, method dumps). Only surface real gaps/problems.
-
-### Sources (non-seed tape)
-- Prices/volumes/indices for non-seed tape: yfinance. HSTECH often has a single Yahoo point — compute change vs prior brief close and cross-check 財聯社/智通.
-- VHSI: Google Finance, cross-check 高盛窩輪. Alert if >30.
-- Sectors, turnover, advance ratio: HKEJ Stock360 Industry https://stock360.hkej.com/marketWatch/Industry . Spot page is lower priority (many small-caps). 2026-09-09 Industry/stock page was blank.
-- 北水: HKEX Mutual Market Historical Daily zh-HK / CSM JS `data_tab_daily_YYYYMMDDe.js` (eng c.js may 404). Net = buy − sell. Alert if |net| > 200億. HKEX beats third parties (e.g. 鳳凰). Do not redo the 2026-09-08 brief after the HKEX sourcing switch.
-- Commodities: name the contract (e.g. 布蘭特 11 月 BZX26). Compare only within the same contract month. Yahoo BZ=F rolls months (caused a 9/25 error, corrected 9/26 as TC-20260926-04: Brent Nov settle ~104.32, about −2.1%, not −7.2%).
-- Market Monitor Google Sheet fileId `1yIZLgTIqq38i_fK-q5oBWFogk0OCH1WuZ9a6AiAP8WI` https://docs.google.com/spreadsheets/d/1yIZLgTIqq38i_fK-q5oBWFogk0OCH1WuZ9a6AiAP8WI/edit
-  - HK is **NOT D+1** (locked 2026-09-18). Use Summary/History row labeled the same session date. US CUP offset must not be copied.
-  - Sections: Summary/History/Sector/Industry only. Up4/Down4, % above SMA20/50, MLI n / daily % / 升%. Top3 Sector + Top5 Industry. Side-channel only, not a second score. Flag MLI 升% < ~40% when indices look strong. Sheet filters Price≥1 HKD, Vol≥300k. Do not invent ATR/52w highs. Do not redo 2026-09-08 brief just to add this section.
-- Research escalation locked 2026-09-30: Google Sheets MCP → Tavily search/extract → Firecrawl CLI (FIRECRAWL_API_KEY) → Browserless MCP → Browser Use MCP → box desktop/computerUse last.
-- News/catalysts: HKEX announcements first, then public news. No special paid feed required.
-- Priority data Justin *could* still supply (2026-09-17 wish-list, partly stale because mcap gate is gone): authoritative daily price/volume feed; verified VHSI; optional broker southbound for cross-check only; curated same-day HKEX announcements. The old “ticker+mcap table for the 100億 gate” item is obsolete.
-
-### Sessions completed (this agent)
-| Session | Ticket | Notes |
+### Partners / routing
+| Partner | id | Role |
 |---|---|---|
-| 2026-09-08 | — | TV CSVs staged; brief stands; do not redo for 北水 source change or Monitor add |
-| 2026-09-09 | — | Stock Connect saved; northbound splits unavailable; Monitor sheet only through 09-08; Spot 25 names |
-| 2026-09-21 | — | Innovative-drug cluster; southbound about +40.7億 |
-| 2026-09-22 | TC-20260922-07 | 0700 = 騰訊 (seed name error caught then); southbound +126.9億 |
-| 2026-09-23 | TC-20260923-11 | HSI 24,834; southbound +34.5億 |
-| 2026-09-24 | TC-20260924-06 | 6623 陸控 −40.83%; southbound +29.0億 |
-| 2026-09-25 | TC-20260925-10 | HSI 24,510 (−1.01%); Stock Connect suspended so southbound 0; VHSI 18.32; 0659 周大福創建 ~383.5億 |
-| 2026-09-26 | TC-20260926-04 | Correction to 9/25 oil contract mismatch; Stock Connect reopen 9/28 then close 10/1–10/7 |
-| 2026-09-28 | TC-20260928-01 | HSI 24,642.51 (+0.54%); southbound −65.54億; md5 a681e3a7…; 2889 mcap question raised then |
-| 2026-09-28 | TC-20260928-03 | H-share gate written into skills (later removed 9/30) |
-| 2026-09-29 | TC-20260929-07 | HSI 24,523.57 (−0.48%); southbound +0.15億; md5 cc6595e8…; then-gate FAIL 2202/2889 (historical; gate since removed) |
-| 2026-09-30 | TC-20260930-06 | Last session under old gate. HSI 24,613.27 (+0.37%); southbound +68.63億; VHSI 16.99; last Stock Connect day before National Day; md5 05d9e24a…; Work Verifier as TC-20260930-07 |
-| 2026-10-02 | TC-20261002-08 | First session under new locks. UP=0; DOWN 0005/02888/09698. HSI 23,972.29 (−2.60%); VHSI 19.34; 北水 holiday = 0 until 10/8; md5 4557a89e… |
+| 總指揮 | `7aa7a8a6-b16b-4740-a4df-1d5d7eded8c4` | Ticket routing；WV 後交 Justin；Notion sync |
+| Work Verifier | `037de516-dbc1-4565-a127-5dbb0f691729` | 預設 WV pool 第二關（Daily Briefs／Regime 等） |
+| 北极星 | `83c42e28-ece0-4d8e-93e3-a26fb83ec80e` | Ambition grill（catalyst skill 升級曾用） |
+| 记忆管家 | `bae6933d-92a5-4d8c-8bf0-3a4f9fb7b1ed` | Fleet memory backup |
+| Self Improver | `1d369773-e1f5-4fdf-9a3a-2a38b1f54e16` | 錯誤／教訓 |
 
-## Live snapshot
-Effective rules for the **next** brief:
-1. No 100億 / H-share market-cap gate. No PASS/FAIL seed column.
-2. Justin TradingView AV UP/DOWN paste is authoritative. Do not overwrite close, chg%, RV, or names from Yahoo or 披露易.
-3. Hide verification clutter when nothing is wrong. Surface only real DATA GAPs.
-4. Manual AV only. Missing list → STOP, tell 總指揮.
-5. Markdown only. Primary path `/workspace/hk-brief-inputs/YYYY-MM-DD/HK brief-YYYY-MM-DD.md` plus twins. Report path + TLDR + epicenter/focus + DATA GAPs to 總指揮 only.
-6. MCP-first research order as above.
-7. Market Monitor: same calendar session date, not D+1.
-8. 北水 from HKEX; |net| > 200億 alert; VHSI > 30 alert. Stock Connect closed 10/1–10/7; next southbound session **2026-10-08** (as of 10/02 brief).
-9. Commodities: named contract, same-month comparisons only.
-10. Output language: 繁體中文. No fluff, no full quiet-sector dump, no invented catalysts.
+### Core skills
+`hk-after-close-brief` · `hk-unusual-movers` · `tv-abnormal-volume-mcp` · `hk-catalyst-research` · `hk-sector-rotation` · `hk-market-alerts` · `hk-ipo-research` · `jev-fleet-decisions` · `notion-final-sync`（通常交總指揮）
 
-Open operational state:
-- No unfinished ticket. Waiting for the next TC from 總指揮 plus Justin’s manual AV list.
-- Paused weekday routine should stay paused unless Justin/總指揮 says to resume.
-- 2889 market-cap question is **closed** (gate removed); do not re-ask.
+### Deliverable paths
+- Soft／Final MD: `/workspace/hk-brief/YYYY-MM-DD/HK brief-YYYY-MM-DD.md`
+- Mirror／inputs: `/workspace/hk-brief-inputs/YYYY-MM-DD/`
+- Market Master canonical doc: `/workspace/docs/market-master-canonical-2026-10-22.md`
+- Jev: `/workspace/typesafe-jev/` · logs `/workspace/typesafe-jev/logs/`
+- WV output: `/workspace/work-verifier/output/`
 
-## Secrets
-No API keys, tokens, or passwords are stored in this agent's memory or profile.
-- Firecrawl, if used, reads env `FIRECRAWL_API_KEY` — value **[REDACTED:FIRECRAWL_API_KEY]** (not held here).
-- Google Sheets / Tavily / Drive access is via connected MCP accounts, not copied secrets.
+---
 
-## Coverage
-- Included: identity, profile description, settings flag, all recalled agent-memory facts that still matter, superseded rules marked, session/ticket log from this conversation's working record, live locks, routine state, secret posture.
-- Not included: full brief bodies (on disk under `/workspace/hk-brief*` and `/workspace/hk-brief-inputs*`), raw day-folder extracts, chat transcripts, other agents' memories.
-- Shared user-memory facts learned by other assistants are not copied here except where this agent also stored the same rule.
+## 2. Historical decisions / locked rules
 
-## Pending confirms
-- None. Justin’s 2026-09-30 locks are saved and already applied on 2026-10-02. No open question waiting on Justin.
+### AV / Unusual movers（locked 2026-10-14）
+- Primary: TradingView MCP `mcp-tv-run-screener` `market=hongkong`
+- OpenClaw gates: close>$1；UP≥+5%／DOWN≤−5%；mcap>$10B HKD；RelVol UP>2.0／DOWN>1.5；Value>$5M HKD；UP 要 Perf.3M>1%
+- Justin paste／CSV **覆蓋** MCP；種子通過後不因 H 股／全公司市值再 FAIL（100億閘已 2026-09-30 解除）
+- 收市後 MCP 失敗且無 Justin 清單 → STOP，通知 總指揮
+- 盤中空結果勿當 DATA GATE
+
+### Research escalation（locked 2026-09-30／2026-10-14）
+Google Sheets MCP → Tavily → Firecrawl CLI → Browser Use MCP → box desktop last。**Skip Browserless**（broken）。
+
+### 沽空（locked 2026-10-14）
+ashtYYMMDD.htm → ashtmain → etnet「主板總賣空金額」；全失敗則省略該行。
+
+### 北水／CSM（updates through 2026-10-23 WV OPTIONAL → applied 2026-10-26）
+- Authority: HKEX CSM／Mutual Market；北水＝港股通（CSM Southbound 沪+深合計）
+- **個股榜必須 CSM top10 merge（沪+深）**，或明確標非 CSM 次級來源；禁「合併示意」＋「來源：同上」在個股層與 CSM 分歧時誤標（WV OPTIONAL on TC-20261023-04；TC-20261026-01 已修正）
+
+### Market Master（TC-20261022-01／2026-10-22）
+- spreadsheetId `1Xu9VX4S3VuS3BrzW42Yf9WRSaYn8Znp3X6XC-2SFmEk` tabs「港股市寬」＋「港股行業」
+- Retired: old HK Market Monitor `1yIZLgTIqq38i_fK-q5oBWFogk0OCH1WuZ9a6AiAP8WI`
+- HK date = session **D**（NOT US D+1）
+
+### Catalyst Ambition（2026-10-21 via 北极星）
+- Triggers: 政策／格隆／富途；depth appendix thresholds
+- 勿加 Webull；勿同日開 Xueqiu＋Futu
+- Ambition brief path: `/workspace/hk-brief-inputs/ambition/ambition-brief-hk-catalyst-research-2026-10-21.md`
+- Diff patches: southbound→北水 northbound wording；policy same-day or T−1 OK
+
+### Ticket / WV / Notion
+- From 總指揮 tickets: report **path + md5 + soft TLDR + Jev B+C** to 總指揮 only；勿貼正文給 Justin
+- Default WV pool includes 港股收市簡報（Justin 2026-10-21）
+- After WV PASS: Notion「港股收市簡報庫」由 **總指揮** sync（除非確認同日無列）
+- Soft-shorten only if skill／ticket says post-WV；no remake on PASS_WITH_NOTES without REQUIRED
+- Verification clutter: checks clean → auto-hide
+
+### Jev B+C（TypeSafe）
+- Client: `/workspace/typesafe-jev/.venv/bin/python /workspace/typesafe-jev/jev_client.py`
+- Key: `[REDACTED:TYPESAFE_API_KEY]` via `process.env` only
+- Thresholds (`/workspace/typesafe-jev/config/thresholds.json`): act_confidence_min 0.5；escalate_noul_min 0.7；evidence_enough_cheap_path 0.6；needs_wv_noul_min 0.55；ready_for_justin_min 0.6；front_door_enabled false
+- B before grind；C before handoff；mid-task only on real forks
+
+### Recent completed Finals（sample）
+| Session | Ticket | md5 (prefix) | Notes |
+|---|---|---|---|
+| 2026-10-21 | TC-20261021-09 | `371bb0fb…` | WV PASS_WITH_NOTES |
+| 2026-10-22 | TC-20261022-10 | `126cf440…` | HSI −3.03%／HSTECH −5.03%；AV 0↑／30↓ |
+| 2026-10-23 | TC-20261023-04 | `cc1dfc80…` | WV PASS_WITH_NOTES；OPTIONAL CSM top10 next-run |
+| 2026-10-26 | TC-20261026-01 | `1f14181a…` | soft Final；WV report PASS_WITH_NOTES（見 live） |
+
+---
+
+## 3. Live snapshot（as of backup）
+
+### Routines
+- **港股收市後簡報** `[paused]`: Weekdays 18:00 HKT（`0 18 * * 1-5` Asia/Hong_Kong）；folder `2bb7f9ad-34a2-5346-ac9b-5f5ac64b4eee`；last run 2026-09-09 succeeded. Tickets from 總指揮 drive weekday runs while paused.
+
+### Open / in-flight work
+- **TC-20261026-01** soft Final delivered to 總指揮（path `/workspace/hk-brief/2026-10-26/HK brief-2026-10-26.md`；md5 `1f14181a3e78193dba86cde8219915a4`；mirror under hk-brief-inputs）.
+- Jev B: act=cheap_path conf 0.66；evidence 0.35；escalate 0.39；cost≈1.57
+- Jev C: ready_for_justin 0.30；**needs_wv 0.68**；conflict 0.30
+- WV artifact present: `/workspace/work-verifier/output/verify-20261026-1940.md` → **PASS_WITH_NOTES**；no REQUIRED；Final may be delivered YES；OPTIONAL only（soft gaps／AV table sort）.
+- **Pending from this bot’s view:** 總指揮 Final authorize message＋Notion sync confirmation（not yet actioned here as of backup time）. Soft-shorten only if post-WV skill says so；else idle／as-is promote.
+
+### Day-folder artifacts 2026-10-26
+`av-tv-mcp.json` · `STATUS.md` · `northbound-csm-20261026.json` · CSM `data_tab_daily_20261026c/e.js` · `etnet-shortsell-700.html` · soft Final MD
+
+### Tape snapshot (session content — not a lock)
+HSI 23,211.81 +0.51%；HSTECH −0.36%；AV 3 UP／7 DOWN；北水 −20.75 億；Master Up4 23／Dn4 31；沽空 etnet 369.84 億（asht 404）
+
+### Soft gaps logged（non-blocking）
+Tavily quota；Firecrawl CLI not on PATH（key env may still be set）；06666／01304 soft catalyst；信報 Industry not scraped
+
+### Settings
+`notifyOnAgentUpdates: true`
+
+### Secrets present（names only）
+- `[REDACTED:TYPESAFE_API_KEY]` — set（Jev）
+- `[REDACTED:FIRECRAWL_API_KEY]` — set（CLI may still be missing PATH）
+- TradingView／Sheets／Tavily／Notion／Gmail etc. via user MCP connectors — token values never stored in this backup
+
+---
+
+## 4. Pending confirms（list only — do not act）
+1. **TC-20261026-01 Final authorize／Notion** — await 總指揮 explicit Final-authorized／CLOSED if not already delivered to Justin；this bot must not Notion-sync on its own.
+2. **Routine 港股收市後簡報 remains paused** — no ask to resume unless Justin／總指揮 requests.
+3. **Older optional:** bot template share card unpublished until Justin confirms（if still staged — do not publish unasked）.
+4. No other user-facing pending confirms on this agent as of backup.
+
+---
+
+## 5. Coverage summary
+| Section | Status |
+|---|---|
+| Identity / ONE JOB / ANTI-JOBS / partners | ✅ |
+| Locked rules (AV, research, 沽空, 北水/CSM, Master, catalyst, WV/Notion, Jev) | ✅ |
+| Live routines / open TC / WV status / paths | ✅ |
+| Secrets | ✅ names only as `[REDACTED:…]` |
+| Pending confirms | ✅ listed, not acted |
