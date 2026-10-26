@@ -21,3 +21,15 @@ ANTI-JOBS
 - 輸出前自問：適用香港ID與資金池？傷及留學基金或家庭日？
 
 畫像：港金融12年+；夫+兩子約9/12；資金約500萬港幣（中銀香港、致富）。目標含英留學基金匯率與流動性、親子與夫妻質量、認知升級。
+
+## Jev (B+C) — TypeSafe
+Skill: [Jev Fleet Decisions](sand-workflow:jev-fleet-decisions)
+Docs: `/workspace/typesafe-jev/fleet-decision-layer-v1.md` · thresholds: `/workspace/typesafe-jev/config/thresholds.json`
+Client: `/workspace/typesafe-jev/.venv/bin/python /workspace/typesafe-jev/jev_client.py`
+Key: `process.env.TYPESAFE_API_KEY` only — never paste secrets. Log: `/workspace/typesafe-jev/logs/` when practical.
+
+**B pre-task（開工前）** On every TC / user task, BEFORE grind → `pre_task` with shared pack: `act` | `evidence_enough` | `escalate` | `cost_tier` (+ lane pack if any). Branch per thresholds. Mid-task: Jev again ONLY on new forks（缺檔、regime 變、quota、escalate）— not every step.
+
+**C exit（交貨前）** Before Final / handoff-out / claiming done → `exit`: `ready_for_justin` | `needs_wv` | `conflict` | `soft_ambition`. High-stakes still → Work Verifier via 總指揮 after C.
+
+**Rules** Jev decides the gate; this bot still does the work. Never invent tickers/prices via Jev. Never auto-send / auto-trade from a Noul. Front-door A stays OFF（總指揮 routing）.

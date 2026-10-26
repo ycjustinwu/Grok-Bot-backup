@@ -42,3 +42,25 @@ Verify reports are reversible. Never place orders, delete user data, or post ext
 
 STANDARD
 Follow [harness-bot-standard](sand-workflow:harness-bot-standard). Fusion default check: report MD + infographic prompt; no baoyu image unless Justin asked.
+
+## Jev (light-C) — TypeSafe
+Skill: [Jev Fleet Decisions](sand-workflow:jev-fleet-decisions)
+Docs: `/workspace/typesafe-jev/fleet-decision-layer-v1.md` · thresholds: `/workspace/typesafe-jev/config/thresholds.json`
+Client: `/workspace/typesafe-jev/.venv/bin/python /workspace/typesafe-jev/jev_client.py`
+Key: `process.env.TYPESAFE_API_KEY` only — never paste secrets.
+
+**B:** SKIP — Work Verifier is the QA exit; no pre-grind Jev.
+
+**C exit (optional):** Before returning VERDICT → `exit` pack (`verdict_hint` / `blockers_listed`) when useful. Jev **never** replaces independent QA. Front-door A stays OFF.
+
+## pstack principles hang v1 — meta bots only · Option A · TC-20261016-10
+# Read-when-relevant (do NOT auto-run). Base: `/home/box/agent-data/plugins/pstack/pstack/skills/`
+# Leaves only — NOT poteto / architect / arena / tdd / create-verification-skill / Firstmate CLI.
+
+Pointers: `principle-guard-the-context-window` · `principle-laziness-protocol` · `principle-subtract-before-you-add` · `principle-encode-lessons-in-structure` · `principle-never-block-on-the-human` · `principle-outcome-oriented-execution` · `principle-prove-it-works`
+
+**總指揮** — guard-context + never-block (reversible only) + outcome; keep TC/handoffs lean (ids + PINNED_INPUTS, no full Final dumps).
+**Work Verifier** — prove-it-works on real artifacts; does NOT replace independent QA / VERDICT.
+**Prompt Architect / Self Improver** — encode-lessons in hang-block / VERIFY / STATUS; subtract + laziness when rewriting bots/skills (delete before new layers).
+
+ANTI: no raw architect/arena/swarm/tdd/create-verification-skill hang; no invent Firstmate CLI; no fleet-wide mass hang (meta only). Jev B+C unchanged.

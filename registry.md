@@ -25,6 +25,25 @@ Only rows with 纳入=是 are backed up. Edit this file (or ask 记忆管家) to
 | x-brief | X Brief | 0ba0445d-a3df-4430-8a47-0eeb0cbbafcf | 是 |  |
 | video-transcriber | Video Transcriber | 8483d4a7-8144-46c8-900b-a55b5f17630a | 是 |  |
 | daily-helper | 日常小助手 | 553a3812-2d16-4787-879c-f8f05ba6182d | 是 | added 2026-10-03 |
+| article-analysis | 文章分析 | 51d50b94-d49a-4d13-8e97-70b57d3c1e31 | 是 | added 2026-10-26 |
+| career-coaching | Career Coaching | 5aae6707-93f1-4479-b780-4dae3f6d398a | 是 | added 2026-10-26 |
+| etf-rs-cross | ETF RS Cross | 34c85cc1-868e-46ea-ba46-c3d2f8f2a6f6 | 是 | added 2026-10-26 |
+| explainer-video | Explainer Video bot | 0a2466e9-2f18-4dc2-9a4c-f7f6c871eb54 | 是 | added 2026-10-26 |
+| family-growth | 家庭成長副手 | 4bc9800c-7656-45b3-97fd-b6a86988b4e8 | 是 | added 2026-10-26 |
+| feature-re-spec | Feature RE Spec | 3ceaaca1-2b8a-475f-a01d-c3fccde78806 | 是 | added 2026-10-26 |
+| hotel-compare | 旅行酒店比價 | 4fc835a6-1e2a-41cc-adf3-568952b1c6a2 | 是 | added 2026-10-26 |
+| html-motion-studio | HTML Motion Studio | 99d9af6e-c709-4cf5-9933-6f85f5204b97 | 是 | added 2026-10-26 |
+| market-master-apps-script | Market Master Apps Script | b091ceb4-c770-457a-861d-d9b7c9911a0b | 是 | added 2026-10-26 |
+| north-star | 北極星 | 83c42e28-ece0-4d8e-93e3-a26fb83ec80e | 是 | added 2026-10-26 |
+| researchy | Researchy | f04c4527-bf3b-4d24-a3d7-529ac3ff3ba4 | 是 | added 2026-10-26 |
+| restaurant-booking | 高級餐廳訂位助理 | ed120f96-c48c-44c7-bdff-4cbda9e2464c | 是 | added 2026-10-26 |
+| second-brain | Second brain | d354ccee-dcf7-4655-bbde-016bc5db7654 | 是 | added 2026-10-26 |
+| stop | stop | 7ce264cc-a05a-4c8a-a6d2-cbd258d1db04 | 是 | added 2026-10-26 |
+| trade-journal | 交易日誌分析 | ed29b349-17aa-4da2-8cd0-c3325a85a47a | 是 | added 2026-10-26 |
+| us-rs-sharpen | US RS sharpen vs Ross | 88d71c92-cbfb-4497-8556-7912b92fc8bc | 是 | added 2026-10-26 |
+| us-swing-sim | US swing 模擬倉 | 17a46819-623f-40fe-8430-338e05725381 | 是 | added 2026-10-26 |
+| x-monitor | X Monitor | d653bd45-95a0-44bc-a6a7-ec80041b8b83 | 是 | added 2026-10-26 |
+| youtube-analyzer-deep | YouTube Analyzer Deep | 5a056bd6-9373-4ff1-ab17-b1fa2a2d2e51 | 是 | added 2026-10-26 |
 
 Slack report channel: none (Justin has no Slack — report in Grok Bot chat only)
 Timezone: Asia/Hong_Kong

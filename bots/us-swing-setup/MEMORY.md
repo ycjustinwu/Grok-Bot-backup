@@ -127,3 +127,6 @@ No secrets held. Template if a later restore must record one:
 - `[REDACTED:CURSOR_API_KEY]`
 - `[REDACTED:broker-token]`
 - `[REDACTED:google-drive]`
+
+### RS enhance interpret (2026-10-15)
+Locked with US Swing Scanner A+≤+5 B. Setup soft-reads `RS_Line*`, `RSNHBP`, `Weak_Day_RS_Pct`, `Highest_Vol_Edge`, `RS_Role`. Soft only — no hard-gate override. HANDOFF `RS CONTEXT` separate from sector_wind. Do not re-add quality points. Scanner bugs (near-zero Slope→leader; Slim col-count; smoke pre-RS_Role) tracked for Scanner owner — Setup does not patch Python.
