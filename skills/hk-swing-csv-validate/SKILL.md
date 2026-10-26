@@ -25,6 +25,23 @@ State market in the load line.
 - Missing **Optional** → continue; note「本 CSV 未含 v4.6.1 補充欄位」
 - Missing **Core** → list gaps; ask regenerate with v4.5.3+ / v4.6.1. **Stop.**
 
+
+## Step 0.1b — US RS enhance columns (MARKET=US only; optional)
+
+After 2026-10-15 Scanner A+≤+5 B export, US Summary_US / Claude_Input_Slim / per-ticker CSVs may include:
+
+`RS_Line`, `RS_Line_Slope`, `RS_Line_Chg_20`, `RS_Line_Up`, `RS_Line_NH`, `RSNHBP`, `Weak_Day_RS_Pct`, `Highest_Vol_Edge`, `RS_Role`
+
+(+ overlay still appends `ETF_RS_theme` / `sector_wind` / `sector_wind_note` after Slim/Summary).
+
+- These are **Optional** — never FAIL Core for missing them (pre-2026-10-15 / HK / mid-transition runs).
+- **MARKET=US** and columns missing → ⚠️ WARN/note「US RS enhance 欄缺席（舊 run 或未 export）；interpret 跳過質素旗／RS_Role；唔好發明值」.
+- **MARKET=HK** → ignore this block entirely (HK path unchanged).
+- Present but NaN/empty `RS_Role` is valid (means neither leader nor candidate) — do not invent `leader`/`candidate`.
+- Do not treat Slim as fixed 22-col: post-enhance Slim is ~31 cols before overlay (~34 after sector_wind trio); validate by **name**, not column count.
+- Prefer `RS_Line_Up` (20d RS_Line change ≥ +1%) over raw `RS_Line_Slope>0` when both present — Slope alone can be ≈0 float noise.
+- `RSI_14` remains momentum only — not relative strength.
+
 ## Step 0.2 — Health check (last row)
 
 1. Last date vs today >3 days → stale warn

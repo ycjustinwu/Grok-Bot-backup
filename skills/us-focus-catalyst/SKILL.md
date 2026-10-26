@@ -1,13 +1,16 @@
 ---
 name: US Focus Catalyst
 description: >-
-  Use this when picking 3 US focus stocks from abnormal-volume keepers and
+  Use this when picking 3 US cash-session focus stocks from abnormal-volume keepers and
   searching the web for same-day catalysts — earnings, downgrade, sector
-  rotation — with cited sources.
+  rotation — with cited sources. After-hours Mag7/large-cap earnings belong in
+  us-market-daily-brief 盤後業績, not as forced cash Focus.
 ---
 # US Focus Catalyst
 
-Pick **exactly 3** focus names from the abnormal-volume ranked list (gainers **or** losers). Prefer theme-linked, then isolated, then large-cap high RelVol — **except** epicenter boost below.
+Pick **exactly 3** **cash-session** focus names from the abnormal-volume ranked list (gainers **or** losers). Prefer theme-linked, then isolated, then large-cap high RelVol — **except** epicenter boost below.
+
+**Boundary (Justin 2026-10-22):** Part 2 Focus = **cash AV keepers**. Large-cap **after-hours** earnings that drive **tonight’s** tape (Mag7, mega-cap, key semi-equipment) go in the parent brief’s `### 盤後業績` ([US Market Daily Brief](sand-workflow:us-market-daily-brief)) — do **not** displace AV Focus solely because Justin named AH reporters or X Monitor flagged them. If Justin names tickers that are also cash keepers／epicenters, they may still land in Focus via ranking.
 
 ## Ranking (Claude-compare 2026-09-09)
 
@@ -42,5 +45,6 @@ Classify each name **個股行情** vs **主題聯動** using the ETF 1D already
 - Trump / trade: `Trump policy [DATE] tariff stocks market impact` and same-day **tariff effective / retaliation** — feed Part 4 when material (see us-market-daily-brief).
 - Tape: `S&P 500 Nasdaq Dow VIX close [DATE]`
 - HK spillover: only if a theme clearly hits 港股 — else omit soft speculation.
+- **AH handoff:** When Mag7／mega-cap／key equipment report **after** the cash close, pass ticker list + any X Monitor seed notes up to the parent brief for `### 盤後業績` — do not silently drop them just because they are outside the AV top 3.
 
-Return structured notes for the three stocks + optional Trump/tape/HK bullets.
+Return structured notes for the three stocks + optional Trump/tape/HK bullets + optional **AH seed list** for the parent brief.

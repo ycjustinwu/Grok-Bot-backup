@@ -8,6 +8,14 @@
 - Secret scan: no plaintext live secrets; dumps already use `[REDACTED:…]` placeholders. Skills tree left unstaged.
 - Tag: `backup-2026-10-26`.
 
+## 2026-10-26 skills backup
+- Refreshed **114** user-created skills from `/home/box/agent-data/workflows/` (folders with `SKILL.md`) into `skills/`, plus rewritten `skills/INDEX.md` (Asia/Hong_Kong).
+- +30 vs 2026-10-03 (84): ambition-amplifier, article-analysis-report, article-ingest, feature-reverse-spec, gbrain-memory, hk-brief-getting-started, hk-ipo-research, hotel-hunter-{book,compare,intake}, html-motion-{brief,build,case-library,render}, jev-fleet-decisions, mm-gas-{intake,merge-charts,verify}, notion-db-lookup, notion-final-sync, tv-abnormal-volume-mcp, us-second-brain-{3-picks,notion-sync}, us-swing-rs-enhance, us-swing-session-overview, us-swing-sim-{open,reconcile,track}, x-signal-retrieval, youtube-analyzer-deep.
+- Overwrote dirty `skills/verify-work-verifier/features/regime-market-awareness.md` from source (Intermediate Land 2026-10-23).
+- Skipped: `kami-md2pdf` (no SKILL.md); managed-skills; plugins; `__pycache__` / node_modules / caches.
+- Secret scan of copied skill files: no plaintext tokens/keys/passwords/oauth/private keys; no redactions required.
+- No new fleet tag (same-day follow-up after `backup-2026-10-26`).
+
 ## 2026-09-14
 - Cold-start scaffold: standard archive layout created on shared computer.
 

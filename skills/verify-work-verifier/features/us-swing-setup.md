@@ -30,6 +30,8 @@ Preconditions:
 - **No fabricate / ANTI_JOBS.** No Regime TOTAL; no Story upgrade; no HK CSV; no invent prices/VERDICT.
 - **Proof.** Evidence distinguishes scanner vs Setup paths clearly.
 
+- **Fleet handoff fields (2026-10-05).** Check HANDOFF for `PINNED_INPUTS`, `DECISIONS_MADE`, `OPEN_QUESTIONS`, `NEXT_GATE`. Downstream may read only pinned files; settled decisions must not be re-opened. During rollout, missing fields → PASS_WITH_NOTES (not FAIL).
+
 ## Gotchas
 
 - Highest-frequency error: treating scanner Potential Setups as completed Setup.

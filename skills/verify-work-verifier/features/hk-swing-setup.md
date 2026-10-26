@@ -31,6 +31,8 @@ Preconditions:
 - **Reversibility.** Entry/stop levels are analysis — flag if producer language implies live order placement without Justin.
 - **Proof.** Evidence lists run paths + field checklist.
 
+- **Fleet handoff fields (2026-10-05).** Check HANDOFF for `PINNED_INPUTS`, `DECISIONS_MADE`, `OPEN_QUESTIONS`, `NEXT_GATE`. Downstream may read only pinned files; settled decisions must not be re-opened. During rollout, missing fields → PASS_WITH_NOTES (not FAIL).
+
 ## Gotchas
 
 - Missing MARKET=HK or HK handoff with SPY RS → FAIL consistency.

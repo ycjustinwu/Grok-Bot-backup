@@ -1,10 +1,9 @@
 ---
 name: Regime Modifiers And Stance
 description: >-
-  Use this for Regime v6.4.6 modifiers (−6..+7), TOTAL /21.5 with floors,
-  hysteresis multi-band confirm + exposure ratchet, Fast-Track Override,
-  Change C (V-REVERSAL), short-side 5C, and stance Steps 1–5 — qualitative
-  今日部署 only; no Pillar C / 5D.
+  Use this for Regime v6.4.6 modifiers (−6..+7), TOTAL /21.5, hysteresis
+  multi-band + FT/CC, short 5C, stance Steps 1–5, plus 2026-10-22 Trial
+  carve-out / 今日動作 (action-layer only; no TOTAL change).
 ---
 # Regime Modifiers And Stance (v6.4.6)
 
@@ -12,7 +11,8 @@ description: >-
 Label: `v6.4.6 hysteresis multi-band confirm`. Scoring spine still v6.4.3/v6.4.5 FT; **only 5B upgrade semantics** change.  
 Modifiers (−6..+7) do **not** change TOTAL. Never both sides of the same pair. McClellan refs use PRIORITY ORDER (not 0A④).
 Add-on canon: `/workspace/refactored_market_awareness/docs/v6.4.5/fast-track-and-change-c.md`.
-Hysteresis canon: `docs/regime-bands.md` + `docs/CHANGELOG-v6.4.6.md`.
+Hysteresis canon: `docs/regime-bands.md` + `docs/CHANGELOG-v6.4.6.md` + `docs/hysteresis-intermediate-land-2026-10-23.md`.
+**動作層 canon（2026-10-22）：** `docs/今日動作-trial-carve-out-2026-10-22.md` — Trial／今日動作／linkage；**唔改** TOTAL／5B。
 
 ## Pairs 1–7 (data-driven) — UNCHANGED
 1. McClellan divergence: index NH + McClellan LH → −1; index NL + McClellan HL → +1
@@ -50,13 +50,18 @@ Relaxed ② = McClellan selling pressure stabilizing (today’s decline narrower
 → Print: `🔓 V-REVERSAL 腿放寬（Change C 生效）`  
 FT + Change C same day: exposure still **30%**; label from Step 5 if on Reversal branch.
 
-## 5B Hysteresis + Exposure ratchet — v6.4.6 LOCKED (Justin 2026-09-23)
+## 5B Hysteresis + Exposure ratchet — v6.4.6 LOCKED (Justin 2026-09-23) + Intermediate Land (2026-10-23)
 - Cite 前值 **only** from `thread-memory/latest-state.json` / archive (never peer draft).
 - **Upgrade pending target = today’s raw band** (the score band), **not** only the next adjacent band.
 - After **2 consecutive calendar sessions** with the **same raw band**, and that band is **strictly above** prior effective → on day 2 set `regime_effective = that raw band`.
 - **Multi-band jump allowed** (e.g. Deep Bear → Cautious in one confirm when raw was Cautious both days). Intermediate bands (Bear/Avoid) are **skipped**. Do **NOT** invent a one-band ladder.
 - Day 1 of a new higher raw band: pending `1/2`, keep old effective.
-- If day 2 raw **leaves** that pending target band → pending **fails**; restart from **new raw** (or clear) per fail logic — restart pending target = today’s raw if still above prior effective; do **not** fall back to adjacent-only.
+- If day 2 raw **leaves** that pending target band → pending **fails**, then **Intermediate Land (Justin 2026-10-23)**:
+  - `E` = prior effective, `R` = today’s raw, `T` = failed pending target.
+  - `R < E` → immediate downgrade to `R`.
+  - `R == E` → hold `E`; clear pending.
+  - `R > E` → **land now** `regime_effective = R`, clear pending; print `⬆️ pending T FAIL → Intermediate Land → effective R`. Do **not** leave effective at old `E` while restarting `pending R 1/2`.
+  - Not a day-1 one-band ladder; only on pending FAIL when raw remains above effective. Canon: `docs/hysteresis-intermediate-land-2026-10-23.md` + `docs/regime-bands.md`.
 - Downgrade: still **immediate**, multi-band OK. FT / Change C unchanged.
 - V-REVERSAL / Step5 override: immediate (Change C may relax ②).
 - **Ratchet (exposure ceiling only):** upper +20pp/day max; once new regime confirmed, **lower = new regime’s own floor**. Down moves: no ratchet. If multi-band confirm makes floor > ratchet upper, **floor wins** (land at new floor).
@@ -83,7 +88,7 @@ Weakest Layer1 by 1W excess vs VOO. Need **all three**: excess <−2%, group 1W 
 5. If T2108<20 → **Reversal Zone** (Step 5): run **INDEX DRAWDOWN GATE first**, then V-REVERSAL / DEAD CAT / UNCERTAIN (Change C may relax ② only).
 
 ### Step 5 — INDEX DRAWDOWN GATE（V-REVERSAL 前置檢查）— LOCKED Justin 2026-10-01
-來源：動力股佔比筆記 —「指數未跌而動力股收縮」係下跌開頭，唔係底部。Encodes the note’s only bearish failure mode (index still within ~2–6% of highs while participation collapses, n = 2 — caution, not a proven short edge).
+來源：動力股佔比筆記 —「指數未跌而動力股收縮」係下跌開頭，唔係底部。
 
 **When:** only if T2108 < 20 (Reversal Watch / Step 5). **Does NOT** change TOTAL, Pillar A/B, bands, or hysteresis.
 
@@ -102,3 +107,30 @@ Weakest Layer1 by 1W excess vs VOO. Need **all three**: excess <−2%, group 1W 
 ①③ and Change C rules **unchanged**. Gate only decides whether a bottom label is allowed / how hard V-REVERSAL may deploy — not the score.
 
 **今日部署** = one qualitative sentence from stance table — **no** unit/%/R/margin/short-count table. Under GATE NEUTRAL + V-REVERSAL: must say 首注輕試 + 封頂 10%.
+
+## 今日動作＋Trial carve-out（動作層；LOCKED Justin 2026-10-22）
+**After** Steps 1–5 + FT/CC + Index DD Gate. **Never** changes TOTAL, raw/effective band, pending day-count, or numeric Exposure ceiling from 5B/FT/Gate.
+Canon: `docs/今日動作-trial-carve-out-2026-10-22.md`.
+
+### Trial 三條件（須同時成立才可「准 swing 試倉」於 Deep Bear／字面 0%）
+1. **pending 升級中** — pending exists AND pending target band **strictly above** effective.
+2. **動力股佔比↑** — **primary:** today 動力股佔比% > yesterday (same Market Master History). **fallback:** no yesterday → today > in-table P50/median (disclose which). Flat or down → FAIL.
+3. **風險胃納略改善** — **primary:** today B2 > prior B2 from `latest-state.json`. **fallback if B2 flat:** B2-i (進攻−防守 1W 差) today − prior **> 0**. Else FAIL.
+
+| Outcome | 今日動作 | Exposure 旁註 |
+|---|---|---|
+| Trial 三條件全齊 | **准 swing 試倉**（細碼） | `試倉例外開`（字面 ceiling 仍按 5B，通常 Deep Bear=`字面 0%` + 例外開） |
+| 缺一或多；Checklist／Deployment 偏多 | **觀望** | `試倉例外唔開` + Deep Bear 時 `字面 0%` |
+| 缺一且風險惡化／降級 | **收手** | `試倉例外唔開` + `字面 0%` |
+| effective 已允許新倉（非 Deep Bear 0%） | 跟正常 stance／ratchet（可准試倉／加倉語氣） | 跟 5B／FT 數字；唔滥用 Trial |
+
+### Linkage fields（交 daily-report 渲染）
+- One sentence: effective／pending／exposure vs Checklist／Deployment（曝險錨 = effective）
+- One sentence: MM 動力股 + |z| 撐／反
+
+### 主題許可 fields
+- 准盯 = Focus Long ∩ MM |z|>1.96 同向偏強 ∩ ETF Favor
+- 禁止／降權 = Focus Short ∪ MM |z| 偏弱 ∪ ETF Avoid
+- Missing source → DATA GAP / shrink list; never invent tickers
+
+Write `trial_carve_out` (+ bools for each condition + action + exposure_note) into `latest-state.json` / `regime-summary.json` for WV.

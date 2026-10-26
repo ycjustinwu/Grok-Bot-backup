@@ -2,12 +2,12 @@
 name: Regime Data Ingest
 description: >-
   Use this to gather daily regime v6.4.5 inputs — Stockbee xlsx, StockCharts
-  breadth + FRED VIX, US-ETF CSV, and **self-pull US CUP Market Monitor from
-  Google Drive** (always; never wait for attachment).
+  breadth + FRED VIX, US-ETF CSV, and self-pull Market Master 美股市寬＋美股行業 (always;
+  never wait for attachment).
 ---
 # Regime Data Ingest
 
-Daily inputs for Market Regime Scoring **v6.4.5**. Complete fully; show values. No invented history.
+Daily inputs for Market Regime Scoring **v6.4.5/v6.4.6**. Complete fully; show values. No invented history.
 
 ## DATA GATE
 
@@ -28,7 +28,7 @@ Missing / stale / abnormal critical input → **STOP**, notify 總指揮. Never 
 
 3. **US-ETF-complete CSV (1C)** — Justin attaches TradingView export → extract all tickers in `docs/etf-universes.md` (**1D%/1W%/1M%/RSI14/RelVol**/VOO EMAs — 1D+RelVol required for Leading Sector volume). Never invent prices.
 
-4. **US Market Monitor (CUP)** — **self-pull** Google Drive sheet `1NMWO4-bmO8clwceamTGXZjG7rSYpljoz2jCupTk-zCQ` every run (see section below). Not a TOTAL input.
+4. **US Market Monitor (Market Master)** — **self-pull** Google Sheet `1Xu9VX4S3VuS3BrzW42Yf9WRSaYn8Znp3X6XC-2SFmEk` tabs **`美股市寬`＋`美股行業`** every run (see section below). Not a TOTAL input. Canonical: `/workspace/docs/market-master-canonical-2026-10-22.md`.
 
 ## Thread-history rules (v6.4.5)
 
@@ -51,17 +51,18 @@ Missing / stale / abnormal critical input → **STOP**, notify 總指揮. Never 
 
 Hand structured 1A/1B/1C extract to scoring skills.
 
-## US Market Monitor (CUP) — **MANDATORY self-pull**
+## US Market Monitor (Market Master) — **MANDATORY self-pull**
 
-**Every Regime ingest** (Justin forever 2026-09-19):
+**Every Regime ingest** (Justin forever; sheet → Market Master 2026-10-22):
 
-1. **Yourself** call Google Drive `read_file_content` on sheet `1NMWO4-bmO8clwceamTGXZjG7rSYpljoz2jCupTk-zCQ` — do **not** wait for an attached export.
-2. Apply **US-only D+1 lock**: Regime session D → use Summary/History **label D+1**; disclose `stamp D+1 → US session D`.
-3. Capture: sample, Up4, Down4, SMA20/50, MLI n / % / 升%, pool, leader%, Sector Top3, Industry Top5, vs prior stamp row.
-4. Write `/workspace/regime-output/YYYY-MM-DD/us-market-monitor.json` (`data_gap: false` on success).
-5. Non-scoring ADDITIONAL Observation only — never into Pillar A/B/TOTAL; never invent from Stockbee.
-6. If Drive fails after one retry → `data_gap: true` (does **not** trip main Regime DATA GATE).
+1. **Yourself** pull sheet `1Xu9VX4S3VuS3BrzW42Yf9WRSaYn8Znp3X6XC-2SFmEk` tabs **`美股市寬`** + **`美股行業`** (Sheets MCP preferred) — do **not** wait for an attached export.
+2. Date pick: prefer History/Summary **Date = US session D**. If only Asia stamp exists, fall back to D+1 lock and disclose.
+3. Capture: sample, Up4, Down4, SMA20/50, MLI n / % / 升%, pool, leader%, **動力股佔比%**, **SPY ATR / QQQ ATR / S&P 500**, Sector Top3, Industry Top5, **IndustryGroup** rows with |z|>1.96 (lift, z, ΔLift(21), pace) — 2–3 strong + 2–3 weak, vs prior session row.
+4. Prefer History Date = US session D when available; else D+1 stamp lock and disclose.
+5. Write `/workspace/regime-output/YYYY-MM-DD/us-market-monitor.json` (`data_gap: false` on success; include atr_spy, atr_qqq, momentum_pct, industry_group_sig).
+6. Non-scoring ADDITIONAL Observation only — never into Pillar A/B/TOTAL; never invent from Stockbee.
+7. If Drive/Sheets fails after one retry → `data_gap: true` (does **not** trip main Regime DATA GATE).
 
-Playbook: `/workspace/refactored_market_awareness/docs/cup-market-monitor.md`.
+Playbook: `/workspace/refactored_market_awareness/docs/cup-market-monitor.md` (Market Master since 2026-10-22).
 **HK Monitor is NOT D+1.**
-
+**Retired primary (do not pull):** `1XqUuQ4Q0cj1BwORSLeUbRi6c1zjHMUt6cghy9N1BdYk` · `1NMWO4-bmO8clwceamTGXZjG7rSYpljoz2jCupTk-zCQ`.

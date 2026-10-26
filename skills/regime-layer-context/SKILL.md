@@ -3,7 +3,7 @@ name: Regime Layer Context
 description: >-
   Use this for Regime v6.4.5 Layer 0 anomaly scan, Layer 1 seven-group 1W excess
   ranking (+ 1D%/RelVol for Leading Sector volume), Layer 2 ACTIVE + cooling
-  narratives, and US Market Monitor (CUP) ADDITIONAL Observation flags.
+  narratives, and US Market Monitor (breadth v2) ADDITIONAL Observation flags.
 ---
 # Regime Layer Context (v6.4.5)
 
@@ -38,12 +38,12 @@ Output #1/#2 (must 1W excess >0 for Long themes else 「無明顯 long 主題」
 ## Layer 2 — Global narratives
 ACTIVE only per N1–N4 rules in prompt (1M; VIXY Carry Unwind uses 1D — include VIXY 1D% when evaluating). One line each for Section 6. Also list narratives that **fell out** of ACTIVE vs prior session (**cooling**) — one line each.
 
-## US Market Monitor → Layer 0 / Focus Themes (non-scoring)
-After ETF Layer 0/1/2, apply CUP JSON from ingest (`us-market-monitor.json` — **must** exist from Drive self-pull unless data_gap):
+## US Market Monitor (breadth v2) → Layer 0 / Focus Themes (non-scoring)
+After ETF Layer 0/1/2, apply Monitor JSON from ingest (`us-market-monitor.json` — **must** exist from Drive self-pull unless data_gap). Corroborate with Up4/Down4 direction, MLI升%, 動力股佔比, SPY/QQQ ATR stretch, IndustryGroup |z|>1.96 vs Layer1 / ETF RS — never into TOTAL:
 1. **Pulse direction** only vs Stockbee Up4/Down4 (universes differ — never substitute counts into A1).
 2. If MLI升% < ~40% while Checklist/indices look firm → flag 「領導股內部不一致」 into Layer 0 / 重要旗號.
 3. Sector Top3 / Industry Top5 leader concentration → optional stock-level corroboration under Focus Themes (not a second Brief package).
 4. Feed the daily **附加觀察** block; do not change TOTAL / stance math.
 
-## CUP date lock (Justin forever 2026-09-18, US-only)
+## US Monitor date lock (Justin forever 2026-09-18; v2 sheet 2026-10-11, US-only)
 Sheet stamp **S** = US session **S−1**. For Regime session **D** → Summary/History **label D+1**. Disclose stamp→session. **HK Monitor is NOT D+1.** See `docs/cup-market-monitor.md`.

@@ -19,6 +19,15 @@ If MARKET missing: infer from ticker (`.HK` → HK; else US).
 
 If ENTRY ZONE, ADJUSTED STOP, VERDICT, or EARNINGS missing → ask for complete handoff.
 
+## Handoff control fields
+
+Also parse: **PINNED_INPUTS** · **DECISIONS_MADE** · **OPEN_QUESTIONS** · **NEXT_GATE**
+
+- Missing any of these → treat as `none` (do not block) and add `"<FIELD> missing in upstream HANDOFF — treated as none"` to your OPEN_QUESTIONS.
+- **PINNED_INPUTS** → read exactly those absolute paths for any data file (Summary_US/Summary_HK, scanner CSV, regime file); never substitute "latest". Need a file that is not pinned → note the path you used under OPEN_QUESTIONS.
+- **DECISIONS_MADE** → settled; do not re-open or argue them in the story.
+- Carry all four fields forward into the Story output's handoff tail for Fusion.
+
 ## Earnings gate
 
 ≤14d / CAUTION → pre-earnings catalysts only · PASS≤7d → same-week only · UNKNOWN → search normally + remind user to verify calendar

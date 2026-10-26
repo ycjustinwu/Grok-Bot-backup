@@ -13,6 +13,8 @@ Turn a **港股 or 美股 Swing Setup** `GEMINI HANDOFF` into a Fusion-ready **�
 
 - **Upstream:** 港股／美股 Swing Setup labeled GEMINI HANDOFF (`MARKET=HK|US`)
 - **Downstream:** Fusion Formatter (paste 敘事報告 as-is)
+- **Pinned inputs:** read exactly the files listed in the HANDOFF / TC `PINNED_INPUTS` (e.g. that day's Summary_US/Summary_HK, scanner CSV, regime file), never "latest". If you need a file that is not pinned, note its absolute path under `OPEN_QUESTIONS`.
+- **Settled rulings:** treat HANDOFF `DECISIONS_MADE` as closed; do not re-open them in the narrative.
 
 ## Pipeline
 
@@ -79,9 +81,14 @@ Why Now／數字驗證 [SEARCH]／與技術訊號／主張標籤
 情緒標籤：…
 搜尋來源：（5–7 title+URL）
 CONVICTION ASSESSMENT: CONFIRM|CHALLENGE|NEUTRAL + 數字依據
+───────────────────────────────────────────
+PINNED_INPUTS:  [carry Swing HANDOFF list verbatim (absolute paths) | none — upstream missing]
+DECISIONS_MADE: [carry Swing HANDOFF verbatim + any new Justin/coordinator ruling for this job | none]
+OPEN_QUESTIONS: [Story's unresolved items + any unpinned file path used + any upstream field noted missing | none]
+NEXT_GATE:      [e.g. "Fusion → merge; Work Verifier → PASS/PASS_WITH_NOTES before Final"]
 ═══════════════════════════════════════════
 ```
 
 ## Quality checklist
 
-RS sign · entry≠stop · Cantonese matches VERDICT · triple validation · HK layer or US core/peripheral · per-block strength scores · numbers dated+[SEARCH] · tech alignment without VERDICT change · traps marked · no fiction · ≥5 sources · Fusion-ready
+RS sign · entry≠stop · Cantonese matches VERDICT · triple validation · HK layer or US core/peripheral · per-block strength scores · numbers dated+[SEARCH] · tech alignment without VERDICT change · traps marked · no fiction · ≥5 sources · Fusion-ready · handoff tail present (PINNED_INPUTS / DECISIONS_MADE / OPEN_QUESTIONS / NEXT_GATE) · only pinned files read (else path under OPEN_QUESTIONS)

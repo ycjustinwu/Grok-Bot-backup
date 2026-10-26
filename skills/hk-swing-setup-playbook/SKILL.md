@@ -103,5 +103,41 @@ Need: RS>15, Days≥4, 5%≤Ext≤15%, Dist_52W≥−5%, Vol_Exp≥1.5.
 | SR_Flip and not Slap_Back | +5 |
 | **Clamp 0–100 integer** | |
 
+
+**US RS quality (A+≤+5 B, Scanner-locked):** Priority_Score from CSV **already** includes quality boost ≤+5 (`RS_Line_Up`∧NH → +3; Weak_Day≥60 → +2; Highest_Vol_Edge only if Setup_Type tag contains `VCP_Breakout` or `Power_Play` → +2). `RSNHBP` never enters Priority. **Setup must NOT re-add these points** in checklist or override math. Base RS_Score buckets +10/+20/+30 above are unchanged.
+
 Stars: 80–100 ★5 · 60–79 ★4 · 40–59 ★3 · 20–39 ★2 · 0–19 ★1  
 If Scenario RR ≫ Close RR, note Pillar 4 understates pullback quality.
+
+## US RS enhance interpret (MARKET=US only)
+
+Gate: only when MARKET=US **and** CSV has (some of) the enhance columns. HK → skip entire section.
+
+### Soft checklist — never hard-gate
+
+Do **not** override TZ Freshness / structure stop / Earnings / Priority / paired RR hard gates with RS flags.
+
+| Column | Read as |
+|--------|---------|
+| `RS_Score` / `RS_1M` / `RS_3M` | Relative return vs SPY (not IBD 1–99). Mid-horizon strength; 1M≈0 = near-month cool, does not alone veto high 3M/Score |
+| `RS_Line` | Close/SPY_Close level |
+| `RS_Line_Slope` / `RS_Line_Chg_20` / `RS_Line_Up` | Slope = Chg/20. Prefer **`RS_Line_Up`** (= Chg_20 ≥ +1%) as “rising”; raw Slope>0 can be 1e-6 noise (HTFL smoke lesson) |
+| `RS_Line_NH` | RS line ≥ 63d max → leading line |
+| `RSNHBP` | RS_Line_NH **and** Close < 63d Close max → emerging; **STALK/WATCH bias only**; never alone → BUY |
+| `Weak_Day_RS_Pct` | % of last 20 SPY-down days stock beat SPY; ≥60 = quality; <50 = ordinary |
+| `Highest_Vol_Edge` | Today vol ≥ 0.95×252d max; useful with Breakout/VCP/Power_Play structure — alone ≠ entry |
+| `RS_Role` | Scanner label: `leader` / `candidate` / empty |
+
+### RS_Role → Setup bias
+
+- **`leader`** (Scanner: `RS_Score>20` and (`RS_Line_Up` or NH), not RSNHBP): treat RS as **confirmation**; still need TZ/structure/Fresh/Earnings/RR.
+- **`candidate`** (RSNHBP first, else `RS_Line_Up` and Weak_Day≥60): default bias **STALK/WATCH**; never alone trigger BUY.
+- **empty / missing column**: no role label; do not invent. Missing quality flags → TECHNICAL CONCERN note only; **do not alone** downgrade BUY→WATCH.
+
+### Leader vs candidate (pool language)
+
+- High Score + quality flags → **現任領導** (leader)
+- Mid Score / cool 1M but RSNHBP or Slope↑+弱市強 → **潛在領導 candidate** (prefer STALK)
+
+`RSI_14` = momentum only, never substitute for RS_*.
+
