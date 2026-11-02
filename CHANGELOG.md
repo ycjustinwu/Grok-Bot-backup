@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-11-02 Second brain backup
+- Refreshed `bots/second-brain/MEMORY.md` (native Relative_Strength `1D3Brz…`, W44 Soft Finals + weekend eval, crowding/fillable/can’t-miss gates). Prior MEMORY archived as `bots/second-brain/archive/2026-11-02.md`.
+- Refreshed `profile.md` / `agent-spec.md` from live agent profile+settings.
+- Copied live skills: `skills/us-second-brain-3-picks/`, `skills/us-second-brain-notion-sync/`, `skills/us-swing-session-overview/`.
+- Workspace dump mirrored: `/workspace/d354ccee-dcf7-4655-bbde-016bc5db7654-memory-backup.md`.
+- Secret scan: placeholders only (`[REDACTED:TYPESAFE_API_KEY]`). Left unrelated dirty `skills/us-etf-theme-scan/SKILL.md` unstaged.
+- Tag: `backup-second-brain-2026-11-02`.
+
 ## 2026-10-26 full fleet bot backup
 - Ingested MEMORY.md for all **40** registry bots (纳入=是). Prior MEMORY archived under `bots/<slug>/archive/2026-10-26.md`.
 - Disk-stub dumps (SendToAgent unreachable): `stop`, `us-rs-sharpen` (profile/settings only).
