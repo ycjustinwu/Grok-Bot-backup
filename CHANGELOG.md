@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-06 named incremental backup (`2026-11-06T115532+0800`)
+
+- Bots named: `memory-manager` (no fleet fan-out).
+- `memory-manager` v1: md5 `4b64dbedbd170139c8808615e732bdc8` (56 lines); was `acd1e0ea4458b36310eca1d1a78acfe4`; archive `bots/memory-manager/archive/2026-11-06T115532.md`; VERSIONS.md updated.
+- Git tag: `backup-memory-manager-2026-11-06`.
+- Run log: `meta/backup-runs/2026-11-06T115532+0800.md`.
+
 ## 2026-11-02 Second brain backup
 - Refreshed `bots/second-brain/MEMORY.md` (native Relative_Strength `1D3Brz…`, W44 Soft Finals + weekend eval, crowding/fillable/can’t-miss gates). Prior MEMORY archived as `bots/second-brain/archive/2026-11-02.md`.
 - Refreshed `profile.md` / `agent-spec.md` from live agent profile+settings.
