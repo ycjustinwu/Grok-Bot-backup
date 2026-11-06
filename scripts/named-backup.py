@@ -1,22 +1,21 @@
 #!/usr/bin/env python3
 """Incremental named-bot backup helper for memory-manager.
 
-Cost rule: never fan-out the fleet. Justin (or 记忆管家) names bots;
-this script only touches those rows + optional local skills sync.
+Cost rule: never fan-out the fleet. Justin names bots; only those + optional
+local skills sync are touched.
+
+Versioning / file management:
+  - bots/<slug>/MEMORY.md          current snapshot (whole-file replace)
+  - bots/<slug>/archive/<stamp>.md prior versions (never overwritten)
+  - bots/<slug>/VERSIONS.md        append-only version index (md5, lines, stamp)
+  - meta/backup-runs/<run-id>.md   per-run log
+  - CHANGELOG.md                   human summary (newest first)
+  - optional git tag backup-named-<run-id> or backup-<slug>-<date>
 
 Typical flow:
-  1) python3 scripts/named-backup.py --bots second-brain --request
-     → 记忆管家 SendToAgent each target the printed dump brief
-  2) after dumps land under /workspace/<uuid>-memory-backup.md:
-     python3 scripts/named-backup.py --bots second-brain --ingest --profiles --skip-unchanged --commit --push
-  3) optional skills (local only, no SendToAgent):
-     python3 scripts/named-backup.py --skills --commit --push
-
-Exit codes:
-  0 ok
-  1 usage / unknown bot / secret scan fail
-  2 named bots still waiting on dumps (ingest)
-  3 git/push failure
+  python3 scripts/named-backup.py --bots second-brain --request
+  python3 scripts/named-backup.py --bots second-brain --ingest --profiles --tag --commit --push
+  python3 scripts/named-backup.py --skills --commit --push
 """
 from __future__ import annotations
 
@@ -36,9 +35,10 @@ ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = ROOT / "registry.md"
 BOTS_DIR = ROOT / "bots"
 SKILLS_DIR = ROOT / "skills"
+RUNS_DIR = ROOT / "meta" / "backup-runs"
 WORKFLOWS = Path("/home/box/agent-data/workflows")
 AGENTS = Path("/home/box/agent-data/agents")
-DUMP_GLOB = Path("/workspace")
+DUMP_ROOT = Path("/workspace")
 HKT = ZoneInfo("Asia/Hong_Kong")
 
 SECRET_RE = re.compile(
@@ -55,8 +55,16 @@ ROW_RE = re.compile(
 )
 
 
+def now_hkt() -> datetime:
+    return datetime.now(HKT)
+
+
 def today_hkt() -> str:
-    return datetime.now(HKT).strftime("%Y-%m-%d")
+    return now_hkt().strftime("%Y-%m-%d")
+
+
+def run_id() -> str:
+    return now_hkt().strftime("%Y-%m-%dT%H%M%S%z")
 
 
 def load_registry() -> list[dict]:
@@ -78,20 +86,19 @@ def resolve_bots(selectors: list[str], rows: list[dict]) -> list[dict]:
     by_id = {r["id"]: r for r in rows}
     by_name = {r["name"].casefold(): r for r in rows}
     out: list[dict] = []
-    seen = set()
-    unknown = []
+    seen: set[str] = set()
+    unknown: list[str] = []
     for raw in selectors:
         key = raw.strip()
         if not key:
             continue
-        hit = (
-            by_slug.get(key)
-            or by_id.get(key)
-            or by_name.get(key.casefold())
-        )
+        hit = by_slug.get(key) or by_id.get(key) or by_name.get(key.casefold())
         if not hit:
-            # partial name contains
-            cands = [r for r in rows if key.casefold() in r["name"].casefold() or key.casefold() in r["slug"]]
+            cands = [
+                r
+                for r in rows
+                if key.casefold() in r["name"].casefold() or key.casefold() in r["slug"]
+            ]
             if len(cands) == 1:
                 hit = cands[0]
             else:
@@ -116,17 +123,20 @@ def md5_file(path: Path) -> str:
     return h.hexdigest()
 
 
+def line_count(path: Path) -> int:
+    return sum(1 for _ in path.open("r", encoding="utf-8", errors="replace"))
+
+
 def secret_scan(path: Path) -> list[str]:
     text = path.read_text(encoding="utf-8", errors="replace")
     hits = []
     for i, line in enumerate(text.splitlines(), 1):
         if "[REDACTED:" in line:
-            # still flag if an obvious live token sits beside placeholder
             if re.search(r"sk-[A-Za-z0-9]{16,}|ghp_[A-Za-z0-9]{20,}", line):
                 hits.append(f"{path}:{i}: suspicious token beside redaction")
             continue
         if SECRET_RE.search(line) and re.search(
-            r"(?i)(sk-|ghp_|xox[baprs]-|['\"][A-Za-z0-9_\-]{24,}['\"]|=\\s*[^\\s\\[]{16,})",
+            r"(?i)(sk-|ghp_|xox[baprs]-|['\"][A-Za-z0-9_\-]{24,}['\"]|\=\s*[^\s\[]{16,})",
             line,
         ):
             hits.append(f"{path}:{i}: {line.strip()[:120]}")
@@ -134,7 +144,7 @@ def secret_scan(path: Path) -> list[str]:
 
 
 def dump_path(bot_id: str) -> Path:
-    return DUMP_GLOB / f"{bot_id}-memory-backup.md"
+    return DUMP_ROOT / f"{bot_id}-memory-backup.md"
 
 
 def print_list(rows: list[dict]) -> None:
@@ -182,6 +192,7 @@ def refresh_profile(bot: dict, dry: bool) -> list[str]:
 
     profile_md = dest / "profile.md"
     agent_spec = dest / "agent-spec.md"
+    ts = now_hkt().isoformat()
     body_profile = (
         f"# {bot['name']} — profile\n\n"
         f"- slug: `{bot['slug']}`\n"
@@ -189,7 +200,7 @@ def refresh_profile(bot: dict, dry: bool) -> list[str]:
         f"- name: {profile.get('name', bot['name'])}\n"
         f"- title: {profile.get('title', '')}\n"
         f"- description: {profile.get('description', '')}\n"
-        f"- refreshed: {datetime.now(HKT).isoformat()}\n"
+        f"- refreshed: {ts}\n"
     )
     body_spec = (
         f"# {bot['name']} — agent-spec\n\n"
@@ -199,7 +210,7 @@ def refresh_profile(bot: dict, dry: bool) -> list[str]:
         f"- notes: {bot['notes']}\n"
         f"- settings_keys: {', '.join(sorted(settings.keys())) if settings else '(none)'}\n"
         f"- source: `{profile_src}`\n"
-        f"- refreshed: {datetime.now(HKT).isoformat()}\n"
+        f"- refreshed: {ts}\n"
     )
 
     for path, body in ((profile_md, body_profile), (agent_spec, body_spec)):
@@ -213,65 +224,181 @@ def refresh_profile(bot: dict, dry: bool) -> list[str]:
     return changed
 
 
-def ingest_bot(bot: dict, date: str, skip_unchanged: bool, dry: bool) -> str:
-    """Return status: ingested|unchanged|missing|secret_fail"""
+def ensure_versions_header(path: Path, bot: dict) -> None:
+    if path.exists():
+        return
+    path.write_text(
+        (
+            f"# Versions — {bot['name']} (`{bot['slug']}`)\n\n"
+            f"Agent id: `{bot['id']}`\n\n"
+            f"| version | stamped (HKT) | md5 | lines | archive path | notes |\n"
+            f"|---------|---------------|-----|-------|--------------|-------|\n"
+        ),
+        encoding="utf-8",
+    )
+
+
+def next_version_number(versions_path: Path) -> int:
+    if not versions_path.exists():
+        return 1
+    n = 0
+    for line in versions_path.read_text(encoding="utf-8").splitlines():
+        if line.startswith("| v") or re.match(r"^\|\s*\d+\s*\|", line):
+            n += 1
+        elif re.match(r"^\|\s*v?\d+", line):
+            n += 1
+    # count data rows only (skip header/separator)
+    data = [
+        ln
+        for ln in versions_path.read_text(encoding="utf-8").splitlines()
+        if ln.startswith("|") and not ln.startswith("| version") and not ln.startswith("|---")
+    ]
+    return len(data) + 1
+
+
+def append_version_row(
+    bot: dict,
+    *,
+    stamp: str,
+    md5: str,
+    lines: int,
+    archive_rel: str | None,
+    notes: str,
+    dry: bool,
+) -> str:
+    dest_dir = BOTS_DIR / bot["slug"]
+    versions = dest_dir / "VERSIONS.md"
+    if dry:
+        ver = "v?"
+        print(f"DRY versions row {bot['slug']}: {stamp} md5={md5} lines={lines}")
+        return ver
+    ensure_versions_header(versions, bot)
+    ver_n = next_version_number(versions)
+    ver = f"v{ver_n}"
+    arch = archive_rel or "—(current first write)"
+    row = f"| {ver} | {stamp} | `{md5}` | {lines} | `{arch}` | {notes} |\n"
+    with versions.open("a", encoding="utf-8") as f:
+        f.write(row)
+    print(f"versions {bot['slug']}: {ver} → {versions.relative_to(ROOT)}")
+    return ver
+
+
+def ingest_bot(bot: dict, stamp_date: str, skip_unchanged: bool, dry: bool) -> dict:
+    """Return result dict: status, md5, lines, archive, version."""
     src = dump_path(bot["id"])
     dest_dir = BOTS_DIR / bot["slug"]
     dest_dir.mkdir(parents=True, exist_ok=True)
-    (dest_dir / "archive").mkdir(exist_ok=True)
+    archive_dir = dest_dir / "archive"
+    archive_dir.mkdir(exist_ok=True)
     dest = dest_dir / "MEMORY.md"
 
     if not src.exists():
         print(f"WAIT {bot['slug']}: missing dump {src}")
-        return "missing"
+        return {"status": "missing"}
 
     hits = secret_scan(src)
     if hits:
         print(f"SECRET FAIL {bot['slug']}:")
         for h in hits[:20]:
             print(" ", h)
-        return "secret_fail"
+        return {"status": "secret_fail"}
 
     new_hash = md5_file(src)
+    new_lines = line_count(src)
     if skip_unchanged and dest.exists() and md5_file(dest) == new_hash:
         print(f"SKIP {bot['slug']}: md5 {new_hash} matches MEMORY.md")
-        return "unchanged"
+        return {
+            "status": "unchanged",
+            "md5": new_hash,
+            "lines": new_lines,
+        }
 
-    archive = dest_dir / "archive" / f"{date}.md"
+    stamp = now_hkt().strftime("%Y-%m-%dT%H%M%S")
+    archive_rel = None
+    prev_hash = md5_file(dest) if dest.exists() else None
+    prev_lines = line_count(dest) if dest.exists() else None
+
     if dest.exists():
-        print(f"{'DRY ' if dry else ''}archive {dest.relative_to(ROOT)} → {archive.relative_to(ROOT)}")
+        # unique stamp — never overwrite an archive slot
+        candidate = archive_dir / f"{stamp}.md"
+        archive_rel = str(candidate.relative_to(ROOT))
+        print(f"{'DRY ' if dry else ''}archive {dest.relative_to(ROOT)} → {archive_rel}")
         if not dry:
-            if archive.exists():
-                # keep prior archive; stamp collision with time
-                archive = dest_dir / "archive" / f"{date}-{datetime.now(HKT).strftime('%H%M%S')}.md"
-            shutil.copy2(dest, archive)
+            shutil.copy2(dest, candidate)
+            # also record previous version row if VERSIONS missing history for current
+            # (current becomes archived; new current logged below)
 
-    print(f"{'DRY ' if dry else ''}ingest {src.name} → {dest.relative_to(ROOT)} (md5 {new_hash})")
+    print(
+        f"{'DRY ' if dry else ''}ingest {src.name} → {dest.relative_to(ROOT)} "
+        f"(md5 {new_hash}, {new_lines} lines)"
+    )
     if not dry:
         shutil.copy2(src, dest)
-    return "ingested"
+
+    note = "named ingest"
+    if prev_hash:
+        note = f"named ingest; previous md5 `{prev_hash}` ({prev_lines} lines)"
+    ver = append_version_row(
+        bot,
+        stamp=stamp,
+        md5=new_hash,
+        lines=new_lines,
+        archive_rel=archive_rel,
+        notes=note,
+        dry=dry,
+    )
+    return {
+        "status": "ingested",
+        "md5": new_hash,
+        "lines": new_lines,
+        "archive": archive_rel,
+        "version": ver,
+        "prev_md5": prev_hash,
+    }
 
 
-def sync_skills(dry: bool) -> list[str]:
-    """Copy only workflow folders whose tree hash differs. Skip no-SKILL.md."""
+def tree_hash(root: Path) -> str:
+    h = hashlib.md5()
+    if not root.exists():
+        return ""
+    files = []
+    for dirpath, dirnames, filenames in os.walk(root):
+        dirnames[:] = [
+            d for d in dirnames if d not in {"__pycache__", "node_modules", ".git", ".cache"}
+        ]
+        for name in filenames:
+            if name.endswith(".pyc"):
+                continue
+            files.append(Path(dirpath) / name)
+    for path in sorted(files, key=lambda p: str(p.relative_to(root))):
+        rel = str(path.relative_to(root)).encode()
+        h.update(rel)
+        h.update(b"\0")
+        with path.open("rb") as f:
+            for chunk in iter(lambda: f.read(65536), b""):
+                h.update(chunk)
+        h.update(b"\0")
+    return h.hexdigest()
+
+
+def sync_skills(dry: bool) -> list[dict]:
     if not WORKFLOWS.is_dir():
         print("No workflows dir", file=sys.stderr)
         return []
 
-    changed: list[str] = []
+    changed: list[dict] = []
     index_lines = [
         "# User-created skills index",
-        f"",
-        f"Generated: {datetime.now(HKT).isoformat()} (Asia/Hong_Kong)",
+        "",
+        f"Generated: {now_hkt().isoformat()} (Asia/Hong_Kong)",
         f"Source: `{WORKFLOWS}`",
-        f"",
+        "",
         "| slug | has SKILL.md | notes |",
         "|------|--------------|-------|",
     ]
     used = []
     for folder in sorted(p for p in WORKFLOWS.iterdir() if p.is_dir()):
-        skill_md = folder / "SKILL.md"
-        if not skill_md.exists():
+        if not (folder / "SKILL.md").exists():
             print(f"skip skill (no SKILL.md): {folder.name}")
             continue
         used.append(folder.name)
@@ -292,12 +419,13 @@ def sync_skills(dry: bool) -> list[str]:
                         "__pycache__", "node_modules", ".git", ".cache", "*.pyc"
                     ),
                 )
-            changed.append(f"skills/{folder.name}")
+            changed.append(
+                {"slug": folder.name, "note": note, "md5": src_hash, "path": f"skills/{folder.name}"}
+            )
         index_lines.append(f"| {folder.name} | yes | {note} |")
 
-    index_lines.append("")
-    index_lines.append(f"Count: {len(used)}")
-    index_body = "\n".join(index_lines) + "\n"
+    index_lines += ["", f"Count: {len(used)}", ""]
+    index_body = "\n".join(index_lines)
     index_path = SKILLS_DIR / "INDEX.md"
     old = index_path.read_text(encoding="utf-8") if index_path.exists() else None
     if old != index_body:
@@ -305,62 +433,112 @@ def sync_skills(dry: bool) -> list[str]:
         if not dry:
             SKILLS_DIR.mkdir(exist_ok=True)
             index_path.write_text(index_body, encoding="utf-8")
-        changed.append("skills/INDEX.md")
+        changed.append({"slug": "INDEX.md", "note": "index", "md5": "", "path": "skills/INDEX.md"})
     return changed
 
 
-def tree_hash(root: Path) -> str:
-    h = hashlib.md5()
-    if not root.exists():
-        return ""
-    files = []
-    for dirpath, dirnames, filenames in os.walk(root):
-        dirnames[:] = [
-            d
-            for d in dirnames
-            if d not in {"__pycache__", "node_modules", ".git", ".cache"}
+def write_run_log(
+    rid: str,
+    bots: list[dict],
+    ingest_results: dict[str, dict],
+    skills_changed: list[dict],
+    profile_paths: list[str],
+    dry: bool,
+) -> str | None:
+    if dry:
+        print(f"DRY run log meta/backup-runs/{rid}.md")
+        return f"meta/backup-runs/{rid}.md"
+    RUNS_DIR.mkdir(parents=True, exist_ok=True)
+    path = RUNS_DIR / f"{rid}.md"
+    lines = [
+        f"# Backup run `{rid}`",
+        "",
+        f"- Mode: named incremental (no fleet fan-out)",
+        f"- Timezone: Asia/Hong_Kong",
+        f"- Operator: 记忆管家",
+        "",
+        "## Bots",
+        "",
+    ]
+    if not bots:
+        lines.append("(none)")
+    else:
+        lines += [
+            "| slug | status | version | md5 | lines | archive |",
+            "|------|--------|---------|-----|-------|---------|",
         ]
-        for name in filenames:
-            if name.endswith(".pyc"):
-                continue
-            files.append(Path(dirpath) / name)
-    for path in sorted(files, key=lambda p: str(p.relative_to(root))):
-        rel = str(path.relative_to(root)).encode()
-        h.update(rel)
-        h.update(b"\0")
-        with path.open("rb") as f:
-            for chunk in iter(lambda: f.read(65536), b""):
-                h.update(chunk)
-        h.update(b"\0")
-    return h.hexdigest()
+        for b in bots:
+            r = ingest_results.get(b["slug"], {})
+            lines.append(
+                f"| `{b['slug']}` | {r.get('status', '—')} | {r.get('version', '—')} | "
+                f"`{r.get('md5', '—')}` | {r.get('lines', '—')} | `{r.get('archive', '—')}` |"
+            )
+    lines += ["", "## Profiles refreshed", ""]
+    if profile_paths:
+        lines += [f"- `{p}`" for p in profile_paths]
+    else:
+        lines.append("(none)")
+    lines += ["", "## Skills", ""]
+    if skills_changed:
+        for s in skills_changed:
+            lines.append(f"- `{s['path']}` — {s['note']}" + (f" md5 `{s['md5']}`" if s.get("md5") else ""))
+    else:
+        lines.append("(none)")
+    lines.append("")
+    path.write_text("\n".join(lines), encoding="utf-8")
+    print(f"run log → {path.relative_to(ROOT)}")
+    return str(path.relative_to(ROOT))
 
 
-def append_changelog(bots: list[dict], skills_changed: list[str], dry: bool) -> None:
+def append_changelog(
+    rid: str,
+    bots: list[dict],
+    ingest_results: dict[str, dict],
+    skills_changed: list[dict],
+    tag_name: str | None,
+    dry: bool,
+) -> None:
     date = today_hkt()
-    lines = [f"## {date} named incremental backup", ""]
+    lines = [f"## {date} named incremental backup (`{rid}`)", ""]
+    ingested = [b for b in bots if ingest_results.get(b["slug"], {}).get("status") == "ingested"]
+    skipped = [b for b in bots if ingest_results.get(b["slug"], {}).get("status") == "unchanged"]
+    waiting = [b for b in bots if ingest_results.get(b["slug"], {}).get("status") == "missing"]
     if bots:
         lines.append(
-            "- Bots: " + ", ".join(f"`{b['slug']}`" for b in bots) + " (named only; no fleet fan-out)."
+            "- Bots named: " + ", ".join(f"`{b['slug']}`" for b in bots) + " (no fleet fan-out)."
         )
+    for b in ingested:
+        r = ingest_results[b["slug"]]
+        prev = r.get("prev_md5")
+        prev_s = f"; was `{prev}`" if prev else ""
+        lines.append(
+            f"- `{b['slug']}` {r.get('version')}: md5 `{r.get('md5')}` ({r.get('lines')} lines)"
+            f"{prev_s}; archive `{r.get('archive')}`; VERSIONS.md updated."
+        )
+    if skipped:
+        lines.append("- Unchanged (md5 match, skipped): " + ", ".join(f"`{b['slug']}`" for b in skipped) + ".")
+    if waiting:
+        lines.append("- Still waiting on dump: " + ", ".join(f"`{b['slug']}`" for b in waiting) + ".")
     if skills_changed:
+        sk = [s for s in skills_changed if s["slug"] != "INDEX.md"]
         lines.append(
             "- Skills touched: "
-            + ", ".join(f"`{s}`" for s in skills_changed[:30])
-            + ("…" if len(skills_changed) > 30 else "")
+            + ", ".join(f"`{s['slug']}` ({s['note']})" for s in sk[:40])
+            + ("…" if len(sk) > 40 else "")
+            + "."
         )
-    if not bots and not skills_changed:
-        return
-    lines.append("- Mode: named / incremental (cost gate).")
+    if tag_name:
+        lines.append(f"- Git tag: `{tag_name}`.")
+    lines.append(f"- Run log: `meta/backup-runs/{rid}.md`.")
     lines.append("")
     block = "\n".join(lines) + "\n"
     path = ROOT / "CHANGELOG.md"
     old = path.read_text(encoding="utf-8") if path.exists() else "# Changelog\n\n"
-    if block.strip() in old:
+    if f"(`{rid}`)" in old:
         return
-    # insert after title
     if old.startswith("# Changelog"):
-        parts = old.split("\n", 2)
-        new = parts[0] + "\n\n" + block + (parts[2] if len(parts) > 2 else "")
+        rest = old.split("\n", 1)[1].lstrip("\n")
+        new = "# Changelog\n\n" + block + rest
     else:
         new = block + old
     print(f"{'DRY ' if dry else ''}update CHANGELOG.md")
@@ -368,20 +546,29 @@ def append_changelog(bots: list[dict], skills_changed: list[str], dry: bool) -> 
         path.write_text(new, encoding="utf-8")
 
 
-def git_commit_push(paths: list[str], message: str, do_push: bool, dry: bool) -> None:
+def git_commit_push(
+    paths: list[str],
+    message: str,
+    do_push: bool,
+    tag_name: str | None,
+    dry: bool,
+) -> str | None:
     if dry:
         print(f"DRY commit: {message}")
         print("DRY paths:", ", ".join(paths) or "(none)")
-        return
-    if not paths:
-        print("Nothing to commit.")
-        return
+        if tag_name:
+            print(f"DRY tag: {tag_name}")
+        return None
+
     def run(cmd: list[str]) -> None:
         print("+", " ".join(cmd))
         subprocess.check_call(cmd, cwd=ROOT)
 
+    if not paths:
+        print("Nothing to commit.")
+        return None
+
     run(["git", "add", "--"] + paths)
-    # also changelog if updated
     if (ROOT / "CHANGELOG.md").exists():
         run(["git", "add", "CHANGELOG.md"])
     staged = subprocess.check_output(
@@ -389,7 +576,7 @@ def git_commit_push(paths: list[str], message: str, do_push: bool, dry: bool) ->
     ).strip()
     if not staged:
         print("Nothing staged after add.")
-        return
+        return None
     run(
         [
             "git",
@@ -402,8 +589,10 @@ def git_commit_push(paths: list[str], message: str, do_push: bool, dry: bool) ->
             message,
         ]
     )
+    head = subprocess.check_output(["git", "rev-parse", "--short", "HEAD"], cwd=ROOT, text=True).strip()
+    if tag_name:
+        run(["git", "tag", "-f", tag_name, "HEAD"])
     if do_push:
-        # one-shot gh helper; no global config change
         run(
             [
                 "git",
@@ -414,48 +603,39 @@ def git_commit_push(paths: list[str], message: str, do_push: bool, dry: bool) ->
                 "HEAD",
             ]
         )
+        if tag_name:
+            run(
+                [
+                    "git",
+                    "-c",
+                    "credential.helper=!/usr/local/bin/gh auth git-credential",
+                    "push",
+                    "origin",
+                    tag_name,
+                    "--force",
+                ]
+            )
+    return head
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser(
-        description="Named-bot incremental backup (no fleet fan-out)."
-    )
+    ap = argparse.ArgumentParser(description="Named-bot incremental backup (no fleet fan-out).")
+    ap.add_argument("--bots", nargs="+", default=[], help="slug / name / uuid")
+    ap.add_argument("--list", action="store_true")
+    ap.add_argument("--request", action="store_true")
+    ap.add_argument("--ingest", action="store_true")
+    ap.add_argument("--profiles", action="store_true")
+    ap.add_argument("--skills", action="store_true")
+    ap.add_argument("--force", action="store_true", help="Ingest even when md5 matches")
+    ap.add_argument("--date", default=None, help="Archive date stamp YYYY-MM-DD (default today HKT)")
     ap.add_argument(
-        "--bots",
-        nargs="+",
-        default=[],
-        help="Bot selectors: slug, exact name, or uuid. Required unless --skills/--list only.",
-    )
-    ap.add_argument("--list", action="store_true", help="List registry and exit.")
-    ap.add_argument(
-        "--request",
+        "--tag",
         action="store_true",
-        help="Print SendToAgent dump request text for named bots.",
+        help="Create git tag backup-named-<run-id> (or backup-<slug>-<date> if exactly one bot ingested)",
     )
-    ap.add_argument(
-        "--ingest",
-        action="store_true",
-        help="Ingest /workspace/<id>-memory-backup.md for named bots.",
-    )
-    ap.add_argument(
-        "--profiles",
-        action="store_true",
-        help="Refresh profile.md / agent-spec.md from disk for named bots.",
-    )
-    ap.add_argument(
-        "--skills",
-        action="store_true",
-        help="Local incremental skills sync (hash compare). No SendToAgent.",
-    )
-    ap.add_argument(
-        "--force",
-        action="store_true",
-        help="Ingest even when dump md5 already matches MEMORY.md (default: skip unchanged).",
-    )
-    ap.add_argument("--date", default=None, help="Archive stamp YYYY-MM-DD (default today HKT).")
-    ap.add_argument("--commit", action="store_true", help="git commit changed paths.")
-    ap.add_argument("--push", action="store_true", help="git push after commit.")
-    ap.add_argument("--dry-run", action="store_true", help="Print actions only.")
+    ap.add_argument("--commit", action="store_true")
+    ap.add_argument("--push", action="store_true")
+    ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
 
     rows = load_registry()
@@ -464,18 +644,15 @@ def main() -> None:
         return
 
     skip_unchanged = not args.force
-    date = args.date or today_hkt()
+    stamp_date = args.date or today_hkt()
     dry = args.dry_run
+    rid = run_id()
     bots: list[dict] = []
     if args.bots:
         bots = resolve_bots(args.bots, rows)
         not_in = [b for b in bots if b["opt_in"] != "是"]
         if not_in:
-            print(
-                "Refusing bots with 纳入≠是:",
-                ", ".join(b["slug"] for b in not_in),
-                file=sys.stderr,
-            )
+            print("Refusing bots with 纳入≠是:", ", ".join(b["slug"] for b in not_in), file=sys.stderr)
             sys.exit(1)
     elif not args.skills:
         ap.error("Name bots with --bots …, or pass --skills / --list.")
@@ -487,7 +664,6 @@ def main() -> None:
         return
 
     if not (args.ingest or args.profiles or args.skills or args.commit or args.push):
-        # default helpful plan
         print("Plan (no action). Named bots:" if bots else "Plan (skills-only possible).")
         for b in bots:
             src = dump_path(b["id"])
@@ -496,33 +672,36 @@ def main() -> None:
             same = ""
             if src.exists() and mem.exists() and md5_file(src) == md5_file(mem):
                 same = " (md5 already matches MEMORY.md)"
-            print(f"  - {b['slug']}: {status}{same} → {src}")
-        print(
-            "Next: --request  → SendToAgent; then --ingest --profiles --skip-unchanged --commit --push"
-        )
+            vers = BOTS_DIR / b["slug"] / "VERSIONS.md"
+            ver_note = f"; VERSIONS.md exists" if vers.exists() else ""
+            print(f"  - {b['slug']}: {status}{same}{ver_note} → {src}")
+        print("Next: --request → SendToAgent; then --ingest --profiles --tag --commit --push")
         print("Optional: --skills for local skill hash sync.")
         return
 
     changed_paths: list[str] = []
-    statuses: dict[str, str] = {}
+    ingest_results: dict[str, dict] = {}
+    profile_paths: list[str] = []
 
     if args.profiles:
         if not bots:
             ap.error("--profiles needs --bots")
         for b in bots:
-            changed_paths.extend(refresh_profile(b, dry))
+            profile_paths.extend(refresh_profile(b, dry))
+        changed_paths.extend(profile_paths)
 
     if args.ingest:
         if not bots:
             ap.error("--ingest needs --bots")
-        missing = 0
-        secret_fail = 0
+        missing = secret_fail = 0
         for b in bots:
-            st = ingest_bot(b, date, skip_unchanged, dry)
-            statuses[b["slug"]] = st
+            result = ingest_bot(b, stamp_date, skip_unchanged, dry)
+            ingest_results[b["slug"]] = result
+            st = result["status"]
             if st == "ingested":
                 changed_paths.append(f"bots/{b['slug']}/MEMORY.md")
                 changed_paths.append(f"bots/{b['slug']}/archive")
+                changed_paths.append(f"bots/{b['slug']}/VERSIONS.md")
             elif st == "missing":
                 missing += 1
             elif st == "secret_fail":
@@ -534,35 +713,55 @@ def main() -> None:
                 f"{missing} bot(s) still waiting on dumps — request them, then re-run --ingest.",
                 file=sys.stderr,
             )
-            # still allow partial commit of what we have unless all missing
             if missing == len(bots) and not args.profiles and not args.skills:
                 sys.exit(2)
 
-    skills_changed: list[str] = []
+    skills_changed: list[dict] = []
     if args.skills:
         skills_changed = sync_skills(dry)
-        changed_paths.extend(skills_changed)
+        changed_paths.extend(s["path"] for s in skills_changed)
 
-    if (args.ingest or args.skills or args.profiles) and (changed_paths or statuses):
-        append_changelog(bots if (args.ingest or args.profiles) else [], skills_changed, dry)
+    tag_name = None
+    ingested_slugs = [
+        s for s, r in ingest_results.items() if r.get("status") == "ingested"
+    ]
+    if args.tag and (ingested_slugs or skills_changed or profile_paths):
+        if len(ingested_slugs) == 1 and not skills_changed:
+            tag_name = f"backup-{ingested_slugs[0]}-{stamp_date}"
+        else:
+            tag_name = f"backup-named-{rid}"
 
+    run_path = None
+    if args.ingest or args.skills or args.profiles:
+        run_path = write_run_log(
+            rid, bots, ingest_results, skills_changed, profile_paths, dry
+        )
+        if run_path:
+            changed_paths.append(run_path)
+        append_changelog(rid, bots, ingest_results, skills_changed, tag_name, dry)
+
+    head = None
     if args.commit or args.push:
-        # unique preserve order
         uniq = list(dict.fromkeys(changed_paths))
-        # expand archive dirs to actual files via git add -A pathspecs we already listed
         msg_bots = ",".join(b["slug"] for b in bots) or "skills"
-        message = f"named incremental backup {date}: {msg_bots}"
+        message = f"named incremental backup {stamp_date}: {msg_bots} ({rid})"
         try:
-            git_commit_push(uniq, message, do_push=args.push, dry=dry)
+            head = git_commit_push(uniq, message, do_push=args.push, tag_name=tag_name, dry=dry)
         except subprocess.CalledProcessError as e:
             print(f"git failed: {e}", file=sys.stderr)
             sys.exit(3)
 
-    # summary
-    if statuses:
+    if ingest_results:
         print("Ingest summary:")
-        for slug, st in statuses.items():
-            print(f"  {slug}: {st}")
+        for slug, r in ingest_results.items():
+            extra = ""
+            if r.get("version"):
+                extra = f" {r['version']} md5={r.get('md5')}"
+            print(f"  {slug}: {r.get('status')}{extra}")
+    if tag_name:
+        print(f"Tag: {tag_name}" + (f" @ {head}" if head else ""))
+    if run_path:
+        print(f"Run log: {run_path}")
 
 
 if __name__ == "__main__":

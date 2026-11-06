@@ -22,21 +22,23 @@ Hard gate: do not claim DR is complete until a private Git remote is configured.
 
 Default is **not** fleet fan-out. Justin names bots; only those are requested/ingested.
 
+### Layout per bot
+
+- `bots/<slug>/MEMORY.md` — current snapshot (whole-file replace on ingest)
+- `bots/<slug>/archive/<YYYY-MM-DDTHHMMSS>.md` — prior versions (immutable)
+- `bots/<slug>/VERSIONS.md` — append-only index (`vN`, md5, lines, archive path)
+- `meta/backup-runs/<run-id>.md` — per-run log
+- `CHANGELOG.md` — newest-first human summary
+- optional git tag: `backup-<slug>-<date>` (one bot) or `backup-named-<run-id>`
+
+### Commands
+
 ```bash
-# list registry
 python3 scripts/named-backup.py --list
-
-# plan (no writes)
-python3 scripts/named-backup.py --bots second-brain x-monitor
-
-# print SendToAgent dump request text (记忆管家 sends; script never messages bots)
-python3 scripts/named-backup.py --bots second-brain --request
-
-# after dumps land at /workspace/<uuid>-memory-backup.md
-python3 scripts/named-backup.py --bots second-brain --ingest --profiles --commit --push
-
-# local skills only (hash compare; no SendToAgent)
-python3 scripts/named-backup.py --skills --commit --push
+python3 scripts/named-backup.py --bots second-brain x-monitor          # plan
+python3 scripts/named-backup.py --bots second-brain --request          # dump text for SendToAgent
+python3 scripts/named-backup.py --bots second-brain --ingest --profiles --tag --commit --push
+python3 scripts/named-backup.py --skills --commit --push               # local skills only
 ```
 
-Rules baked in: 纳入=是 only; skip ingest when dump md5 matches `MEMORY.md`; secrets must already be `[REDACTED:…]`; no full-fleet mode in this script.
+Rules: `纳入=是` only; skip when dump md5 matches `MEMORY.md`; secrets must be `[REDACTED:…]`; no full-fleet mode in this script.
