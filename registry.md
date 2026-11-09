@@ -27,6 +27,7 @@ Only rows with 纳入=是 are backed up. Edit this file (or ask 记忆管家) to
 | daily-helper | 日常小助手 | 553a3812-2d16-4787-879c-f8f05ba6182d | 是 | added 2026-10-03 |
 | article-analysis | 文章分析 | 51d50b94-d49a-4d13-8e97-70b57d3c1e31 | 是 | added 2026-10-26 |
 | career-coaching | Career Coaching | 5aae6707-93f1-4479-b780-4dae3f6d398a | 是 | added 2026-10-26 |
+| crypto-exec | Crypto Exec | e8f4a9ae-b0bc-46cc-8e9b-60ad28d08666 | 是 | added 2026-11-09 |
 | etf-rs-cross | ETF RS Cross | 34c85cc1-868e-46ea-ba46-c3d2f8f2a6f6 | 是 | added 2026-10-26 |
 | explainer-video | Explainer Video bot | 0a2466e9-2f18-4dc2-9a4c-f7f6c871eb54 | 是 | added 2026-10-26 |
 | family-growth | 家庭成長副手 | 4bc9800c-7656-45b3-97fd-b6a86988b4e8 | 是 | added 2026-10-26 |
@@ -43,7 +44,7 @@ Only rows with 纳入=是 are backed up. Edit this file (or ask 记忆管家) to
 | us-rs-sharpen | US RS sharpen vs Ross | 88d71c92-cbfb-4497-8556-7912b92fc8bc | 是 | added 2026-10-26 |
 | us-swing-sim | US swing 模擬倉 | 17a46819-623f-40fe-8430-338e05725381 | 是 | added 2026-10-26 |
 | x-monitor | X Monitor | d653bd45-95a0-44bc-a6a7-ec80041b8b83 | 是 | added 2026-10-26 |
-| youtube-analyzer-deep | YouTube Analyzer Deep | 5a056bd6-9373-4ff1-ab17-b1fa2a2d2e51 | 是 | added 2026-10-26 |
+| youtube-analyzer-deep | YouTube Analyzer Deep | 5a056bd6-9373-4ff1-ab17-b1fa2a2d2e51 | 是 | upgraded 2026-11-09 Cupsir PDF gold Format A + GFM 4a; id 5a056bd6… |
 
 Slack report channel: none (Justin has no Slack — report in Grok Bot chat only)
 Timezone: Asia/Hong_Kong

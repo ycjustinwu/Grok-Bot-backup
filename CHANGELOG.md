@@ -1,4 +1,22 @@
+## 2026-11-09 — YouTube Analyzer Deep **upgraded** (Cupsir PDF gold)
+
+- Skill `skills/youtube-analyzer-deep/SKILL.md` synced from live workflows (Format A Cupsir PDF gold 2026-11-09 + Notion GFM pipe table rule 4a).
+- Bot spec/profile refreshed; registry notes → `upgraded 2026-11-09 Cupsir PDF gold Format A + GFM 4a`.
+- MEMORY.md ingest v1 (216 lines, md5 `dbc8c7a93e985b247f0dfeffc54ecb00`) incl. Upgrade section; prior archived.
+- Tag: `backup-youtube-analyzer-deep-2026-11-09-upgraded`
+
 # Changelog
+
+## 2026-11-09 named incremental backup (`2026-11-09T161604+0800`)
+
+- Bots named: `youtube-analyzer-deep` (no fleet fan-out).
+- `youtube-analyzer-deep` v1: md5 `dbc8c7a93e985b247f0dfeffc54ecb00` (216 lines); was `ce5ab1feee8b1cff31a781acbf739a81`; archive `bots/youtube-analyzer-deep/archive/2026-11-09T161604.md`; VERSIONS.md updated.
+- Run log: `meta/backup-runs/2026-11-09T161604+0800.md`.
+
+## 2026-11-09 named incremental backup (`2026-11-09T152752+0800`)
+
+- Bots named: `memory-manager`, `zong-zhi-hui`, `work-verifier`, `hk-after-close`, `fusion-formatter`, `story-search`, `us-swing-setup`, `self-improver`, `us-swing-scanner`, `us-market-daily-brief`, `market-awareness`, `prompt-architect`, `hk-swing-scanner`, `quanfu`, `travel`, `hk-swing-setup`, `sweeper`, `dr-eggbot`, `x-brief`, `video-transcriber`, `daily-helper`, `article-analysis`, `career-coaching`, `crypto-exec`, `etf-rs-cross`, `explainer-video`, `family-growth`, `feature-re-spec`, `hotel-compare`, `html-motion-studio`, `market-master-apps-script`, `north-star`, `researchy`, `restaurant-booking`, `second-brain`, `stop`, `trade-journal`, `us-rs-sharpen`, `us-swing-sim`, `x-monitor`, `youtube-analyzer-deep` (no fleet fan-out).
+- Run log: `meta/backup-runs/2026-11-09T152752+0800.md`.
 
 ## 2026-11-06 named incremental backup (`2026-11-06T115532+0800`)
 
