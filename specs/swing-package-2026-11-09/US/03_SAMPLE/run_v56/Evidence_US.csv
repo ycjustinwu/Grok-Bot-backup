@@ -1,0 +1,331 @@
+Ticker,Block,Check,Status
+RVTY,LEADER,trend=Minervini,PASS
+RVTY,LEADER,RS=38.4>=10 (line up),PASS
+RVTY,LEADER,"liq: $297M/day, px $155.11",PASS
+RVTY,SETUP,"pullback setup B (Pullback Support): pullback 2.1ATR to support 152.94; decline 1.36xADR range, 1.19x volume",PASS
+RVTY,RISK,"risk=0.84xADR in [0.8,2.5]",PASS
+RVTY,RISK,room=2.74R to HIGH52W_PRIOR 171.74,PASS
+RVTY,RISK,earnings CLEAR,PASS
+RVTY,RISK,not extended,PASS
+RVTY,TRADEABLE,risk and room inside caps,PASS
+RVTY,CONFIRM,breakout volume NOT_APPL,PASS
+INTA,LEADER,trend=Minervini,PASS
+INTA,LEADER,RS=17.5>=10 (line up),PASS
+INTA,LEADER,"liq: $38M/day, px $43.72",PASS
+INTA,SETUP,"pullback setup B (Pullback Support): pullback 1.2ATR to support 43.51; decline 0.87xADR range, 0.89x volume",PASS
+INTA,RISK,risk=0.54xADR < 0.8 (stop inside noise),FAIL
+INTA,RISK,room=0.60R < 1.0 (BEAR_FVG 44.55),FAIL
+INTA,RISK,earnings CLEAR,PASS
+INTA,RISK,not extended,PASS
+INTA,TRADEABLE,room=0.60R < 1; room@plan stop=0.60R < 1; Risk_OK=FAIL,FAIL
+INTA,CONFIRM,breakout volume NOT_APPL,PASS
+ATRC,LEADER,trend=Minervini,PASS
+ATRC,LEADER,RS=45.2>=10 (line up),PASS
+ATRC,LEADER,"liq: $46M/day, px $58.54",PASS
+ATRC,SETUP,breakout failed: closed below the breakout-bar low 58.85,FAIL
+ATRC,RISK,entry/invalidation unavailable,UNKNOWN
+ATRC,RISK,room: risk unavailable,UNKNOWN
+ATRC,RISK,earnings CLEAR,PASS
+ATRC,RISK,not extended,PASS
+ATRC,TRADEABLE,risk unknown; Risk_OK=UNKNOWN,FAIL
+ATRC,CONFIRM,breakout volume NOT_APPL,PASS
+STNG,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+STNG,LEADER,RS=10.9>=10 (line flat),PASS
+STNG,LEADER,"liq: $95M/day, px $80.76",PASS
+STNG,SETUP,no base in range and no pullback/reversal setup,FAIL
+STNG,RISK,"no setup, no ticket",FAIL
+STNG,RISK,earnings CLEAR,PASS
+STNG,RISK,not extended,PASS
+STNG,TRADEABLE,no setup; risk unknown; Risk_OK=FAIL,FAIL
+STNG,CONFIRM,breakout volume NOT_APPL,PASS
+TMO,LEADER,trend=Minervini,PASS
+TMO,LEADER,"RS=20.6>=10 (line up, at high)",PASS
+TMO,LEADER,"liq: $1658M/day, px $694.76",PASS
+TMO,SETUP,"pullback setup B (Pullback Support): pullback 0.8ATR to support 687.16; decline 1.27xADR range, 1.03x volume",PASS
+TMO,RISK,"risk=1.41xADR in [0.8,2.5]",PASS
+TMO,RISK,room=0.53R < 1.0 (HIGH52W_PRIOR 712.17),FAIL
+TMO,RISK,earnings CLEAR,PASS
+TMO,RISK,not extended,PASS
+TMO,TRADEABLE,risk=1.41xADR > 1.2 (plan stop); room=0.53R < 1; room@plan stop=0.53R < 1; Risk_OK=FAIL,FAIL
+TMO,CONFIRM,breakout volume NOT_APPL,PASS
+SWKS,LEADER,trend=Minervini,PASS
+SWKS,LEADER,RS=24.1>=10 (line up),PASS
+SWKS,LEADER,"liq: $392M/day, px $82.19",PASS
+SWKS,SETUP,"pullback B was high-momentum (pullback 1.9ATR to support 81.73; decline 1.76xADR range, 1.53x volume)",FAIL
+SWKS,RISK,"risk=2.36xADR in [0.8,2.5]",PASS
+SWKS,RISK,room=0.89R < 1.0 (RES20_PRIOR 90.50),FAIL
+SWKS,RISK,earnings CLEAR,PASS
+SWKS,RISK,not extended,PASS
+SWKS,TRADEABLE,risk=2.36xADR > 1.2 (plan stop); risk=11.3% > 8%; room=0.89R < 1; room@plan stop=0.89R < 1; Risk_OK=FAIL,FAIL
+SWKS,CONFIRM,breakout volume NOT_APPL,PASS
+KYMR,LEADER,trend=Minervini,PASS
+KYMR,LEADER,"RS=26.0>=10 (line up, at high)",PASS
+KYMR,LEADER,"liq: $126M/day, px $131.73",PASS
+KYMR,SETUP,no base in range and no pullback/reversal setup,FAIL
+KYMR,RISK,"no setup, no ticket",FAIL
+KYMR,RISK,earnings CLEAR,PASS
+KYMR,RISK,not extended,PASS
+KYMR,TRADEABLE,no setup; risk unknown; Risk_OK=FAIL,FAIL
+KYMR,CONFIRM,breakout volume NOT_APPL,PASS
+TEM,LEADER,trend=Minervini,PASS
+TEM,LEADER,RS=42.8>=10 (line up),PASS
+TEM,LEADER,"liq: $486M/day, px $76.05",PASS
+TEM,SETUP,breakout failed: closed below the breakout-bar low 71.75,FAIL
+TEM,RISK,"risk=0.67xADR in [0.3,1.2]",PASS
+TEM,RISK,room=2.78R to RES20_PRIOR 87.99,PASS
+TEM,RISK,earnings CLEAR,PASS
+TEM,RISK,not extended,PASS
+TEM,TRADEABLE,risk and room inside caps,PASS
+TEM,CONFIRM,breakout volume NOT_APPL,PASS
+DINO,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+DINO,LEADER,RS=19.4>=10 (line flat),PASS
+DINO,LEADER,"liq: $238M/day, px $97.18",PASS
+DINO,SETUP,no base in range and no pullback/reversal setup,FAIL
+DINO,RISK,"no setup, no ticket",FAIL
+DINO,RISK,earnings CLEAR,PASS
+DINO,RISK,not extended,PASS
+DINO,TRADEABLE,no setup; risk unknown; Risk_OK=FAIL,FAIL
+DINO,CONFIRM,breakout volume NOT_APPL,PASS
+CE,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+CE,LEADER,RS=9.3 < 10,FAIL
+CE,LEADER,"liq: $73M/day, px $46.49",PASS
+CE,SETUP,"bottom reversal incomplete: close vs MA20 47.59, MA20 slope +4.2%",FAIL
+CE,RISK,"risk=1.34xADR in [0.8,2.5]",PASS
+CE,RISK,room=0.38R < 1.5 (BEAR_FVG 47.46),FAIL
+CE,RISK,earnings CLEAR,PASS
+CE,RISK,not extended,PASS
+CE,TRADEABLE,risk=1.34xADR > 1.2 (plan stop); room=0.38R < 1.5; room@plan stop=0.38R < 1.5; Risk_OK=FAIL,FAIL
+CE,CONFIRM,breakout volume NOT_APPL,PASS
+EXPD,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+EXPD,LEADER,RS=7.8 < 10,FAIL
+EXPD,LEADER,"liq: $248M/day, px $184.61",PASS
+EXPD,SETUP,no base in range and no pullback/reversal setup,FAIL
+EXPD,RISK,"no setup, no ticket",FAIL
+EXPD,RISK,earnings CLEAR,PASS
+EXPD,RISK,not extended,PASS
+EXPD,TRADEABLE,no setup; risk unknown; Risk_OK=FAIL,FAIL
+EXPD,CONFIRM,breakout volume NOT_APPL,PASS
+UNH,LEADER,trend=Minervini,PASS
+UNH,LEADER,RS=1.7 < 10,FAIL
+UNH,LEADER,"liq: $2410M/day, px $394.15",PASS
+UNH,SETUP,"wide base armed, 12d long",PASS
+UNH,SETUP,width=2.9xATR,PASS
+UNH,RISK,risk pending: stop = breakout-day low; at a buy-stop fill the low must hold above 411.54 (1.2xADR),PENDING
+UNH,RISK,room=2.47R to HIGH52W_PRIOR 458.79 (R = provisional 1.0xADR),PASS
+UNH,RISK,earnings CLEAR,PASS
+UNH,RISK,not extended,PASS
+UNH,TRADEABLE,risk=2.56xADR > 1.2 (plan stop); room@plan stop=0.97R < 1.5,FAIL
+UNH,CONFIRM,breakout volume PENDING,PENDING
+CNC,LEADER,trend=Minervini,PASS
+CNC,LEADER,RS=9.4 < 10,FAIL
+CNC,LEADER,"liq: $398M/day, px $69.74",PASS
+CNC,SETUP,"pullback B was high-momentum (pullback 2.4ATR to support 69.58; decline 1.58xADR range, 1.67x volume)",FAIL
+CNC,RISK,risk=0.53xADR < 0.8 (stop inside noise),FAIL
+CNC,RISK,room=4.43R to HIGH52W_PRIOR 78.08,PASS
+CNC,RISK,earnings CLEAR,PASS
+CNC,RISK,not extended,PASS
+CNC,TRADEABLE,Risk_OK=FAIL,FAIL
+CNC,CONFIRM,breakout volume NOT_APPL,PASS
+LFST,LEADER,trend=Minervini,PASS
+LFST,LEADER,"RS=20.4>=10 (line up, at high)",PASS
+LFST,LEADER,"liq: $50M/day, px $13.77",PASS
+LFST,SETUP,"pullback B was high-momentum (pullback 3.1ATR to support 13.56; decline 2.12xADR range, 1.85x volume)",FAIL
+LFST,RISK,"risk=0.81xADR in [0.8,2.5]",PASS
+LFST,RISK,room=3.68R to HIGH52W_PRIOR 15.66,PASS
+LFST,RISK,earnings CLEAR,PASS
+LFST,RISK,not extended,PASS
+LFST,TRADEABLE,risk and room inside caps,PASS
+LFST,CONFIRM,breakout volume NOT_APPL,PASS
+VLO,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+VLO,LEADER,RS=14.6>=10 (line flat),PASS
+VLO,LEADER,"liq: $1058M/day, px $346.45",PASS
+VLO,SETUP,no base in range and no pullback/reversal setup,FAIL
+VLO,RISK,"no setup, no ticket",FAIL
+VLO,RISK,earnings CLEAR,PASS
+VLO,RISK,not extended,PASS
+VLO,TRADEABLE,no setup; risk unknown; Risk_OK=FAIL,FAIL
+VLO,CONFIRM,breakout volume NOT_APPL,PASS
+ROL,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+ROL,LEADER,RS=6.6 < 10,FAIL
+ROL,LEADER,"liq: $280M/day, px $37.95",PASS
+ROL,SETUP,"reversal setup E (Bottom Reversal): drawdown 55% to 29.29 (24 bars ago); higher low 31.12 vs low 29.29; close 37.95 vs POC 30.34; close vs MA20 34.68, MA20 slope +8.2%; up/down volume 1.68 (need 1.2)",PASS
+ROL,RISK,risk=6.59xADR > 2.5 (stop too wide),FAIL
+ROL,RISK,room=0.19R < 1.5 (RES20_PRIOR 39.51),FAIL
+ROL,RISK,earnings CLEAR,PASS
+ROL,RISK,not extended,PASS
+ROL,TRADEABLE,risk=6.59xADR > 1.2 (plan stop); risk=21.7% > 8%; room=0.19R < 1.5; room@plan stop=0.19R < 1.5; Risk_OK=FAIL,FAIL
+ROL,CONFIRM,breakout volume NOT_APPL,PASS
+GASS,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+GASS,LEADER,RS=-5.7 < 10,FAIL
+GASS,LEADER,"liq: $1M/day (need >=$20M), px $7.90",FAIL
+GASS,SETUP,no base in range and no pullback/reversal setup,FAIL
+GASS,RISK,"no setup, no ticket",FAIL
+GASS,RISK,earnings CAUTION,PASS
+GASS,RISK,not extended,PASS
+GASS,TRADEABLE,no setup; risk unknown; Risk_OK=FAIL,FAIL
+GASS,CONFIRM,breakout volume NOT_APPL,PASS
+SDGR,LEADER,trend=Minervini,PASS
+SDGR,LEADER,RS=63.5>=10 (line up),PASS
+SDGR,LEADER,"liq: $51M/day, px $29.82",PASS
+SDGR,SETUP,breakout failed: closed below the breakout-bar low 26.80,FAIL
+SDGR,RISK,risk=1.37xADR > 1.2 (stop too wide),FAIL
+SDGR,RISK,room=1.31R < 1.5 (HIGH52W_PRIOR 33.78),FAIL
+SDGR,RISK,earnings CLEAR,PASS
+SDGR,RISK,not extended,PASS
+SDGR,TRADEABLE,risk=1.37xADR > 1.2 (plan stop); risk=10.1% > 8%; room=1.31R < 1.5; room@plan stop=1.31R < 1.5; Risk_OK=FAIL,FAIL
+SDGR,CONFIRM,breakout volume NOT_APPL,PASS
+ECHO,LEADER,trend=soft,PASS
+ECHO,LEADER,RS=10.8>=10 (line up),PASS
+ECHO,LEADER,"liq: $435M/day, px $94.62",PASS
+ECHO,SETUP,"reversal setup E (Bottom Reversal): drawdown 44% to 82.73 (16 bars ago); higher low 84.47 vs low 82.73; close 94.62 vs POC 94.31; close vs MA20 91.94, MA20 slope +0.9%; up/down volume 1.74 (need 1.2)",PASS
+ECHO,RISK,"risk=1.51xADR in [0.8,2.5]",PASS
+ECHO,RISK,room=0.12R < 1.5 (BEAR_FVG 95.45),FAIL
+ECHO,RISK,earnings CLEAR,PASS
+ECHO,RISK,not extended,PASS
+ECHO,TRADEABLE,risk=1.51xADR > 1.2 (plan stop); room=0.12R < 1.5; room@plan stop=0.12R < 1.5; Risk_OK=FAIL,FAIL
+ECHO,CONFIRM,breakout volume NOT_APPL,PASS
+CLRO,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+CLRO,LEADER,RS=-39.6 < 10,FAIL
+CLRO,LEADER,"liq: $49M/day, px $5.01",PASS
+CLRO,SETUP,bottom reversal incomplete: close 5.01 vs POC 5.18,FAIL
+CLRO,RISK,risk=0.52xADR < 0.8 (stop inside noise),FAIL
+CLRO,RISK,room=4.27R to RES20_PRIOR 7.40,PASS
+CLRO,RISK,earnings date UNKNOWN,UNKNOWN
+CLRO,RISK,extended 29.5% > 15% above MA20,FAIL
+CLRO,TRADEABLE,risk=11.2% > 8%; Risk_OK=FAIL,FAIL
+CLRO,CONFIRM,breakout volume NOT_APPL,PASS
+AHCO,LEADER,trend=soft,PASS
+AHCO,LEADER,RS=45.1>=10 (line up),PASS
+AHCO,LEADER,"liq: $20M/day (need >=$20M), px $7.33",FAIL
+AHCO,SETUP,no base in range and no pullback/reversal setup,FAIL
+AHCO,RISK,"no setup, no ticket",FAIL
+AHCO,RISK,earnings CLEAR,PASS
+AHCO,RISK,extended 17.1% > 15% above MA20,FAIL
+AHCO,TRADEABLE,no setup; risk unknown; Risk_OK=FAIL,FAIL
+AHCO,CONFIRM,breakout volume NOT_APPL,PASS
+SEI,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+SEI,LEADER,RS=3.4 < 10,FAIL
+SEI,LEADER,"liq: $207M/day, px $57.77",PASS
+SEI,SETUP,no base in range and no pullback/reversal setup,FAIL
+SEI,RISK,"no setup, no ticket",FAIL
+SEI,RISK,earnings CLEAR,PASS
+SEI,RISK,not extended,PASS
+SEI,TRADEABLE,no setup; risk unknown; Risk_OK=FAIL,FAIL
+SEI,CONFIRM,breakout volume NOT_APPL,PASS
+ECG,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+ECG,LEADER,RS=-37.3 < 10,FAIL
+ECG,LEADER,"liq: $74M/day, px $76.60",PASS
+ECG,SETUP,base FAILED (close broke 110.98),FAIL
+ECG,RISK,"risk=1.11xADR in [0.3,1.2]",PASS
+ECG,RISK,room=0.10R < 1.5 (RES20_PRIOR 124.81),FAIL
+ECG,RISK,earnings CLEAR,PASS
+ECG,RISK,not extended,PASS
+ECG,TRADEABLE,risk=10.2% > 8%; room=0.10R < 1.5; room@plan stop=0.10R < 1.5; Risk_OK=FAIL,FAIL
+ECG,CONFIRM,breakout volume NOT_APPL,PASS
+CPNG,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+CPNG,LEADER,RS=5.3 < 10,FAIL
+CPNG,LEADER,"liq: $251M/day, px $16.29",PASS
+CPNG,SETUP,bottom reversal incomplete: higher low 13.44 vs low 13.35; up/down volume 1.06 (need 1.2),FAIL
+CPNG,RISK,risk=2.99xADR > 2.5 (stop too wide),FAIL
+CPNG,RISK,room=0.58R < 1.5 (RES20_PRIOR 17.44),FAIL
+CPNG,RISK,earnings CLEAR,PASS
+CPNG,RISK,not extended,PASS
+CPNG,TRADEABLE,risk=2.99xADR > 1.2 (plan stop); risk=12.1% > 8%; room=0.58R < 1.5; room@plan stop=0.58R < 1.5; Risk_OK=FAIL,FAIL
+CPNG,CONFIRM,breakout volume NOT_APPL,PASS
+CAR,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+CAR,LEADER,RS=-9.6 < 10,FAIL
+CAR,LEADER,"liq: $57M/day, px $118.83",PASS
+CAR,SETUP,"reversal setup E (Bottom Reversal): drawdown 89% to 97.23 (11 bars ago); higher low 100.34 vs low 97.23; close 118.83 vs POC 102.59; close vs MA20 107.00, MA20 slope +0.9%; up/down volume 1.23 (need 1.2)",PASS
+CAR,RISK,risk=3.38xADR > 2.5 (stop too wide),FAIL
+CAR,RISK,room=0.42R < 1.5 (RES20_PRIOR 126.88),FAIL
+CAR,RISK,earnings CLEAR,PASS
+CAR,RISK,not extended,PASS
+CAR,TRADEABLE,risk=3.38xADR > 1.2 (plan stop); risk=16.2% > 8%; room=0.42R < 1.5; room@plan stop=0.42R < 1.5; Risk_OK=FAIL,FAIL
+CAR,CONFIRM,breakout volume NOT_APPL,PASS
+FISV,LEADER,trend=soft,PASS
+FISV,LEADER,RS=25.1>=10 (line up),PASS
+FISV,LEADER,"liq: $463M/day, px $62.88",PASS
+FISV,SETUP,"reversal setup E (Bottom Reversal): drawdown 66% to 43.87 (25 bars ago); higher low 44.74 vs low 43.87; close 62.88 vs POC 45.87; close vs MA20 50.92, MA20 slope +9.1%; up/down volume 3.07 (need 1.2)",PASS
+FISV,RISK,risk=8.97xADR > 2.5 (stop too wide),FAIL
+FISV,RISK,room=0.02R < 1.5 (RES20_PRIOR 63.33),FAIL
+FISV,RISK,earnings CLEAR,PASS
+FISV,RISK,extended 23.5% > 15% above MA20,FAIL
+FISV,TRADEABLE,risk=8.97xADR > 1.2 (plan stop); risk=28.8% > 8%; room=0.02R < 1.5; room@plan stop=0.02R < 1.5; Risk_OK=FAIL,FAIL
+FISV,CONFIRM,breakout volume NOT_APPL,PASS
+TK,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+TK,LEADER,RS=17.8>=10 (line flat),PASS
+TK,LEADER,"liq: $6M/day (need >=$20M), px $12.65",FAIL
+TK,SETUP,no base in range and no pullback/reversal setup,FAIL
+TK,RISK,"no setup, no ticket",FAIL
+TK,RISK,earnings within 7 sessions,FAIL
+TK,RISK,not extended,PASS
+TK,TRADEABLE,no setup; risk unknown; Risk_OK=FAIL,FAIL
+TK,CONFIRM,breakout volume NOT_APPL,PASS
+LPG,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+LPG,LEADER,RS=9.3 < 10,FAIL
+LPG,LEADER,"liq: $25M/day, px $46.55",PASS
+LPG,SETUP,base FAILED (close broke 55.23),FAIL
+LPG,RISK,risk=1.62xADR > 1.2 (stop too wide),FAIL
+LPG,RISK,room: no hard supply above 59.89 (blue sky),PASS
+LPG,RISK,earnings CLEAR,PASS
+LPG,RISK,not extended,PASS
+LPG,TRADEABLE,risk=1.62xADR > 1.2 (plan stop); Risk_OK=FAIL,FAIL
+LPG,CONFIRM,breakout volume NOT_APPL,PASS
+ONON,LEADER,trend=soft,PASS
+ONON,LEADER,RS=1.0 < 10,FAIL
+ONON,LEADER,"liq: $366M/day, px $37.36",PASS
+ONON,SETUP,"reversal setup E (Bottom Reversal): drawdown 48% to 26.36 (36 bars ago); higher low 29.17 vs low 26.36; close 37.36 vs POC 29.69; close vs MA20 34.86, MA20 slope +4.8%; up/down volume 2.17 (need 1.2)",PASS
+ONON,RISK,risk=6.40xADR > 2.5 (stop too wide),FAIL
+ONON,RISK,room=0.21R < 1.5 (RES20_PRIOR 39.13),FAIL
+ONON,RISK,earnings within 7 sessions,FAIL
+ONON,RISK,not extended,PASS
+ONON,TRADEABLE,risk=6.40xADR > 1.2 (plan stop); risk=22.5% > 8%; room=0.21R < 1.5; room@plan stop=0.21R < 1.5; Risk_OK=FAIL,FAIL
+ONON,CONFIRM,breakout volume NOT_APPL,PASS
+CVS,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+CVS,LEADER,RS=-7.1 < 10,FAIL
+CVS,LEADER,"liq: $905M/day, px $83.85",PASS
+CVS,SETUP,no base in range and no pullback/reversal setup,FAIL
+CVS,RISK,"no setup, no ticket",FAIL
+CVS,RISK,earnings CLEAR,PASS
+CVS,RISK,not extended,PASS
+CVS,TRADEABLE,no setup; risk unknown; Risk_OK=FAIL,FAIL
+CVS,CONFIRM,breakout volume NOT_APPL,PASS
+GEL,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+GEL,LEADER,RS=-11.5 < 10,FAIL
+GEL,LEADER,"liq: $3M/day (need >=$20M), px $12.86",FAIL
+GEL,SETUP,base FAILED (close broke 13.71),FAIL
+GEL,RISK,"risk=1.18xADR in [0.3,1.2]",PASS
+GEL,RISK,room=0.57R < 1.5 (RES20_PRIOR 14.73),FAIL
+GEL,RISK,earnings CLEAR,PASS
+GEL,RISK,not extended,PASS
+GEL,TRADEABLE,room=0.57R < 1.5; room@plan stop=0.57R < 1.5; Risk_OK=FAIL,FAIL
+GEL,CONFIRM,breakout volume NOT_APPL,PASS
+MRCY,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+MRCY,LEADER,RS=-27.7 < 10,FAIL
+MRCY,LEADER,"liq: $49M/day, px $73.55",PASS
+MRCY,SETUP,base FAILED (close broke 75.10),FAIL
+MRCY,RISK,risk=2.13xADR > 1.2 (stop too wide),FAIL
+MRCY,RISK,room=0.37R < 1.5 (BEAR_FVG 91.12),FAIL
+MRCY,RISK,earnings within 7 sessions,FAIL
+MRCY,RISK,not extended,PASS
+MRCY,TRADEABLE,risk=2.13xADR > 1.2 (plan stop); risk=13.5% > 8%; room=0.37R < 1.5; room@plan stop=0.37R < 1.5; Risk_OK=FAIL,FAIL
+MRCY,CONFIRM,breakout volume NOT_APPL,PASS
+VG,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+VG,LEADER,RS=-14.3 < 10,FAIL
+VG,LEADER,"liq: $199M/day, px $11.53",PASS
+VG,SETUP,no base in range and no pullback/reversal setup,FAIL
+VG,RISK,"no setup, no ticket",FAIL
+VG,RISK,earnings within 7 sessions,FAIL
+VG,RISK,not extended,PASS
+VG,TRADEABLE,no setup; risk unknown; Risk_OK=FAIL,FAIL
+VG,CONFIRM,breakout volume NOT_APPL,PASS
+SFL,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+SFL,LEADER,RS=-1.5 < 10,FAIL
+SFL,LEADER,"liq: $16M/day (need >=$20M), px $10.96",FAIL
+SFL,SETUP,base FAILED (close broke 12.63),FAIL
+SFL,RISK,risk=2.07xADR > 1.2 (stop too wide),FAIL
+SFL,RISK,room=0.12R < 1.5 (HIGH52W_PRIOR 13.98),FAIL
+SFL,RISK,earnings CLEAR,PASS
+SFL,RISK,not extended,PASS
+SFL,TRADEABLE,risk=2.07xADR > 1.2 (plan stop); risk=8.7% > 8%; room=0.12R < 1.5; room@plan stop=0.12R < 1.5; Risk_OK=FAIL,FAIL
+SFL,CONFIRM,breakout volume NOT_APPL,PASS

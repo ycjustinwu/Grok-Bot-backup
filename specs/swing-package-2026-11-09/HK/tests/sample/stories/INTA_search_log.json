@@ -1,0 +1,61 @@
+{
+ "ticker": "INTA",
+ "searched_at": "2026-11-06T06:12:00+08:00",
+ "queries": [
+  {
+   "q": "Intapp INTA Q1 fiscal 2027 earnings results guidance",
+   "hits": [
+    {
+     "title": "Intapp (INTA) Fiscal Q1 2027 Earnings Call: Celeste Pipeline Jumps 2.5x",
+     "url": "https://www.mitrade.com/au/insights/news/live-news/article-0-2202463-20261028",
+     "date": "2026-10-28"
+    },
+    {
+     "title": "Intapp (INTA) Q1 2027 Earnings Call Transcript",
+     "url": "https://www.fool.com/earnings/call-transcripts/2026/10/28/intapp-inta-q1-2027-earnings-call-transcript/",
+     "date": "2026-10-28"
+    },
+    {
+     "title": "Intapp Q1 2027 slides: cloud growth accelerates despite revenue miss",
+     "url": "https://ph.investing.com/news/stock-market-news/intapp-q1-2027-slides-cloud-growth-accelerates-despite-revenue-miss-93CH-2653791",
+     "date": "2026-10-28"
+    },
+    {
+     "title": "Intapp announces first quarter fiscal year 2027 financial results",
+     "url": "https://investor.wedbush.com/wedbush/article/bizwire-2026-10-27-intapp-announces-first-quarter-fiscal-year-2027-financial-results",
+     "date": "2026-10-27"
+    },
+    {
+     "title": "Intapp (INTA) Q1 2027 Earnings Call Transcript & Audio",
+     "url": "https://stockanalysis.com/stocks/inta/transcripts/724067-q1-2027/",
+     "date": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "q": "Intapp stock November 2026 AI cloud growth",
+   "hits": [
+    {
+     "title": "Intapp's Celeste Hype: Early Uptake Signals Clash With Scaled Deployment Reality",
+     "url": "https://www.ainvest.com/news/intapp-celeste-hype-early-uptake-signals-clash-scaled-deployment-reality-2610/",
+     "date": "2026-10-30"
+    },
+    {
+     "title": "Intapp Q1 2027 slides: cloud growth accelerates despite revenue miss",
+     "url": "https://ph.investing.com/news/stock-market-news/intapp-q1-2027-slides-cloud-growth-accelerates-despite-revenue-miss-93CH-2653791",
+     "date": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "q": "fetch: Q1 FY2027 results detail (subscription, ARR, guidance)",
+   "hits": [
+    {
+     "title": "Intapp (INTA) Fiscal Q1 2027 Earnings Call: Celeste Pipeline Jumps 2.5x",
+     "url": "https://www.mitrade.com/au/insights/news/live-news/article-0-2202463-20261028",
+     "date": "2026-10-28"
+    }
+   ]
+  }
+ ]
+}

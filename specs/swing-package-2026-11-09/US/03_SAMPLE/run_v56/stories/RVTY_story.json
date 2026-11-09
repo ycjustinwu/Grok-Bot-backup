@@ -1,0 +1,46 @@
+{
+ "ticker": "RVTY",
+ "company": "Revvity",
+ "story_date": "2026-11-07",
+ "market_line": "T5 長壽經濟",
+ "route_tag": "邊緣受惠",
+ "story_main": "樣本敘事：生命科學工具需求回穩，管理層維持全年指引。",
+ "story_main_score": 6,
+ "why_now": "指引維持、估值已回落",
+ "moat": "轉換成本（中）：裝機基礎帶來耗材黏性",
+ "numbers": [
+  {
+   "text": "Q3 收入同比持平",
+   "url": "https://example.com/rvty-q3-2026-results",
+   "date": "2026-10-28"
+  }
+ ],
+ "story_sub": "耗材復甦慢於儀器。",
+ "story_sub_score": 4,
+ "risks": [
+  "科研預算復甦慢"
+ ],
+ "conviction": "NEUTRAL",
+ "conviction_why": "樣本資料，未做真實搜尋（example.com）",
+ "story_tag": "Theme",
+ "hard_event": "none",
+ "earnings_check": {
+  "date": "2027-02-01",
+  "url": "https://example.com/rvty-q3-2026-results"
+ },
+ "sources": [
+  {
+   "title": "Revvity Q3 2026 results",
+   "url": "https://example.com/rvty-q3-2026-results",
+   "date": "2026-10-28",
+   "stale": false
+  },
+  {
+   "title": "Life science tools: recovery check",
+   "url": "https://example.com/rvty-sector-note",
+   "date": "2026-11-02",
+   "stale": false
+  }
+ ],
+ "traps": []
+}

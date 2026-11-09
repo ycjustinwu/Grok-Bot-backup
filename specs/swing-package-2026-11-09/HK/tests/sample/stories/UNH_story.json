@@ -1,0 +1,66 @@
+{
+ "ticker": "UNH",
+ "company": "UnitedHealth Group",
+ "story_date": "2026-11-06",
+ "market_line": "T5 長壽經濟（框架外推：醫保成本）",
+ "route_tag": "邊緣受惠",
+ "story_main": "10/13 公布 Q3 2026 並上調全年指引（調整後 EPS ≥ $20.50），管理層稱長期增長 13–16% 區間下緣是 2027 合理起點。醫保復甦是撐住的部分，利潤率近 2–4% 區間上緣，Q3 賠付率 88.4%（去年同期 89.9%）。缺口在商業保險：成本趨勢高於原預期 11%，2027 計劃已按此定價。",
+ "story_main_score": 7,
+ "why_now": "10/13 上調指引後股價仍在高位下方盤整，10/23 分析指 Medicare 復甦成立、商業成本未修好",
+ "moat": "規模經濟＋轉換成本（強）：全美最大醫保網絡，Optum 與保險垂直整合，2027 醫保定價紀律延續",
+ "numbers": [
+  {
+   "text": "Q3 2026 醫療賠付率 88.4%（去年同期 89.9%）",
+   "url": "https://www.trefis.com/stock/unh/articles2/620187/what-will-decide-unitedhealth-group-stock-over-the-next-six-months/2026-10-23",
+   "date": "2026-10-23"
+  },
+  {
+   "text": "2026 調整後 EPS 指引 ≥ $20.50、GAAP ≥ $19.50",
+   "url": "https://www.trefis.com/stock/unh/articles2/620187/what-will-decide-unitedhealth-group-stock-over-the-next-six-months/2026-10-23",
+   "date": "2026-10-23"
+  },
+  {
+   "text": "2026 Medicare Advantage 會員預計減少約 110 萬",
+   "url": "https://www.trefis.com/stock/unh/articles2/620187/what-will-decide-unitedhealth-group-stock-over-the-next-six-months/2026-10-23",
+   "date": "2026-10-23"
+  }
+ ],
+ "story_sub": "商業保險成本趨勢仍高於 11% 的原本預期（No Surprises Act 爭議、重症使用、專科藥價），2027 計劃已按此定價，商業利潤率修復時間表因此拉長。",
+ "story_sub_score": 5,
+ "risks": [
+  "商業保險成本若再超預期，2027 利潤率目標會再延後",
+  "醫保定價紀律以會員流失換取，2027 年 1 月公布會員數是關鍵",
+  "1 月財報歷史上波動大：2026-01-27 那次單日曾跌 16.4%"
+ ],
+ "conviction": "CONFIRM",
+ "conviction_why": "Medicare 復甦與指引上調同時成立（trefis.com 2026-10-23；fool.com 2026-10-13 電話會議），回調屬估值消化而非基本面轉差",
+ "story_tag": "Theme",
+ "hard_event": "none",
+ "earnings_check": {
+  "date": "2027-01-12",
+  "url": "https://www.trefis.com/stock/unh/articles2/620187/what-will-decide-unitedhealth-group-stock-over-the-next-six-months/2026-10-23"
+ },
+ "sources": [
+  {
+   "title": "What Will Decide UnitedHealth Group Stock Over The Next Six Months?",
+   "url": "https://www.trefis.com/stock/unh/articles2/620187/what-will-decide-unitedhealth-group-stock-over-the-next-six-months/2026-10-23",
+   "date": "2026-10-23",
+   "stale": false
+  },
+  {
+   "title": "UnitedHealth (UNH) Q3 2026 Earnings Call Transcript",
+   "url": "https://www.fool.com/earnings/call-transcripts/2026/10/13/unitedhealth-unh-q3-2026-earnings-call-transcript/",
+   "date": "2026-10-13",
+   "stale": false
+  },
+  {
+   "title": "聯合健康上調2026年獲利預測 轉機努力加速邁向可持續成長",
+   "url": "https://www.capitalfutures.com.tw/zh-tw/research/reportsarticle?contentid=c26101900367",
+   "date": "2026-10-19",
+   "stale": false
+  }
+ ],
+ "traps": [
+  "大市場幻覺：醫保市場規模大不等於利潤率高，要看賠付率與定價紀律"
+ ]
+}

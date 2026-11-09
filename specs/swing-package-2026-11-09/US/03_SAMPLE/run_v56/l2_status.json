@@ -1,0 +1,22 @@
+{
+ "folder": "/Users/justinwu/Documents/deepseek-harness/default-workspace/us swing setup review/app/runs/run_v56",
+ "status": "OK",
+ "reason": "",
+ "as_of": "2026-11-06",
+ "counts": {
+  "AVOID": 22,
+  "WATCH": 11,
+  "BUY": 1
+ },
+ "story_needed": 1,
+ "flags": {
+  "SWING_INDEX_20EMA_RULE": false,
+  "SWING_WEAK_BUY_RULE": false
+ },
+ "sha256": {
+  "Contract_US.csv": "6ee4bb8590958ad2835149ed06e317e2483fdeab1262a3089430212bae92e7eb",
+  "L2_Input.csv": "d9c7727ad9e2f41bd7fd73c1ac235ac624c9edc4b90850ae751563deb5c9f64b"
+ },
+ "downgrade_rate": 0.0,
+ "downgrades": []
+}

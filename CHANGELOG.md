@@ -1,3 +1,9 @@
+## 2026-11-09 — skills + swing-package spec
+
+- Synced all user skills (new: swing-package-*, story-package-s4, script-first-dispatch, tvscreener, crypto-exec-*, …)
+- Added `specs/swing-package-2026-11-09/` mirror of `/workspace/docs/swing-package-2026-11-09`
+- Added `bots/swing-package-ops/` agent-spec snapshot (`9c97ff04…`)
+
 ## 2026-11-09 named incremental backup (`2026-11-09T171057+0800`)
 
 - Skills touched: .

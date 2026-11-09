@@ -50,3 +50,4 @@ Slack report channel: none (Justin has no Slack — report in Grok Bot chat only
 Timezone: Asia/Hong_Kong
 Git remote: https://github.com/ycjustinwu/Grok-Bot-backup
 IDs are agent UUIDs; old numeric server IDs are retired.
+| swing-package-ops | Screener+setup Master / Swing Package Ops | `9c97ff04-9fd8-44af-8613-9b1f96e64d07` | 是 | 2026-11-09 skills+spec backup |

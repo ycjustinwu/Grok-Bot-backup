@@ -1,0 +1,26 @@
+{
+ "ticker": "RVTY",
+ "searched_at": "2026-11-07T06:00:00+08:00",
+ "queries": [
+  {
+   "q": "Revvity Q3 2026 results",
+   "hits": [
+    {
+     "title": "Revvity Q3 2026 results",
+     "url": "https://example.com/rvty-q3-2026-results",
+     "date": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "q": "life science tools sector note",
+   "hits": [
+    {
+     "title": "Life science tools: recovery check",
+     "url": "https://example.com/rvty-sector-note",
+     "date": "2026-11-02"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,295 @@
+Ticker,Block,Check,Status
+RVTY,LEADER,trend=Minervini,PASS
+RVTY,LEADER,RS=39.6>=10 (line up),PASS
+RVTY,LEADER,"liq: $295M/day, px $159.43",PASS
+RVTY,SETUP,"pullback B was high-momentum (pullback 1.6ATR to support 157.92; decline 1.53xADR range, 1.63x volume)",FAIL
+RVTY,RISK,"risk=1.31xADR in [0.8,2.5]",PASS
+RVTY,RISK,room=1.40R to HIGH52W_PRIOR 171.74,PASS
+RVTY,RISK,earnings CLEAR,PASS
+RVTY,RISK,not extended,PASS
+RVTY,CONFIRM,breakout volume NOT_APPL,PASS
+INTA,LEADER,trend=Minervini,PASS
+INTA,LEADER,RS=23.9>=10 (line up),PASS
+INTA,LEADER,"liq: $38M/day, px $45.07",PASS
+INTA,SETUP,"pullback setup B (Pullback Support): pullback 1.3ATR to support 44.75; decline 1.13xADR range, 1.15x volume",PASS
+INTA,RISK,"risk=1.43xADR in [0.8,2.5]",PASS
+INTA,RISK,room=0.89R < 1.0 (HIGH52W_PRIOR 48.19),FAIL
+INTA,RISK,earnings CLEAR,PASS
+INTA,RISK,not extended,PASS
+INTA,CONFIRM,breakout volume NOT_APPL,PASS
+ATRC,LEADER,trend=Minervini,PASS
+ATRC,LEADER,"RS=65.9>=10 (line up, at high)",PASS
+ATRC,LEADER,"liq: $51M/day, px $65.53",PASS
+ATRC,SETUP,base spent (9 bars since trigger),FAIL
+ATRC,RISK,risk=3.12xADR > 1.2 (stop too wide),FAIL
+ATRC,RISK,room: no hard supply above 65.53 (blue sky),PASS
+ATRC,RISK,earnings CLEAR,PASS
+ATRC,RISK,not extended,PASS
+ATRC,CONFIRM,breakout volume NOT_APPL,PASS
+STNG,LEADER,trend=Minervini,PASS
+STNG,LEADER,RS=12.0>=10 (line up),PASS
+STNG,LEADER,"liq: $105M/day, px $85.05",PASS
+STNG,SETUP,no base in range and no pullback/reversal setup,FAIL
+STNG,RISK,"no setup, no ticket",FAIL
+STNG,RISK,earnings CLEAR,PASS
+STNG,RISK,not extended,PASS
+STNG,CONFIRM,breakout volume NOT_APPL,PASS
+TMO,LEADER,trend=Minervini,PASS
+TMO,LEADER,RS=21.8>=10 (line up),PASS
+TMO,LEADER,"liq: $1659M/day, px $706.16",PASS
+TMO,SETUP,no base in range and no pullback/reversal setup,FAIL
+TMO,RISK,"no setup, no ticket",FAIL
+TMO,RISK,earnings CLEAR,PASS
+TMO,RISK,not extended,PASS
+TMO,CONFIRM,breakout volume NOT_APPL,PASS
+SWKS,LEADER,trend=Minervini,PASS
+SWKS,LEADER,RS=24.0>=10 (line flat),PASS
+SWKS,LEADER,"liq: $415M/day, px $82.92",PASS
+SWKS,SETUP,"pullback B was high-momentum (pullback 1.8ATR to support 82.01; decline 1.92xADR range, 1.31x volume)",FAIL
+SWKS,RISK,risk=2.69xADR > 2.5 (stop too wide),FAIL
+SWKS,RISK,room=0.76R < 1.0 (RES20_PRIOR 90.50),FAIL
+SWKS,RISK,earnings CLEAR,PASS
+SWKS,RISK,not extended,PASS
+SWKS,CONFIRM,breakout volume NOT_APPL,PASS
+KYMR,LEADER,trend=Minervini,PASS
+KYMR,LEADER,"RS=28.0>=10 (line up, at high)",PASS
+KYMR,LEADER,"liq: $129M/day, px $136.25",PASS
+KYMR,SETUP,no base in range and no pullback/reversal setup,FAIL
+KYMR,RISK,"no setup, no ticket",FAIL
+KYMR,RISK,earnings CLEAR,PASS
+KYMR,RISK,extended 17.9% > 15% above MA20,FAIL
+KYMR,CONFIRM,breakout volume NOT_APPL,PASS
+TEM,LEADER,trend=Minervini,PASS
+TEM,LEADER,RS=63.9>=10 (line up),PASS
+TEM,LEADER,"liq: $473M/day, px $75.61",PASS
+TEM,SETUP,"pullback B was high-momentum (pullback 1.4ATR to support 73.80; decline 1.53xADR range, 1.56x volume)",FAIL
+TEM,RISK,"risk=0.84xADR in [0.8,2.5]",PASS
+TEM,RISK,room=1.67R to RES20_PRIOR 84.47,PASS
+TEM,RISK,earnings CLEAR,PASS
+TEM,RISK,not extended,PASS
+TEM,CONFIRM,breakout volume NOT_APPL,PASS
+DINO,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+DINO,LEADER,RS=26.9>=10 (line flat),PASS
+DINO,LEADER,"liq: $249M/day, px $104.57",PASS
+DINO,SETUP,no base in range and no pullback/reversal setup,FAIL
+DINO,RISK,"no setup, no ticket",FAIL
+DINO,RISK,earnings CLEAR,PASS
+DINO,RISK,not extended,PASS
+DINO,CONFIRM,breakout volume NOT_APPL,PASS
+CE,LEADER,trend=soft,PASS
+CE,LEADER,RS=13.2>=10 (line up),PASS
+CE,LEADER,"liq: $80M/day, px $49.75",PASS
+CE,SETUP,"reversal setup E (Bottom Reversal): drawdown 40% to 42.14 (24 bars ago); higher low 43.56 vs low 42.14; close 49.75 vs POC 44.92; close vs MA20 47.37, MA20 slope +3.7%; up/down volume 1.49 (need 1.2)",PASS
+CE,RISK,risk=3.20xADR > 2.5 (stop too wide),FAIL
+CE,RISK,room=0.23R < 1.5 (RES20_PRIOR 51.10),FAIL
+CE,RISK,earnings CLEAR,PASS
+CE,RISK,not extended,PASS
+CE,CONFIRM,breakout volume NOT_APPL,PASS
+EXPD,LEADER,trend=Minervini,PASS
+EXPD,LEADER,RS=10.7>=10 (line up),PASS
+EXPD,LEADER,"liq: $255M/day, px $197.69",PASS
+EXPD,SETUP,"pullback B was high-momentum (pullback 2.0ATR to support 197.49; decline 1.92xADR range, 1.61x volume)",FAIL
+EXPD,RISK,"risk=1.02xADR in [0.8,2.5]",PASS
+EXPD,RISK,room=1.60R to HIGH52W_PRIOR 206.23,PASS
+EXPD,RISK,earnings CLEAR,PASS
+EXPD,RISK,not extended,PASS
+EXPD,CONFIRM,breakout volume NOT_APPL,PASS
+UNH,LEADER,trend=Minervini,PASS
+UNH,LEADER,RS=1.9 < 10,FAIL
+UNH,LEADER,"liq: $2544M/day, px $409.38",PASS
+UNH,SETUP,"pullback setup B (Pullback Support): pullback 1.0ATR to support 404.04; decline 1.35xADR range, 1.05x volume",PASS
+UNH,RISK,"risk=1.46xADR in [0.8,2.5]",PASS
+UNH,RISK,room=1.02R to RES20_PRIOR 426.55,PASS
+UNH,RISK,earnings CLEAR,PASS
+UNH,RISK,not extended,PASS
+UNH,CONFIRM,breakout volume NOT_APPL,PASS
+CNC,LEADER,trend=Minervini,PASS
+CNC,LEADER,"RS=18.4>=10 (line up, at high)",PASS
+CNC,LEADER,"liq: $408M/day, px $76.01",PASS
+CNC,SETUP,no base in range and no pullback/reversal setup,FAIL
+CNC,RISK,"no setup, no ticket",FAIL
+CNC,RISK,earnings CLEAR,PASS
+CNC,RISK,not extended,PASS
+CNC,CONFIRM,breakout volume NOT_APPL,PASS
+LFST,LEADER,trend=Minervini,PASS
+LFST,LEADER,"RS=33.3>=10 (line up, at high)",PASS
+LFST,LEADER,"liq: $43M/day, px $14.21",PASS
+LFST,SETUP,base spent (8 bars since trigger),FAIL
+LFST,RISK,risk=3.69xADR > 1.2 (stop too wide),FAIL
+LFST,RISK,room: no hard supply above 14.21 (blue sky),PASS
+LFST,RISK,earnings within 7 sessions,FAIL
+LFST,RISK,not extended,PASS
+LFST,CONFIRM,breakout volume NOT_APPL,PASS
+VLO,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+VLO,LEADER,RS=20.6>=10 (line flat),PASS
+VLO,LEADER,"liq: $1092M/day, px $365.34",PASS
+VLO,SETUP,no base in range and no pullback/reversal setup,FAIL
+VLO,RISK,"no setup, no ticket",FAIL
+VLO,RISK,earnings CLEAR,PASS
+VLO,RISK,not extended,PASS
+VLO,CONFIRM,breakout volume NOT_APPL,PASS
+ROL,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+ROL,LEADER,RS=4.7 < 10,FAIL
+ROL,LEADER,"liq: $292M/day, px $38.38",PASS
+ROL,SETUP,"reversal setup E (Bottom Reversal): drawdown 55% to 29.29 (22 bars ago); higher low 31.12 vs low 29.29; close 38.38 vs POC 32.41; close vs MA20 34.06, MA20 slope +7.9%; up/down volume 1.79 (need 1.2)",PASS
+ROL,RISK,risk=5.49xADR > 2.5 (stop too wide),FAIL
+ROL,RISK,room=4.11R to HIGH52W_PRIOR 65.40,PASS
+ROL,RISK,earnings CLEAR,PASS
+ROL,RISK,not extended,PASS
+ROL,CONFIRM,breakout volume NOT_APPL,PASS
+GASS,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+GASS,LEADER,RS=-4.4 < 10,FAIL
+GASS,LEADER,"liq: $1M/day (need >=$20M), px $8.29",FAIL
+GASS,SETUP,no base in range and no pullback/reversal setup,FAIL
+GASS,RISK,"no setup, no ticket",FAIL
+GASS,RISK,earnings CLEAR,PASS
+GASS,RISK,not extended,PASS
+GASS,CONFIRM,breakout volume NOT_APPL,PASS
+SDGR,LEADER,trend=Minervini,PASS
+SDGR,LEADER,RS=60.1>=10 (line up),PASS
+SDGR,LEADER,"liq: $51M/day, px $28.52",PASS
+SDGR,SETUP,breakout failed: closed below the breakout-bar low 26.80,FAIL
+SDGR,RISK,"risk=0.80xADR in [0.3,1.2]",PASS
+SDGR,RISK,room=3.06R to HIGH52W_PRIOR 33.78,PASS
+SDGR,RISK,earnings within 7 sessions,FAIL
+SDGR,RISK,not extended,PASS
+SDGR,CONFIRM,breakout volume NOT_APPL,PASS
+ECHO,LEADER,trend=soft,PASS
+ECHO,LEADER,RS=13.3>=10 (line up),PASS
+ECHO,LEADER,"liq: $447M/day, px $98.62",PASS
+ECHO,SETUP,"reversal setup E (Bottom Reversal): drawdown 44% to 82.73 (14 bars ago); higher low 84.47 vs low 82.73; close 98.62 vs POC 93.45; close vs MA20 92.12, MA20 slope +0.8%; up/down volume 2.22 (need 1.2)",PASS
+ECHO,RISK,"risk=1.78xADR in [0.8,2.5]",PASS
+ECHO,RISK,room=0.53R < 1.5 (RES20_PRIOR 102.46),FAIL
+ECHO,RISK,earnings CLEAR,PASS
+ECHO,RISK,not extended,PASS
+ECHO,CONFIRM,breakout volume NOT_APPL,PASS
+CLRO,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+CLRO,LEADER,RS=-49.0 < 10,FAIL
+CLRO,LEADER,"liq: $49M/day, px $5.00",PASS
+CLRO,SETUP,bottom reversal incomplete: close 5.00 vs POC 5.18,FAIL
+CLRO,RISK,risk=0.34xADR < 0.8 (stop inside noise),FAIL
+CLRO,RISK,room=6.45R to RES20_PRIOR 7.40,PASS
+CLRO,RISK,earnings date UNKNOWN,UNKNOWN
+CLRO,RISK,extended 31.9% > 15% above MA20,FAIL
+CLRO,CONFIRM,breakout volume NOT_APPL,PASS
+AHCO,LEADER,trend=soft,PASS
+AHCO,LEADER,"RS=20.9>=10 (line up, at high)",PASS
+AHCO,LEADER,"liq: $19M/day (need >=$20M), px $7.31",FAIL
+AHCO,SETUP,no base in range and no pullback/reversal setup,FAIL
+AHCO,RISK,"no setup, no ticket",FAIL
+AHCO,RISK,earnings CLEAR,PASS
+AHCO,RISK,extended 19.3% > 15% above MA20,FAIL
+AHCO,CONFIRM,breakout volume NOT_APPL,PASS
+SEI,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+SEI,LEADER,RS=1.3 < 10,FAIL
+SEI,LEADER,"liq: $187M/day, px $57.64",PASS
+SEI,SETUP,no base in range and no pullback/reversal setup,FAIL
+SEI,RISK,"no setup, no ticket",FAIL
+SEI,RISK,earnings within 7 sessions,FAIL
+SEI,RISK,not extended,PASS
+SEI,CONFIRM,breakout volume NOT_APPL,PASS
+ECG,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+ECG,LEADER,RS=-42.9 < 10,FAIL
+ECG,LEADER,"liq: $65M/day, px $79.71",PASS
+ECG,SETUP,base FAILED (close broke 110.98),FAIL
+ECG,RISK,"risk=1.18xADR in [0.3,1.2]",PASS
+ECG,RISK,room=0.51R < 1.5 (RES20_PRIOR 129.90),FAIL
+ECG,RISK,earnings CLEAR,PASS
+ECG,RISK,not extended,PASS
+ECG,CONFIRM,breakout volume NOT_APPL,PASS
+CPNG,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+CPNG,LEADER,RS=4.3 < 10,FAIL
+CPNG,LEADER,"liq: $258M/day, px $17.05",PASS
+CPNG,SETUP,bottom reversal incomplete: higher low 13.44 vs low 13.35,FAIL
+CPNG,RISK,risk=4.53xADR > 2.5 (stop too wide),FAIL
+CPNG,RISK,room=0.34R < 1.5 (BEAR_FVG 18.01),FAIL
+CPNG,RISK,earnings CLEAR,PASS
+CPNG,RISK,extended 16.3% > 15% above MA20,FAIL
+CPNG,CONFIRM,breakout volume NOT_APPL,PASS
+CAR,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+CAR,LEADER,RS=-13.4 < 10,FAIL
+CAR,LEADER,"liq: $52M/day, px $119.81",PASS
+CAR,SETUP,"bottom reversal incomplete: close vs MA20 105.84, MA20 slope -0.6%",FAIL
+CAR,RISK,risk=3.61xADR > 2.5 (stop too wide),FAIL
+CAR,RISK,room=0.46R < 1.5 (BEAR_FVG 129.00),FAIL
+CAR,RISK,earnings CLEAR,PASS
+CAR,RISK,not extended,PASS
+CAR,CONFIRM,breakout volume NOT_APPL,PASS
+FISV,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+FISV,LEADER,"RS=14.7>=10 (line up, at high)",PASS
+FISV,LEADER,"liq: $433M/day, px $62.05",PASS
+FISV,SETUP,"reversal setup E (Bottom Reversal): drawdown 66% to 43.87 (23 bars ago); higher low 44.74 vs low 43.87; close 62.05 vs POC 45.88; close vs MA20 49.22, MA20 slope +6.4%; up/down volume 2.57 (need 1.2)",PASS
+FISV,RISK,risk=9.62xADR > 2.5 (stop too wide),FAIL
+FISV,RISK,room=0.49R < 1.5 (HIGH52W_PRIOR 70.41),FAIL
+FISV,RISK,earnings CLEAR,PASS
+FISV,RISK,extended 26.1% > 15% above MA20,FAIL
+FISV,CONFIRM,breakout volume NOT_APPL,PASS
+TK,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+TK,LEADER,RS=19.2>=10 (line flat),PASS
+TK,LEADER,"liq: $6M/day (need >=$20M), px $13.44",FAIL
+TK,SETUP,no base in range and no pullback/reversal setup,FAIL
+TK,RISK,"no setup, no ticket",FAIL
+TK,RISK,earnings within 7 sessions,FAIL
+TK,RISK,not extended,PASS
+TK,CONFIRM,breakout volume NOT_APPL,PASS
+LPG,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+LPG,LEADER,RS=11.4>=10 (line flat),PASS
+LPG,LEADER,"liq: $24M/day, px $49.43",PASS
+LPG,SETUP,base FAILED (close broke 55.23),FAIL
+LPG,RISK,risk=1.87xADR > 1.2 (stop too wide),FAIL
+LPG,RISK,room: no hard supply above 59.89 (blue sky),PASS
+LPG,RISK,earnings within 7 sessions,FAIL
+LPG,RISK,not extended,PASS
+LPG,CONFIRM,breakout volume NOT_APPL,PASS
+ONON,LEADER,trend=soft,PASS
+ONON,LEADER,RS=3.4 < 10,FAIL
+ONON,LEADER,"liq: $388M/day, px $38.62",PASS
+ONON,SETUP,"reversal setup E (Bottom Reversal): drawdown 48% to 26.36 (34 bars ago); higher low 29.17 vs low 26.36; close 38.62 vs POC 29.68; close vs MA20 34.57, MA20 slope +4.9%; up/down volume 2.55 (need 1.2)",PASS
+ONON,RISK,risk=7.79xADR > 2.5 (stop too wide),FAIL
+ONON,RISK,room=1.29R < 1.5 (HIGH52W_PRIOR 51.08),FAIL
+ONON,RISK,earnings within 7 sessions,FAIL
+ONON,RISK,not extended,PASS
+ONON,CONFIRM,breakout volume NOT_APPL,PASS
+CVS,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+CVS,LEADER,RS=-16.3 < 10,FAIL
+CVS,LEADER,"liq: $797M/day, px $79.96",PASS
+CVS,SETUP,no base in range and no pullback/reversal setup,FAIL
+CVS,RISK,"no setup, no ticket",FAIL
+CVS,RISK,earnings within 7 sessions,FAIL
+CVS,RISK,not extended,PASS
+CVS,CONFIRM,breakout volume NOT_APPL,PASS
+GEL,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+GEL,LEADER,RS=-11.5 < 10,FAIL
+GEL,LEADER,"liq: $3M/day (need >=$20M), px $13.26",FAIL
+GEL,SETUP,base FAILED (close broke 13.71),FAIL
+GEL,RISK,risk=1.40xADR > 1.2 (stop too wide),FAIL
+GEL,RISK,room=0.57R < 1.5 (RES20_PRIOR 14.73),FAIL
+GEL,RISK,earnings within 7 sessions,FAIL
+GEL,RISK,not extended,PASS
+GEL,CONFIRM,breakout volume NOT_APPL,PASS
+MRCY,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+MRCY,LEADER,RS=-34.1 < 10,FAIL
+MRCY,LEADER,"liq: $42M/day, px $71.76",PASS
+MRCY,SETUP,base FAILED (close broke 75.10),FAIL
+MRCY,RISK,risk=2.45xADR > 1.2 (stop too wide),FAIL
+MRCY,RISK,room=0.37R < 1.5 (BEAR_FVG 91.12),FAIL
+MRCY,RISK,earnings within 7 sessions,FAIL
+MRCY,RISK,not extended,PASS
+MRCY,CONFIRM,breakout volume NOT_APPL,PASS
+VG,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+VG,LEADER,RS=-11.4 < 10,FAIL
+VG,LEADER,"liq: $202M/day, px $12.00",PASS
+VG,SETUP,no base in range and no pullback/reversal setup,FAIL
+VG,RISK,"no setup, no ticket",FAIL
+VG,RISK,earnings within 7 sessions,FAIL
+VG,RISK,not extended,PASS
+VG,CONFIRM,breakout volume NOT_APPL,PASS
+SFL,LEADER,trend=broken (Close<=MA50/MA20 or slope<=0),FAIL
+SFL,LEADER,RS=-1.2 < 10,FAIL
+SFL,LEADER,"liq: $16M/day (need >=$20M), px $11.72",FAIL
+SFL,SETUP,base FAILED (close broke 12.63),FAIL
+SFL,RISK,risk=2.17xADR > 1.2 (stop too wide),FAIL
+SFL,RISK,room=0.12R < 1.5 (HIGH52W_PRIOR 13.98),FAIL
+SFL,RISK,earnings within 7 sessions,FAIL
+SFL,RISK,not extended,PASS
+SFL,CONFIRM,breakout volume NOT_APPL,PASS

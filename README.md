@@ -8,6 +8,7 @@ Private Git backup of Grok Bot settings and memories for this account.
 - `shared-user-memory/MEMORY.md` — account-level shared user memory
 - `bots/<slug>/` — per-bot `agent-spec.md`, `profile.md`, `MEMORY.md`, `archive/`
 - `skills/` — user-created Grok Bot skills (`SKILL.md` folders); see `skills/INDEX.md`
+- `specs/` — package/spec mirrors (e.g. `specs/swing-package-2026-11-09/`)
 - `meta/memory-manager-self.md` — this bot’s self backup
 
 ## Modes

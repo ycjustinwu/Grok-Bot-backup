@@ -1,0 +1,66 @@
+{
+ "ticker": "INTA",
+ "company": "Intapp, Inc.",
+ "story_date": "2026-11-06",
+ "market_line": "T1 Agentic AI",
+ "route_tag": "核心受惠",
+ "story_main": "Q1 FY2027 訂閱收入 $125.5M、+29%，總收入 $161.3M、+16%；非 GAAP 營業利潤率 22%（+7pp），自由現金流 $28.1M 翻倍以上。雲端 ARR $515.3M（+28%，佔 85%），淨留存 123%。Celeste 9 月 GA 後合格 pipeline 環比 2.5 倍，佔新增訂單 40%+。",
+ "story_main_score": 7,
+ "why_now": "Celeste 9 月 GA 後 pipeline 環比 2.5 倍、佔新增訂單 40%+，管理層稱需求超前部署能力",
+ "moat": "高轉換成本（強）：律師樓與會計師樓的核心業務系統，嵌入工作流後遷移成本極高",
+ "numbers": [
+  {
+   "text": "雲端 ARR $515.3M，同比 +28%，佔總 ARR 85%",
+   "url": "https://www.mitrade.com/au/insights/news/live-news/article-0-2202463-20261028",
+   "date": "2026-10-28"
+  },
+  {
+   "text": "訂閱收入 $125.5M，同比 +29%；非 GAAP 營業利潤率 22%",
+   "url": "https://www.mitrade.com/au/insights/news/live-news/article-0-2202463-20261028",
+   "date": "2026-10-28"
+  },
+  {
+   "text": "FY2027 指引：收入 $658.2–662.2M、非 GAAP EPS $1.64–1.68",
+   "url": "https://www.mitrade.com/au/insights/news/live-news/article-0-2202463-20261028",
+   "date": "2026-10-28"
+  }
+ ],
+ "story_sub": "授權收入 $23.0M、同比 -21%，因在岸合約期縮短；總收入低於市場預期，Celeste 需求超前部署能力，交付與 POC 人手是短期瓶頸。",
+ "story_sub_score": 5,
+ "risks": [
+  "Celeste pipeline 轉收入需時，部署能力不足會拖慢確認",
+  "授權收入同比 -21%，總收入低於預期",
+  "AI 交易退潮期間高估值 SaaS 的倍數壓縮"
+ ],
+ "conviction": "CONFIRM",
+ "conviction_why": "訂閱 +29%、雲端 ARR +28%、Celeste 佔新增訂單 40%+，與管理層 FY2027 指引方向一致（mitrade.com 2026-10-28；fool.com 2026-10-28）",
+ "story_tag": "Catalyst",
+ "hard_event": "none",
+ "earnings_check": {
+  "date": "2027-02-02",
+  "url": "https://www.mitrade.com/au/insights/news/live-news/article-0-2202463-20261028"
+ },
+ "sources": [
+  {
+   "title": "Intapp (INTA) Fiscal Q1 2027 Earnings Call: Celeste Pipeline Jumps 2.5x",
+   "url": "https://www.mitrade.com/au/insights/news/live-news/article-0-2202463-20261028",
+   "date": "2026-10-28",
+   "stale": false
+  },
+  {
+   "title": "Intapp (INTA) Q1 2027 Earnings Call Transcript",
+   "url": "https://www.fool.com/earnings/call-transcripts/2026/10/28/intapp-inta-q1-2027-earnings-call-transcript/",
+   "date": "2026-10-28",
+   "stale": false
+  },
+  {
+   "title": "Intapp's Celeste Hype: Early Uptake Signals Clash With Scaled Deployment Reality",
+   "url": "https://www.ainvest.com/news/intapp-celeste-hype-early-uptake-signals-clash-scaled-deployment-reality-2610/",
+   "date": "2026-10-30",
+   "stale": false
+  }
+ ],
+ "traps": [
+  "新產品敘事：pipeline 不等於收入，要看下兩季雲端 ARR 增速"
+ ]
+}

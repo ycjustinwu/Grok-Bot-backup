@@ -1,0 +1,9 @@
+{
+  "ok": 121,
+  "mismatch": [],
+  "missing": [],
+  "extras": [
+    "TC-20261109-swing-PA-PLAN.md",
+    "scan553.sh"
+  ]
+}
