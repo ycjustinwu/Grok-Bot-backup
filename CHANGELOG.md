@@ -1,3 +1,14 @@
+## 2026-11-09 named incremental backup (`2026-11-09T171057+0800`)
+
+- Skills touched: .
+- Git tag: `backup-named-2026-11-09T171057+0800`.
+- Run log: `meta/backup-runs/2026-11-09T171057+0800.md`.
+
+## 2026-11-09 named incremental backup (`2026-11-09T171034+0800`)
+
+- Skills touched: `crypto-exec-intake` (new), `crypto-exec-stage-gate` (new), `crypto-exec-validate` (new), `market-awareness-orchestrator` (updated), `regime-daily-report` (updated), `rotation-delta` (new), `script-first-dispatch` (new), `socratic-tutor` (new), `story-handoff-parse` (updated), `story-package-s4` (new), `swing-package-fallback` (new), `swing-package-install` (new), `swing-package-verify` (new), `tv-abnormal-volume-mcp` (updated), `tvscreener` (new), `us-abnormal-volume` (updated), `us-etf-theme-scan` (updated), `us-focus-catalyst` (updated), `us-market-daily-brief` (updated), `us-rotation-structure` (updated), `us-second-brain-3-picks` (updated), `us-swing-session-overview` (updated), `us-swing-sim-open` (updated), `us-swing-sim-reconcile` (updated), `us-swing-sim-track` (updated), `x-signal-retrieval` (updated).
+- Run log: `meta/backup-runs/2026-11-09T171034+0800.md`.
+
 ## 2026-11-09 — YouTube Analyzer Deep **upgraded** (Cupsir PDF gold)
 
 - Skill `skills/youtube-analyzer-deep/SKILL.md` synced from live workflows (Format A Cupsir PDF gold 2026-11-09 + Notion GFM pipe table rule 4a).
