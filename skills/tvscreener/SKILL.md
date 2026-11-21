@@ -1,8 +1,11 @@
 ---
 name: tvscreener
-description: Use when Justin wants TradingView screener pulls via the unofficial tvscreener Python lib (stock/ETF/crypto/forex/options filters → Pandas), or a custom TV universe seed before Package Ops / Hermes. Not a substitute for Hermes or /opt/swing Contract/Tradeable/L2.
+description: >-
+  Use when Justin wants TradingView screener pulls via the unofficial tvscreener
+  Python lib (stock/ETF/crypto/forex/options filters → Pandas), or a custom TV
+  universe seed before Package Ops / Hermes. Not a substitute for Hermes or
+  /opt/swing Contract/Tradeable/L2.
 ---
-
 # tvscreener (TradingView Screener API)
 
 Unofficial library: https://github.com/deepentropy/tvscreener · docs https://deepentropy.github.io/tvscreener/
@@ -26,7 +29,8 @@ Always call through that venv — system pip is PEP 668 locked.
 
 - US/HK swing Soft Final path (Hermes L1→S4→L2 or `/opt/swing` Package Ops)
 - Inventing Contract / Tradeable / Trigger / Story JSON
-- Replacing TradingView MCP AV-seed for daily briefs
+
+Daily US/HK brief AV seeds and the US mega-cap sweep go through `/workspace/scripts/tv_av_screener.py` as described in [TV Abnormal Volume MCP](sand-workflow:tv-abnormal-volume-mcp) — still this library, not TradingView MCP.
 
 ## Smoke / basic pull
 

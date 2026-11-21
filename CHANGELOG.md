@@ -1,3 +1,14 @@
+## 2026-11-21 named incremental backup (`2026-11-21T232720+0800`)
+
+- Bots named: `us-market-daily-brief` (no fleet fan-out).
+- `us-market-daily-brief` v1: md5 `5fe40a010343677220387dbb0574a3a1` (180 lines); was `b2d16d7c994157a5f51d6fadec83ae59`; archive `bots/us-market-daily-brief/archive/2026-11-21T232720.md`; VERSIONS.md updated.
+- Git tag: `backup-us-market-daily-brief-2026-11-21`.
+- Run log: `meta/backup-runs/2026-11-21T232720+0800.md`.
+- Refreshed `profile.md` and `agent-spec.md` from live `profile.json` / `settings.json` (AV seed = tvscreener script, not TradingView MCP).
+- Related skills updated from `/home/box/agent-data/workflows/`: `us-market-daily-brief`, `us-abnormal-volume`, `tv-abnormal-volume-mcp`, `tvscreener`.
+- Related skills already current vs 2026-11-09 backup (left unchanged): `us-etf-theme-scan`, `us-focus-catalyst`, `us-rotation-structure`, `fred-vix-term-structure`, `breadth-daily-report`, `jev-fleet-decisions`, `notion-final-sync`, `script-first-dispatch`.
+- Secret scan: no plaintext live secrets; placeholders only (`[REDACTED:TYPESAFE_API_KEY]`, `[REDACTED:DEEPSEEK_API_KEY]`). No fleet skill fan-out.
+
 ## 2026-11-21 named incremental backup (`2026-11-21T232645+0800`)
 
 - Request: Justin 2026-11-21 — backup Market Awareness Orchestrator + related skills (no fleet fan-out).
@@ -6,6 +17,7 @@
 - Skills updated from live workflows (four-layer compact lock 2026-11-12): `market-awareness-orchestrator`, `regime-daily-report`, `etf-rs-theme-tilt`. Other related skills already current from 2026-11-09 (`regime-data-ingest`, `regime-pillar-a`, `regime-pillar-b`, `regime-layer-context`, `regime-modifiers-and-stance`, `etf-rs-overlay-ingest`, `rotation-delta`, `stockbee-t2108-*`, `breadth-*`, `fred-vix-term-structure`, `jev-fleet-decisions`).
 - Git tag: `backup-market-awareness-2026-11-21`.
 - Run log: `meta/backup-runs/2026-11-21T232645+0800.md`.
+
 
 ## 2026-11-09 — skills + swing-package spec
 

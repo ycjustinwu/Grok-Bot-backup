@@ -2,7 +2,7 @@
 name: US Market Daily Brief
 description: >-
   Use this when Justin wants the US daily market-focus brief (美股市場每日簡報) from
-  US-ETF CSV + TradingView MCP AV (Justin paste overrides), X Monitor AH seed,
+  US-ETF CSV + tvscreener AV script (Justin paste overrides), X Monitor AH seed,
   cash Focus, 盤後業績, section contracts/evidence/verdict — Traditional Chinese;
   prefer tables and bullets over wall-of-text.
 ---
@@ -35,12 +35,12 @@ Hard rules:
 ## Inputs (preserve — do not drop)
 
 - `US-ETF_[DATE].csv` — pull latest from Google Drive folder `1k5dJy7ny5n-W_EV5Aglt0QeeXS_-5Ijn` when not attached; notify Justin／總指揮 if missing. Report **quoted X/N** when some Tier-1 names are unresolved — never silently shrink the universe. Tier-1 Cyclicals use **WELD** (not RSHO; locked 2026-10-31).
-- **Abnormal volume (locked 2026-10-14):** **Primary** = [TV Abnormal Volume MCP](sand-workflow:tv-abnormal-volume-mcp) / [US Abnormal Volume](sand-workflow:us-abnormal-volume) via TradingView MCP **before** analysis. Justin paste/CSV **overrides** if he supplies one. Do **not** run disabled Python OpenClaw scripts or browser-scrape TV when MCP works. **Also run mega-cap sweep** (same skills): mcap≥$50B, |Δ|≥3%, drop OTC — for same-industry clusters that may be epicenter even if RelVol≤2.
+- **Abnormal volume (locked 2026-10-14 gates; source switched 2026-11-20):** **Primary** = [TV Abnormal Volume MCP](sand-workflow:tv-abnormal-volume-mcp) / [US Abnormal Volume](sand-workflow:us-abnormal-volume) via **`/workspace/scripts/tv_av_screener.py`** (tvscreener, not TradingView MCP) **before** analysis. Justin paste/CSV **overrides** if he supplies one. Do **not** run disabled Python OpenClaw scripts, do **not** call TradingView MCP for AV/mega, and do not browser-scrape TV when the script works. **Also run mega-cap sweep** (same script): mcap≥$50B, |Δ|≥3%, drop OTC — for same-industry clusters that may be epicenter even if RelVol≤2.
 - VIX: user paste **or** [FRED VIX Term Structure](sand-workflow:fred-vix-term-structure) / [Breadth Daily Report](sand-workflow:breadth-daily-report) / TradingView `CBOE:VIX`
 - **Market Master** sheet `1Xu9VX4S3VuS3BrzW42Yf9WRSaYn8Znp3X6XC-2SFmEk` tabs 美股市寬／美股行業／ETF 輪動 — breadth/industry/rotation when needed.
 - **X Monitor (AH seed, locked 2026-10-22):** Prefer same-session / evening X Monitor soft Final (or weekday softshort) for **盤後／after-hours large-cap earnings** names and first-pass reaction notes. Treat as a **seed list** — still verify prints vs est and AH % with IR／wires／Tavily; do **not** invent from tweets alone. If X Monitor missing, still run AH search (below).
 
-If MCP AV fails after US close and Justin did not paste, **STOP** and notify 總指揮. Empty UP with non-empty DOWN (or vice versa) can be valid — continue. If only ETF is missing, say which and still deliver what is verifiable. **No** `[待補充]` / `[工具搜尋結果]` placeholders.
+If the AV script fails after US close and Justin did not paste, **STOP** and notify 總指揮. Do not retry via TradingView MCP. Empty UP with non-empty DOWN (or vice versa) can be valid — continue. If only ETF is missing, say which and still deliver what is verifiable. **No** `[待補充]` / `[工具搜尋結果]` placeholders.
 
 ## Section contracts (before gathering)
 
@@ -67,8 +67,8 @@ One missing required field → omit that section + list under 資料缺口. Neve
 |---|---|---|---|
 | Index closes | TradingView / tape | Second wire (AP/Yahoo/Reuters) | Omit that line; rest of brief continues |
 | VIX | `CBOE:VIX` OHLCV / FRED | CBOE site / breadth report | Omit VIX |
-| AV screener | TV MCP OpenClaw gates | Justin paste | **STOP + notify 總指揮** — never invent movers |
-| Mega-cap sweep | TV MCP mcap≥50B \|Δ\|≥3% | Wire tape scan | Omit cluster note |
+| AV screener | tvscreener script, OpenClaw gates | Justin paste | **STOP + notify 總指揮** — never invent movers; no MCP fallback |
+| Mega-cap sweep | tvscreener script mcap≥50B \|Δ\|≥3% | Wire tape scan | Omit cluster note |
 | Breadth path | Market Master 美股市寬 | Stockbee/breadth skills | Omit multi-day path; single-day OK if sourced |
 | AH prints | Justin paste (authoritative) → IR/wires | X Monitor seed + verify | Omit name or whole AH block with explicit line |
 
@@ -84,7 +84,7 @@ Distinguish **data broken** (OMIT/STOP) from **market quiet** (still write; say 
 ## Pipeline (complete each; mark ✅ internally)
 
 1. [US ETF Theme Scan](sand-workflow:us-etf-theme-scan) — Tier 1 39 always; Tier 2 confirm; Tier 3 on trigger; report X/N quoted
-2. [US Abnormal Volume](sand-workflow:us-abnormal-volume) — MCP AV seeds + **mega-cap sweep** + ETF linkage
+2. [US Abnormal Volume](sand-workflow:us-abnormal-volume) — tvscreener AV seeds + **mega-cap sweep** + ETF linkage
 3. [US Focus Catalyst](sand-workflow:us-focus-catalyst) — 3 **cash** Focus + live web search (epicenter boost; ≥2 sourced facts + 傳導機制 each). Cash Focus stays AV-ranked; do **not** force Mag7／named AH reporters into Part 2 solely because they reported after the close.
 4. Trump / **major policy** search — **include Part 4 when material**; omit only if nothing material
 5. [US Rotation Structure](sand-workflow:us-rotation-structure) — flows 1D+1W+YTD, RSP/SPY, SCHD/IWM, MEME, tape+VIX, **breadth 10-session path**

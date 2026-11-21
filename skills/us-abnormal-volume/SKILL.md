@@ -1,7 +1,7 @@
 ---
 name: US Abnormal Volume
 description: >-
-  Use this when building US brief focus stocks from TradingView MCP
+  Use this when building US brief focus stocks from tvscreener-script
   abnormal-volume seeds (Justin paste overrides) plus mega-cap industry-cluster
   sweep, then map keepers to thematic ETFs.
 ---
@@ -11,17 +11,17 @@ Build the US brief mover seed list, then map keepers to thematic ETFs. Also fold
 
 ## 1. Get seeds (locked 2026-10-14)
 
-**Primary:** run [TV Abnormal Volume MCP](sand-workflow:tv-abnormal-volume-mcp) for **US** UP and DOWN **before** analysis.
+**Primary:** run [TV Abnormal Volume MCP](sand-workflow:tv-abnormal-volume-mcp) (`/workspace/scripts/tv_av_screener.py --market us`) for **US** UP and DOWN **before** analysis. Do not use TradingView MCP.
 
-**Override:** if Justin pastes/attaches an AV list for that session, use his list and skip MCP for that side.
+**Override:** if Justin pastes/attaches an AV list for that session, use his list and skip the script for that side.
 
-Do **not** run `/workspace/scripts/us_abnormal_volume_screener.py` or scrape TradingView in the browser when MCP is available.
+Do **not** run `/workspace/scripts/us_abnormal_volume_screener.py` or scrape TradingView in the browser when the tvscreener script works. Do not call TradingView MCP.
 
-US MCP gates (OpenClaw): close>$1, |chg|≥5%, mcap>$5B USD, RelVol10d>2 both sides, Value.Traded>$5M USD; **post-filter drop OTC** (and `OTC:` prefixes) **before** RelVol ranking. Report raw vs US-primary counts.
+US script gates (OpenClaw): close>$1, |chg|≥5%, mcap>$5B USD, RelVol10d>2 both sides, Value.Traded>$5M USD; **post-filter drop OTC** (and `OTC:` prefixes) **before** RelVol ranking. Report raw vs US-primary counts.
 
 ## 1b. Mega-cap sweep (locked 2026-10-31)
 
-Also run the MCP **mega-cap sweep** (mcap≥$50B, |Δ|≥3%, drop OTC — see tv-abnormal-volume-mcp). Detect **same-industry clusters** (typically 8–12 names at −3~−6% or +3~+6%).
+Also run the script **mega-cap sweep** (mcap≥$50B, |Δ|≥3%, drop OTC — see tv-abnormal-volume-mcp). Detect **same-industry clusters** (typically 8–12 names at −3~−6% or +3~+6%).
 
 - Cluster present → flag as **震央候選** for parent brief opening / headline #1 even if RelVol≤2.
 - Map cluster to the closest Tier-1 thematic ETF when possible.
@@ -29,9 +29,9 @@ Also run the MCP **mega-cap sweep** (mcap≥$50B, |Δ|≥3%, drop OTC — see tv
 
 ## 2. Keepers
 
-MCP (or Justin) OpenClaw seeds that already passed gates are keepers. Do **not** re-apply the old mcap>$10B gate. If using a raw Justin CSV that was not pre-filtered, apply the OpenClaw gates above and drop OTC.
+Script (or Justin) OpenClaw seeds that already passed gates are keepers. Do **not** re-apply the old mcap>$10B gate. If using a raw Justin CSV that was not pre-filtered, apply the OpenClaw gates above and drop OTC.
 
-Missing RelVol or mcap on a non-MCP row → exclude and note; do not invent.
+Missing RelVol or mcap on a non-script row → exclude and note; do not invent.
 
 Suspended / stale-print names: exclude and state count.
 
@@ -50,4 +50,4 @@ Suspended / stale-print names: exclude and state count.
 2. Isolated movers (個股行情)
 3. Then larger cap + higher RelVol as tie-break
 
-Hand the ranked list **plus** mega-sweep cluster note to catalyst research. If **zero** OpenClaw keepers after a closed session, say so and do not invent names (DATA GATE via 總指揮 if MCP failed). Mega-sweep-only days can still supply opening 震央 without filling Part 2 inventively.
+Hand the ranked list **plus** mega-sweep cluster note to catalyst research. If **zero** OpenClaw keepers after a closed session, say so and do not invent names (DATA GATE via 總指揮 if the script failed). Mega-sweep-only days can still supply opening 震央 without filling Part 2 inventively.
