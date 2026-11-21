@@ -24,7 +24,7 @@ Source: `/home/box/agent-data/workflows`
 | diagram-design | yes | unchanged |
 | draft-a-post-or-reply | yes | unchanged |
 | etf-rs-overlay-ingest | yes | unchanged |
-| etf-rs-theme-tilt | yes | unchanged |
+| etf-rs-theme-tilt | yes | updated 2026-11-21 |
 | feature-reverse-spec | yes | unchanged |
 | financial-life-deputy | yes | unchanged |
 | first-transcript | yes | unchanged |
@@ -63,14 +63,14 @@ Source: `/home/box/agent-data/workflows`
 | kami | yes | unchanged |
 | live-search-mandates | yes | unchanged |
 | make-bot-ui | yes | unchanged |
-| market-awareness-orchestrator | yes | unchanged |
+| market-awareness-orchestrator | yes | updated 2026-11-21 |
 | mm-gas-intake | yes | unchanged |
 | mm-gas-merge-charts | yes | unchanged |
 | mm-gas-verify | yes | unchanged |
 | notion-db-lookup | yes | unchanged |
 | notion-final-sync | yes | unchanged |
 | read-a-thread-or-post | yes | unchanged |
-| regime-daily-report | yes | unchanged |
+| regime-daily-report | yes | updated 2026-11-21 |
 | regime-data-ingest | yes | unchanged |
 | regime-layer-context | yes | unchanged |
 | regime-modifiers-and-stance | yes | unchanged |

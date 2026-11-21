@@ -1,3 +1,12 @@
+## 2026-11-21 named incremental backup (`2026-11-21T232645+0800`)
+
+- Request: Justin 2026-11-21 — backup Market Awareness Orchestrator + related skills (no fleet fan-out).
+- `market-awareness` MEMORY.md v1: md5 `69ebc180e41f30f9c3c49e53bdee66ba` (191 lines); was `cc2db6e7f69b7f6789d67bf82da5ed40` (2026-10-23 snapshot); archive `bots/market-awareness/archive/2026-11-21T232645.md`; VERSIONS.md added.
+- profile.md / agent-spec.md refreshed from live profile.json (name `Market Awareness Orchestrator · Regime Scoring v6.4.6`).
+- Skills updated from live workflows (four-layer compact lock 2026-11-12): `market-awareness-orchestrator`, `regime-daily-report`, `etf-rs-theme-tilt`. Other related skills already current from 2026-11-09 (`regime-data-ingest`, `regime-pillar-a`, `regime-pillar-b`, `regime-layer-context`, `regime-modifiers-and-stance`, `etf-rs-overlay-ingest`, `rotation-delta`, `stockbee-t2108-*`, `breadth-*`, `fred-vix-term-structure`, `jev-fleet-decisions`).
+- Git tag: `backup-market-awareness-2026-11-21`.
+- Run log: `meta/backup-runs/2026-11-21T232645+0800.md`.
+
 ## 2026-11-09 — skills + swing-package spec
 
 - Synced all user skills (new: swing-package-*, story-package-s4, script-first-dispatch, tvscreener, crypto-exec-*, …)

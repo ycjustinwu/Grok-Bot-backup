@@ -3,12 +3,14 @@ name: Market Awareness Orchestrator
 description: >-
   Use this as the daily Market Awareness Orchestrator playbook — ingest Stockbee
   + breadth + ETF + Market Master (ΔLIFT/Pace trend-first), score A/B, stance
-  v6.4.6, Trial carve-out / 今日動作 top bar, Rotation Delta (non-scoring), then 繁體中文 regime daily.
+  v6.4.6, Trial carve-out, Rotation Delta (non-scoring), then render the
+  four-layer compact 繁體中文 regime daily.
 ---
 > **Canonical (2026-10-22):** Market Master `1Xu9VX4S3VuS3BrzW42Yf9WRSaYn8Znp3X6XC-2SFmEk` — tabs 美股市寬／美股行業／ETF 輪動（+ 港股市寬／形態篩選／Setup_Latest）. Doc: `/workspace/docs/market-master-canonical-2026-10-22.md`. Retired primary Monitor: `1XqUu…`.
 > **動作層 (2026-10-22):** 今日動作＋linkage＋Trial carve-out — `docs/今日動作-trial-carve-out-2026-10-22.md`（唔改 TOTAL／hysteresis）。
 > **Rotation Delta (2026-11-05):** non-scoring book-ETF churn — `docs/rotation-module-v1.1.md` + [rotation-delta](sand-workflow:rotation-delta).
 > **Monitor 讀法 (2026-10-29):** 行業趨勢 = ΔLIFT＋Pace；|z| 顯著性 only — `docs/cup-market-monitor.md`.
+> **Presentation (Justin 2026-11-12):** four-layer compact render — canon `/workspace/docs/regime-daily-compact-format-2026-11-12.md` + template `/workspace/market-awareness/templates/regime-daily-compact-template.md`. 閱讀層：今日結論／准盯避開／市場狀態＋計分＋觀察／附錄。每主題必寫代表 ETF。計分規則不變。
 # Market Awareness Orchestrator
 
 Daily **Regime Scoring v6.4.6** end-to-end. Label: `v6.4.6 hysteresis multi-band confirm`. Source of truth:
@@ -28,12 +30,12 @@ Default to action on the **silent** phase; complete every pillar before renderin
 4.6. [Rotation Delta](sand-workflow:rotation-delta) → churn5/10/20 + 四檔判定（**non-scoring**；script `/workspace/market-awareness/rotation/rotation_calc.py`）
 5. [Regime Modifiers And Stance](sand-workflow:regime-modifiers-and-stance) → modifiers, hysteresis, **Fast-Track / Change C / FT STATE**, short 5C, stance Steps 1–5, **+ Trial carve-out／今日動作／linkage／主題許可**
 6. [ETF RS Overlay Ingest](sand-workflow:etf-rs-overlay-ingest) + [ETF RS Theme Tilt](sand-workflow:etf-rs-theme-tilt) — before render（主題許可要用 Favor／Avoid）
-7. [Regime Daily Report](sand-workflow:regime-daily-report) → 繁體中文 deliverable（**最頂**今日動作＋中間 linkage，然後 Dashboard）
+7. [Regime Daily Report](sand-workflow:regime-daily-report) → 繁體中文 deliverable（四層精簡：今日結論 → 准盯／避開 → 市場狀態＋計分＋觀察 → 附錄；每主題帶代表 ETF）
 
 ## Execution order (v6.4.6)
 
 Silent compute: **Sections 1 → 2 → 3 → 4 → 5 → 7 → 0**, then Section 6 **Steps 1–5** + **Trial carve-out** (still silent).
-**Only then** render Section 6 output + Section 8（頂欄先於 Dashboard）。
+**Only then** render the four-layer compact daily（今日結論先於狀態／計分；核對同閘門入附錄）。
 Section 6 “no raw tables / concise” applies to the **rendered** text only.
 
 ## Version guard (hard)
@@ -72,20 +74,20 @@ Mirror HK After-Close Brief §五. Sheet `1Xu9VX4S3VuS3BrzW42Yf9WRSaYn8Znp3X6XC-
 1. During ingest: **always** pull Market Master (Sheets MCP preferred) → 美股市寬 + 美股行業 (Summary/History equivalents + IndustryGroup). Prefer History Date = US session D; else D+1 stamp lock + disclose.
 2. Capture: **動力股佔比%**, **SPY ATR**, **QQQ ATR**, IndustryGroup **ΔLIFT + Pace (trend primary)** + lift / 季度 median / |z| (significance filter only) — still non-scoring. Reading order: `docs/cup-market-monitor.md` (Cup Sir／Justin 2026-10-29).
 3. During Layer 0 / Focus Themes: direction-only vs Stockbee 4% pulse; MLI升% / 動力股佔比 / ATR stretch flags; IndustryGroup **ΔLIFT／Pace 轉強／轉弱** vs Layer1 / ETF RS — disclose ΔLIFT↔Pace divergences (e.g. share↑/price↓ or low-level turn).
-4. In daily report: render **### 附加觀察｜US Market Monitor（Market Master／股票層）** after 重要旗號 — **first** ΔLIFT／Pace trend lists, **then** |z|>1.96 as significance tags (never rank “strength” by |z| alone). Skeleton in playbook.
-5. **Never** into Pillar A/B / TOTAL / hysteresis / FT / Exposure. Drive unreachable → one-line DATA GAP under 重要旗號; do **not** fail whole Regime DATA GATE. Never invent from Stockbee.
-6. **Also feeds** 今日動作 linkage + Trial 條件② + 主題許可交叉（Focus ∩ ΔLIFT/Pace ∩ ETF Favor；|z| 加權 only — 仍非計分）。
+4. In daily report: fold Monitor into **### 行業同主題觀察（非計分）**（reading layer）and 附錄補充 — **first** ΔLIFT／Pace trend lists, **then** |z|>1.96 as significance tags (never rank “strength” by |z| alone). Do not require the old standalone Monitor heading. Skeleton in playbook + compact canon.
+5. **Never** into Pillar A/B / TOTAL / hysteresis / FT / Exposure. Drive unreachable → one-line DATA GAP in 附錄（必要時今日結論一句）; do **not** fail whole Regime DATA GATE. Never invent from Stockbee.
+6. **Also feeds** 今日結論張力句 + Trial 條件② + 主題許可交叉（Focus ∩ ΔLIFT/Pace ∩ ETF Favor；|z| 加權 only — 仍非計分）。
 
 ## ETF RS Theme Tilt — ADDITIONAL Observation (non-scoring)
 
-After US Market Monitor in the daily: run [ETF RS Overlay Ingest](sand-workflow:etf-rs-overlay-ingest) + [ETF RS Theme Tilt](sand-workflow:etf-rs-theme-tilt) → `### 附加觀察｜ETF RS 主題傾斜（非計分）` with Favor / Avoid / **趨勢觀察（2d+5d both-Rising；雙降且仍領先）**. Prefer Market Master tab **`ETF 輪動`**; legacy Drive `1cgrNJ…` only if Justin says. Overlay only — never TOTAL / band / hysteresis / FT / Exposure. Stale US trade date → DATA GAP omit section. **Favor／Avoid also feed 主題許可／禁止.**
+After Monitor data is in: run [ETF RS Overlay Ingest](sand-workflow:etf-rs-overlay-ingest) + [ETF RS Theme Tilt](sand-workflow:etf-rs-theme-tilt) → fold Favor / Avoid / **趨勢觀察** into 准盯／避開 + 主題傾斜（每主題代表 ETF）and 附錄「主題對應 ETF」. Prefer Market Master tab **`ETF 輪動`**; legacy Drive `1cgrNJ…` only if Justin says. Overlay only — never TOTAL / band / hysteresis / FT / Exposure. Stale US trade date → DATA GAP omit section. **Favor／Avoid also feed 主題許可／禁止.**
 
 ## Rotation Delta — ADDITIONAL Observation (non-scoring) — Justin adopt 2026-11-05
 
 After Layer Context, before Index Drawdown Gate / stance Steps: run [Rotation Delta](sand-workflow:rotation-delta). Script-first: `python3 /workspace/market-awareness/rotation/rotation_calc.py --matrix <PH_MT|ETF_Prices.csv>`. Prefer RS `PH_MT` then Market Master hidden tab **`ETF_Prices`**. Canon `/workspace/docs/rotation-module-v1.1.md`.
 
 - Output: `rot_state` ∈ {制度輪動, 輪動中, 已定格, 延續} + churn5/10/20 + top8/old8. **Never** into TOTAL / band / hysteresis / FT / Change C / Exposure.
-- Render via [Regime Daily Report](sand-workflow:regime-daily-report): daily `### 附加觀察｜輪動位移（非計分）` after ETF RS; escalate top-bar / 重要旗號 / 三、操作立場 only for ②③ per skill.
+- Render via [Regime Daily Report](sand-workflow:regime-daily-report): 輪動判定＋現任寫入市場狀態；換手／上批／雙升雙降入附錄。Escalate onto 今日結論 only for ②③ per skill（唔另開「重要旗號」牆）.
 - Fallback: 5-day `S` proxy + `⚠️ 輪動數據代理`; never invent churn.
 
 ## Locked learnings (2026-09-09)

@@ -3,21 +3,24 @@ name: ETF RS Theme Tilt
 description: >-
   Use this after ETF RS Overlay Ingest when writing Market Awareness regime
   daily — emit Favor/Avoid ETF RS theme tilt plus 趨勢觀察 (2d+5d both-Rising /
-  both-Declining-while-leading); overlay only, never score input.
+  both-Declining-while-leading), folded into the compact daily with
+  representative ETFs; overlay only, never score input.
 ---
 # ETF RS Theme Tilt (Market Awareness)
 
-Adds a short **non-scoring** section to the Regime daily after CUP Monitor observation (before Modifier Notes). Depends on [ETF RS Overlay Ingest](sand-workflow:etf-rs-overlay-ingest).
+Adds a short **non-scoring** ETF RS tilt to the Regime daily (folded into the 2026-11-12 four-layer compact render). Depends on [ETF RS Overlay Ingest](sand-workflow:etf-rs-overlay-ingest).
 
 ## Placement
 
-In [Regime Daily Report](sand-workflow:regime-daily-report) output order, insert:
+Under the 2026-11-12 four-layer compact render ([Regime Daily Report](sand-workflow:regime-daily-report); canon `/workspace/docs/regime-daily-compact-format-2026-11-12.md`):
 
-`### 附加觀察｜ETF RS 主題傾斜（非計分）`
+- Fold Favor／Avoid／觀察 into **### 准盯／避開** and **主題傾斜** (reading layer).
+- Put the fuller ticker list in 附錄 **主題對應 ETF**.
+- Put 趨勢觀察（雙升／雙降）in 附錄輪動同行業補充，並在主題傾斜用一句帶出。
+- Do **not** require the old standalone heading `### 附加觀察｜ETF RS 主題傾斜（非計分）`.
+- **Every theme named in the daily must include representative ETFs** (2–4 in the reading layer; 2–6 in the appendix table). This applies to all themes, not only P6 or P1.
 
-immediately **after** `### 附加觀察｜US Market Monitor（CUP／股票層）` and **before** `### 🔔 Modifier Notes`.
-
-English internal name: **ETF RS theme tilt**. Chinese heading above is canonical for the 繁體中文 daily.
+English internal name: **ETF RS theme tilt**. Aggregation rules below are unchanged.
 
 ## Aggregation rules (Favor / Avoid)
 
@@ -47,7 +50,7 @@ If fewer than 2 themes qualify on a side, print what qualifies + one line `不�
 Horizon pair = sheet columns **`2-day trend` + `5-day trend`** (labels `Rising` / `Declining` / `No Trend`).  
 Justin wrote “5d and 2d”; Dashboard has a literal **2-day trend** column (col after `RS 5d ago`) — **use 5d+2d**. Do **not** invent a 20-day trend label (`vs VOO 20d` is a return, not Rising/Declining).
 
-Place as a short **`趨勢觀察`** block **after Favor and Avoid**, still under the same `### 附加觀察｜ETF RS 主題傾斜（非計分）` heading, **before** the non-scoring 註.
+Place 趨勢觀察 in 附錄（雙升／雙降），and one sentence in 主題傾斜 if leaders are rolling over. Do not require a standalone ETF RS heading.
 
 ### A — Both Rising（強化趨勢）
 - Flag tickers where **2-day trend = Rising AND 5-day trend = Rising**.
@@ -65,7 +68,7 @@ Overlay only — same ANTI-JOB as Favor/Avoid (no TOTAL / band / hysteresis / FT
 ## Must cite
 
 1. **US trade date** = sheet stamp  
-2. Per Favor theme: **2–3 example tickers** with **RS actual** + **vs VOO 5d** (and 5d trend if space)
+2. Per Favor **and** Avoid **and** any other named theme: **2–4 representative tickers** (reading layer) with **RS actual** + **vs VOO 5d** when space; appendix may list 2–6
 3. **趨勢觀察**: both-Rising and (if any) both-Declining-while-leading tickers with **actual** 2d+5d labels from sheet — never invent
 
 ## ANTI-JOB (critical)
@@ -74,7 +77,9 @@ Overlay only — same ANTI-JOB as Favor/Avoid (no TOTAL / band / hysteresis / FT
 - Do **not** invent RS numbers; omit section with DATA GAP line if ingest gated.
 - Do **not** replace US Market Daily Brief theme package.
 
-## Subsection template (exact)
+## Subsection template (fields to emit; heading retired)
+
+Under compact format, **do not** emit the standalone heading below. Map the same fields into 准盯／避開、主題傾斜, and 附錄「主題對應 ETF」. The text block is the field checklist only.
 
 ```text
 ### 附加觀察｜ETF RS 主題傾斜（非計分）
@@ -107,10 +112,10 @@ DATA GAP variant (one block):
 
 ## VERIFY
 
-- [ ] Section after CUP Monitor, before Modifier Notes
+- [ ] Folded into 准盯／避開 + 主題傾斜 + 附錄（no standalone heading required）
 - [ ] Favor 2–3 + Avoid 2–3 (or explicit shortfall note)
 - [ ] US trade date stamped from sheet
-- [ ] Each Favor theme has 2–3 tickers with RS actual + vs VOO 5d
+- [ ] Each named theme has 2–4 representative tickers; Favor includes RS actual + vs VOO 5d when space
 - [ ] Theme labels match P1–P7 / L2 sheet names
 - [ ] Explicit non-scoring note present
 - [ ] 趨勢觀察 present (2d+5d both-Rising; both-Declining-while-leading or explicit none) — labels from sheet only
