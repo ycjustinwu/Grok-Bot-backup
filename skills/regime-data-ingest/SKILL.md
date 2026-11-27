@@ -1,13 +1,15 @@
 ---
 name: Regime Data Ingest
 description: >-
-  Use this to gather daily regime v6.4.5 inputs — Stockbee xlsx, StockCharts
-  breadth + FRED VIX, US-ETF CSV, and self-pull Market Master 美股市寬＋美股行業 (always;
-  never wait for attachment).
+  Use this to gather daily regime v6.4.6 inputs — Stockbee xlsx, StockCharts
+  breadth + FRED VIX, US-ETF CSV, self-pull Market Master 美股市寬＋美股行業 (always),
+  and CUPSIR Gates 1 & 4 (Handover Note first, else monitor/ETF CSV; missing 52W
+  is appendix DATA GAP only).
 ---
 # Regime Data Ingest
 
 Daily inputs for Market Regime Scoring **v6.4.5/v6.4.6**. Complete fully; show values. No invented history.
+Also ingest **CUPSIR Gates 1 & 4** inputs (non-scoring). Canon: `/workspace/docs/cupsir-gates-1-and-4-2026-11-24.md`.
 
 ## DATA GATE
 
@@ -29,6 +31,13 @@ Missing / stale / abnormal critical input → **STOP**, notify 總指揮. Never 
 3. **US-ETF-complete CSV (1C)** — Justin attaches TradingView export → extract all tickers in `docs/etf-universes.md` (**1D%/1W%/1M%/RSI14/RelVol**/VOO EMAs — 1D+RelVol required for Leading Sector volume). Never invent prices.
 
 4. **US Market Monitor (Market Master)** — **self-pull** Google Sheet `1Xu9VX4S3VuS3BrzW42Yf9WRSaYn8Znp3X6XC-2SFmEk` tabs **`美股市寬`＋`美股行業`** every run (see section below). Not a TOTAL input. Canonical: `/workspace/docs/market-master-canonical-2026-10-22.md`.
+
+5. **CUPSIR Gates 1 & 4 (2026-11-24, non-scoring)** — hand a `cupsir_gates` object to stance. **Never** into Pillar A/B / TOTAL; missing inputs **do not** trip the main Regime DATA GATE (appendix `DATA GAP` only).
+   - **Priority 1 (authoritative):** Justin-pasted Handover Note `breadth-report-YYYY-MM-DD.md`, section `CUPSIR GATES (stop-swing)`. Use those readings as-is; do not recompute over them.
+   - **Priority 2 (compute):** if that note/section is absent:
+     - Gate 1 from `market breadth monitor US_*.csv`: count `High >= High, 52 weeks` as 52W High, `Low <= Low, 52 weeks` as 52W Low; Universe = name count in that file (or the universe count in the Handover Note). Metric = `(52W High − 52W Low) ÷ Universe` as a percent.
+     - Gate 4 from `US ETF complete_*.csv`: compare `Price` vs the 200-day MA column (typically `Exponential moving average, 200, 1 day`) for **SPY or VOO** and **IWM**. If SPY and VOO disagree, default to **VOO** and disclose.
+   - Missing 52W columns or unusable SPY/VOO/IWM 200MA rows → `gate*_closed = null`, `data_gap` text, appendix only. Never invent counts, MAs, or a closed/open call.
 
 ## Thread-history rules (v6.4.5)
 

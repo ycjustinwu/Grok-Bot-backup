@@ -63,17 +63,17 @@ Source: `/home/box/agent-data/workflows`
 | kami | yes | unchanged |
 | live-search-mandates | yes | unchanged |
 | make-bot-ui | yes | unchanged |
-| market-awareness-orchestrator | yes | updated 2026-11-21 |
+| market-awareness-orchestrator | yes | updated 2026-11-28 |
 | mm-gas-intake | yes | unchanged |
 | mm-gas-merge-charts | yes | unchanged |
 | mm-gas-verify | yes | unchanged |
 | notion-db-lookup | yes | unchanged |
-| notion-final-sync | yes | unchanged |
+| notion-final-sync | yes | updated 2026-11-28 |
 | read-a-thread-or-post | yes | unchanged |
-| regime-daily-report | yes | updated 2026-11-21 |
-| regime-data-ingest | yes | unchanged |
+| regime-daily-report | yes | updated 2026-11-28 |
+| regime-data-ingest | yes | updated 2026-11-28 |
 | regime-layer-context | yes | unchanged |
-| regime-modifiers-and-stance | yes | unchanged |
+| regime-modifiers-and-stance | yes | updated 2026-11-28 |
 | regime-pillar-a | yes | unchanged |
 | regime-pillar-b | yes | unchanged |
 | rotation-delta | yes | unchanged |

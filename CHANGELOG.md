@@ -1,3 +1,13 @@
+## 2026-11-28 named incremental backup (`2026-11-28T003402+0800`)
+
+- Request: Justin 2026-11-28 — backup Market Awareness Orchestrator + related skills (no fleet fan-out). Repo left **public** (Justin made it public; visibility was not changed).
+- `market-awareness` MEMORY.md left unchanged: md5 `69ebc180e41f30f9c3c49e53bdee66ba` (191 lines; no newer official dump than 2026-11-21).
+- profile.md / agent-spec.md refreshed from live profile.json and `/workspace/market-awareness/agent-spec.md` (CUPSIR Gates 1 & 4 locked 2026-11-24; Notion self-push; Index DD gate; Trial carve-out already in skills).
+- Skills updated from live workflows (post-11-21 locks): `market-awareness-orchestrator`, `regime-daily-report`, `regime-data-ingest`, `regime-modifiers-and-stance`, `notion-final-sync`. Other related skills already current (`regime-pillar-a`, `regime-pillar-b`, `regime-layer-context`, `etf-rs-overlay-ingest`, `etf-rs-theme-tilt`, `rotation-delta`, `stockbee-t2108-*`, `breadth-*`, `fred-vix-term-structure`, `jev-fleet-decisions`).
+- Git tag: `backup-market-awareness-2026-11-28`.
+- Run log: `meta/backup-runs/2026-11-28T003402+0800.md`.
+- Jev: `TYPESAFE_API_KEY` missing; proceed_override (explicit user request). No scores invented.
+
 ## 2026-11-27 US swing 模擬倉 skills backup
 - Skills vs live `/home/box/agent-data/workflows/`: `us-swing-sim-open`, `us-swing-sim-track`, `us-swing-sim-reconcile` already matched disk (md5 `4540a230`, `c46bbb30`, `f448ca4d`; last skill refresh 2026-11-09). Left unchanged.
 - Related (not rewritten): `jev-fleet-decisions` already current from the 2026-11-27 Second brain backup.

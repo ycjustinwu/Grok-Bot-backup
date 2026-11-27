@@ -2,8 +2,9 @@
 name: Regime Modifiers And Stance
 description: >-
   Use this for Regime v6.4.6 modifiers (−6..+7), TOTAL /21.5, hysteresis
-  multi-band + FT/CC, short 5C, stance Steps 1–5, plus 2026-10-22 Trial
-  carve-out / 今日動作 (action-layer only; no TOTAL change).
+  multi-band + FT/CC, short 5C, stance Steps 1–5, 2026-10-22 Trial carve-out /
+  今日動作, and CUPSIR Gates 1 & 4 stop-swing overlay (action-layer only; no TOTAL
+  or regime_effective change).
 ---
 # Regime Modifiers And Stance (v6.4.6)
 
@@ -13,6 +14,7 @@ Modifiers (−6..+7) do **not** change TOTAL. Never both sides of the same pair.
 Add-on canon: `/workspace/refactored_market_awareness/docs/v6.4.5/fast-track-and-change-c.md`.
 Hysteresis canon: `docs/regime-bands.md` + `docs/CHANGELOG-v6.4.6.md` + `docs/hysteresis-intermediate-land-2026-10-23.md`.
 **動作層 canon（2026-10-22）：** `docs/今日動作-trial-carve-out-2026-10-22.md` — Trial／今日動作／linkage；**唔改** TOTAL／5B。
+**CUPSIR Gates 1 & 4（LOCKED Justin 2026-11-24）：** `/workspace/docs/cupsir-gates-1-and-4-2026-11-24.md` — 主動交易止蝕閘門，只疊加喺今日動作；**唔改** TOTAL／`regime_effective`／5B／FT／Index DD／Exposure 數字。
 
 ## Pairs 1–7 (data-driven) — UNCHANGED
 1. McClellan divergence: index NH + McClellan LH → −1; index NL + McClellan HL → +1
@@ -134,3 +136,29 @@ Canon: `docs/今日動作-trial-carve-out-2026-10-22.md`.
 - Missing source → DATA GAP / shrink list; never invent tickers
 
 Write `trial_carve_out` (+ bools for each condition + action + exposure_note) into `latest-state.json` / `regime-summary.json` for WV.
+
+## CUPSIR Gates 1 & 4（主動交易止蝕閘門；LOCKED Justin 2026-11-24）
+**After** Trial carve-out / 今日動作 is computed. **Never** changes TOTAL, raw / `regime_effective`, pending day-count, FT, Change C, Index Drawdown Gate, or numeric Exposure ceiling.
+Canon: `/workspace/docs/cupsir-gates-1-and-4-2026-11-24.md`. Ingest hands `cupsir_gates` (Handover Note first; else CSV compute).
+
+### Gate 1（市寬）
+`(52W High − 52W Low) ÷ Universe < -2.00%` → `gate1_closed = true`.
+- 禁止開新順勢／回調 swing 長倉。
+- 若原動作係 **准 swing 試倉** → 降級為 `觀望｜🚨 Gate 1 落閘（停開順勢 swing）`。
+- 已係觀望／收手而閘已落 → 同樣附加落閘標籤，唔再改基礎動詞。
+- 未觸發但距離 −2.00% 線少於 0.50pp（`-2.00% ≤ 指標 < -1.50%`）→ `⚠️ 貼近落閘線`。恰等於 −2.00% 唔算落閘（觸發係嚴格 `<`）。
+- 指標 `≥ -1.50%` → 無 Gate 1 標籤。
+- 缺 52W 欄或宇宙數 → `gate1_closed = null`，附錄 DATA GAP；**唔**當已落閘，亦**唔**觸發主 DATA GATE。
+
+### Gate 4（大小盤分歧）
+`SPY/VOO > 200MA` **且** `IWM < 200MA` → `gate4_closed = true`。
+- 禁止開新均值回歸長倉；動作欄附加 `｜⚠️ Gate 4 落閘（停開均值回歸）`。
+- 大盤同 IWM **都在 200MA 之下**（或都在之上）→ 分歧不成立，未觸發。
+- 大盤代理：Handover 優先；否則 CSV 嘅 200 日均線欄（通常 EMA 200）。SPY 同 VOO 結論衝突時預設 VOO，並披露。
+- 缺可用 200MA 列 → `gate4_closed = null`，附錄 DATA GAP；唔發明。
+
+### 動作疊加順序
+先 Gate 1（可降級 准 swing 試倉 → 觀望），再附加 Gate 4 標籤。兩閘同日例子：`觀望｜🚨 Gate 1 落閘（停開順勢 swing）｜⚠️ Gate 4 落閘（停開均值回歸）`。
+數字 Exposure 同 `試倉例外開`／`唔開` 旁註維持 Trial／5B 原值。
+
+Write `cupsir_gates` into `latest-state.json` / `regime-summary.json`（keys 見 canon；缺值 `null`）。

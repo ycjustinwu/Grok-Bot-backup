@@ -3,14 +3,15 @@ name: Market Awareness Orchestrator
 description: >-
   Use this as the daily Market Awareness Orchestrator playbook — ingest Stockbee
   + breadth + ETF + Market Master (ΔLIFT/Pace trend-first), score A/B, stance
-  v6.4.6, Trial carve-out, Rotation Delta (non-scoring), then render the
-  four-layer compact 繁體中文 regime daily.
+  v6.4.6, Trial carve-out, CUPSIR Gates 1 & 4 (non-scoring stop-swing), Rotation
+  Delta, then render the five-section compact 繁體中文 regime daily.
 ---
 > **Canonical (2026-10-22):** Market Master `1Xu9VX4S3VuS3BrzW42Yf9WRSaYn8Znp3X6XC-2SFmEk` — tabs 美股市寬／美股行業／ETF 輪動（+ 港股市寬／形態篩選／Setup_Latest）. Doc: `/workspace/docs/market-master-canonical-2026-10-22.md`. Retired primary Monitor: `1XqUu…`.
 > **動作層 (2026-10-22):** 今日動作＋linkage＋Trial carve-out — `docs/今日動作-trial-carve-out-2026-10-22.md`（唔改 TOTAL／hysteresis）。
+> **CUPSIR Gates 1 & 4 (Justin 2026-11-24):** 主動交易止蝕閘門（非計分）— `/workspace/docs/cupsir-gates-1-and-4-2026-11-24.md`。唔改 TOTAL／`regime_effective`／5B／FT／Index DD／Exposure 數字。
 > **Rotation Delta (2026-11-05):** non-scoring book-ETF churn — `docs/rotation-module-v1.1.md` + [rotation-delta](sand-workflow:rotation-delta).
 > **Monitor 讀法 (2026-10-29):** 行業趨勢 = ΔLIFT＋Pace；|z| 顯著性 only — `docs/cup-market-monitor.md`.
-> **Presentation (Justin 2026-11-12):** four-layer compact render — canon `/workspace/docs/regime-daily-compact-format-2026-11-12.md` + template `/workspace/market-awareness/templates/regime-daily-compact-template.md`. 閱讀層：今日結論／准盯避開／市場狀態＋計分＋觀察／附錄。每主題必寫代表 ETF。計分規則不變。
+> **Presentation (Justin 2026-11-24；t129u):** five-section compact render — canon `/workspace/docs/regime-daily-compact-format-2026-11-24.md` + template `/workspace/market-awareness/templates/regime-daily-compact-template.md`. 閱讀層：今日結論（狀態表第 5 行必須可見 CUPSIR Gate 1／4，即使兩閘都 PASS）／准盯／避開／市場狀態與計分／行業與主題精要／極簡附錄。**唔嵌入** latest-state JSON（磁碟 `latest-state.json` 仍係 hysteresis 來源）。每主題代表 ETF 寫入第 2 節，不再另開主題 ETF 附錄表。計分規則不變。11-12 四層 canon 只作歷史。
 # Market Awareness Orchestrator
 
 Daily **Regime Scoring v6.4.6** end-to-end. Label: `v6.4.6 hysteresis multi-band confirm`. Source of truth:
@@ -23,19 +24,19 @@ Default to action on the **silent** phase; complete every pillar before renderin
 
 ## When Justin asks for today's market regime / 市場制度日報
 
-1. [Regime Data Ingest](sand-workflow:regime-data-ingest) — Stockbee via [Stockbee T2108 Monitor](sand-workflow:stockbee-t2108-monitor) (**xlsx full history**), Breadth via [Breadth Daily Report](sand-workflow:breadth-daily-report) + [FRED VIX Term Structure](sand-workflow:fred-vix-term-structure), TradingView US-ETF CSV, **+ Market Master self-pull (`美股市寬`＋`美股行業`)** (always)
+1. [Regime Data Ingest](sand-workflow:regime-data-ingest) — Stockbee via [Stockbee T2108 Monitor](sand-workflow:stockbee-t2108-monitor) (**xlsx full history**), Breadth via [Breadth Daily Report](sand-workflow:breadth-daily-report) + [FRED VIX Term Structure](sand-workflow:fred-vix-term-structure), TradingView US-ETF CSV, **+ Market Master self-pull (`美股市寬`＋`美股行業`)** (always), **+ CUPSIR Gates 1 & 4 inputs**（優先 Handover Note `breadth-report-YYYY-MM-DD.md` 嘅 `CUPSIR GATES (stop-swing)`；否則由 `market breadth monitor US_*.csv` 同 `US ETF complete_*.csv` 計；缺 52W 欄只標附錄 DATA GAP，唔觸發主 DATA GATE）
 2. [Regime Pillar A](sand-workflow:regime-pillar-a) → /12 (floor −4)
 3. [Regime Pillar B](sand-workflow:regime-pillar-b) → /9.5 (floor −6.5)
 4. [Regime Layer Context](sand-workflow:regime-layer-context) → Layer 0/1/2
 4.6. [Rotation Delta](sand-workflow:rotation-delta) → churn5/10/20 + 四檔判定（**non-scoring**；script `/workspace/market-awareness/rotation/rotation_calc.py`）
-5. [Regime Modifiers And Stance](sand-workflow:regime-modifiers-and-stance) → modifiers, hysteresis, **Fast-Track / Change C / FT STATE**, short 5C, stance Steps 1–5, **+ Trial carve-out／今日動作／linkage／主題許可**
+5. [Regime Modifiers And Stance](sand-workflow:regime-modifiers-and-stance) → modifiers, hysteresis, **Fast-Track / Change C / FT STATE**, short 5C, stance Steps 1–5, **+ Trial carve-out／今日動作／linkage／主題許可**，**再套 CUPSIR Gates 1 & 4 動作疊加**（唔改 TOTAL／effective）
 6. [ETF RS Overlay Ingest](sand-workflow:etf-rs-overlay-ingest) + [ETF RS Theme Tilt](sand-workflow:etf-rs-theme-tilt) — before render（主題許可要用 Favor／Avoid）
-7. [Regime Daily Report](sand-workflow:regime-daily-report) → 繁體中文 deliverable（四層精簡：今日結論 → 准盯／避開 → 市場狀態＋計分＋觀察 → 附錄；每主題帶代表 ETF）
+7. [Regime Daily Report](sand-workflow:regime-daily-report) → 繁體中文 deliverable（五節精簡：今日結論（含第 5 行 CUPSIR 閘門，即使 PASS）→ 准盯／避開 → 市場狀態與計分 → 行業與主題精要 → 極簡附錄；每主題代表 ETF 入第 2 節；**唔嵌入** latest-state JSON）
 
 ## Execution order (v6.4.6)
 
-Silent compute: **Sections 1 → 2 → 3 → 4 → 5 → 7 → 0**, then Section 6 **Steps 1–5** + **Trial carve-out** (still silent).
-**Only then** render the four-layer compact daily（今日結論先於狀態／計分；核對同閘門入附錄）。
+Silent compute: **Sections 1 → 2 → 3 → 4 → 5 → 7 → 0**, then Section 6 **Steps 1–5** + **Trial carve-out** + **CUPSIR Gates 1 & 4 overlay** (still silent).
+**Only then** render the five-section compact daily（今日結論先於狀態／計分，且狀態表第 5 行可見 CUPSIR；狀態與異常入極簡附錄，**唔嵌入** latest-state JSON；Q1–Q12 全過只寫一行）。
 Section 6 “no raw tables / concise” applies to the **rendered** text only.
 
 ## Version guard (hard)
@@ -58,6 +59,7 @@ Section 6 “no raw tables / concise” applies to the **rendered** text only.
 - **v6.4.6 5B:** upgrade pending target = today’s **raw band**; 2 consecutive same raw → effective may **jump multi-band**; pending FAIL + today’s raw **>** prior effective → **Intermediate Land** (effective = today raw today; clear pending) — Justin 2026-10-23; still **no** day-1 one-band ladder. Downgrade still immediate. FT/CC unchanged. See `docs/hysteresis-intermediate-land-2026-10-23.md`.
 - **v6.4.6 Step 5 add-on (2026-10-01):** Index Drawdown Gate before V-REVERSAL (dd ≥8% / 5–8% / <5%) — stance only
 - **動作層 (2026-10-22):** 今日動作三選一 + linkage + Trial carve-out（三條件齊先細碼試倉）+ 主題許可 Focus∩MM **ΔLIFT/Pace**（|z| 顯著性）∩ETF Favor — **never** into TOTAL／band／hysteresis／FT／numeric Exposure ceiling
+- **CUPSIR Gates 1 & 4 (2026-11-24):** 止蝕閘只疊加喺今日動作。Gate 1：`(52W High − 52W Low) ÷ Universe < -2.00%` → 禁止新順勢／回調 swing 長倉，`准 swing 試倉` 降為 `觀望｜🚨 Gate 1 落閘（停開順勢 swing）`；未觸發但距線 <0.50pp → `⚠️ 貼近落閘線`。Gate 4：`SPY/VOO > 200MA` 且 `IWM < 200MA` → 禁止新均值回歸長倉，動作欄附加 `｜⚠️ Gate 4 落閘（停開均值回歸）`（兩邊都在 200MA 之下則分歧不成立）。**Never** into TOTAL／`regime_effective`／5B／FT／Index DD／Exposure 數字。Canon：`/workspace/docs/cupsir-gates-1-and-4-2026-11-24.md`
 - **Monitor 趨勢軸 (2026-10-29):** IndustryGroup 主讀 **ΔLIFT＋Pace**；|z| 過濾 only — `docs/cup-market-monitor.md`
 - Scoring math **unchanged** from v6.4.3 — do not "upgrade" A1-ii / 0A④ / Pair7 / B3 / clips
 
@@ -74,20 +76,20 @@ Mirror HK After-Close Brief §五. Sheet `1Xu9VX4S3VuS3BrzW42Yf9WRSaYn8Znp3X6XC-
 1. During ingest: **always** pull Market Master (Sheets MCP preferred) → 美股市寬 + 美股行業 (Summary/History equivalents + IndustryGroup). Prefer History Date = US session D; else D+1 stamp lock + disclose.
 2. Capture: **動力股佔比%**, **SPY ATR**, **QQQ ATR**, IndustryGroup **ΔLIFT + Pace (trend primary)** + lift / 季度 median / |z| (significance filter only) — still non-scoring. Reading order: `docs/cup-market-monitor.md` (Cup Sir／Justin 2026-10-29).
 3. During Layer 0 / Focus Themes: direction-only vs Stockbee 4% pulse; MLI升% / 動力股佔比 / ATR stretch flags; IndustryGroup **ΔLIFT／Pace 轉強／轉弱** vs Layer1 / ETF RS — disclose ΔLIFT↔Pace divergences (e.g. share↑/price↓ or low-level turn).
-4. In daily report: fold Monitor into **### 行業同主題觀察（非計分）**（reading layer）and 附錄補充 — **first** ΔLIFT／Pace trend lists, **then** |z|>1.96 as significance tags (never rank “strength” by |z| alone). Do not require the old standalone Monitor heading. Skeleton in playbook + compact canon.
+4. In daily report: fold Monitor into **### 行業與主題精要** and 極簡附錄 — **first** ΔLIFT／Pace in the three bullets, |z| only as a significance tag in those same bullets (never rank “strength” by |z| alone). Do not require a standalone Monitor heading or a long appendix industry table. Skeleton in playbook + 11-24 compact canon.
 5. **Never** into Pillar A/B / TOTAL / hysteresis / FT / Exposure. Drive unreachable → one-line DATA GAP in 附錄（必要時今日結論一句）; do **not** fail whole Regime DATA GATE. Never invent from Stockbee.
 6. **Also feeds** 今日結論張力句 + Trial 條件② + 主題許可交叉（Focus ∩ ΔLIFT/Pace ∩ ETF Favor；|z| 加權 only — 仍非計分）。
 
 ## ETF RS Theme Tilt — ADDITIONAL Observation (non-scoring)
 
-After Monitor data is in: run [ETF RS Overlay Ingest](sand-workflow:etf-rs-overlay-ingest) + [ETF RS Theme Tilt](sand-workflow:etf-rs-theme-tilt) → fold Favor / Avoid / **趨勢觀察** into 准盯／避開 + 主題傾斜（每主題代表 ETF）and 附錄「主題對應 ETF」. Prefer Market Master tab **`ETF 輪動`**; legacy Drive `1cgrNJ…` only if Justin says. Overlay only — never TOTAL / band / hysteresis / FT / Exposure. Stale US trade date → DATA GAP omit section. **Favor／Avoid also feed 主題許可／禁止.**
+After Monitor data is in: run [ETF RS Overlay Ingest](sand-workflow:etf-rs-overlay-ingest) + [ETF RS Theme Tilt](sand-workflow:etf-rs-theme-tilt) → fold Favor / Avoid / **趨勢觀察** into 准盯／避開（每主題代表 ETF 寫入第 2 節表）and 行業與主題精要嘅雙升／雙降。**不要**另開附錄「主題對應 ETF」表。Prefer Market Master tab **`ETF 輪動`**; legacy Drive `1cgrNJ…` only if Justin says. Overlay only — never TOTAL / band / hysteresis / FT / Exposure. Stale US trade date → DATA GAP omit section. **Favor／Avoid also feed 主題許可／禁止.**
 
 ## Rotation Delta — ADDITIONAL Observation (non-scoring) — Justin adopt 2026-11-05
 
 After Layer Context, before Index Drawdown Gate / stance Steps: run [Rotation Delta](sand-workflow:rotation-delta). Script-first: `python3 /workspace/market-awareness/rotation/rotation_calc.py --matrix <PH_MT|ETF_Prices.csv>`. Prefer RS `PH_MT` then Market Master hidden tab **`ETF_Prices`**. Canon `/workspace/docs/rotation-module-v1.1.md`.
 
 - Output: `rot_state` ∈ {制度輪動, 輪動中, 已定格, 延續} + churn5/10/20 + top8/old8. **Never** into TOTAL / band / hysteresis / FT / Change C / Exposure.
-- Render via [Regime Daily Report](sand-workflow:regime-daily-report): 輪動判定＋現任寫入市場狀態；換手／上批／雙升雙降入附錄。Escalate onto 今日結論 only for ②③ per skill（唔另開「重要旗號」牆）.
+- Render via [Regime Daily Report](sand-workflow:regime-daily-report): 輪動判定＋現任寫入市場狀態與計分；雙升／雙降入行業與主題精要；換手／上批等銜接細節入極簡附錄。Escalate onto 今日結論 only for ②③ per skill（唔另開「重要旗號」牆）.
 - Fallback: 5-day `S` proxy + `⚠️ 輪動數據代理`; never invent churn.
 
 ## Locked learnings (2026-09-09)
@@ -99,7 +101,23 @@ Keep where they do not conflict with v6.4.6: A2 pattern checklist (zero-rejectio
 - **Intermediate Land (Justin 2026-10-23):** pending FAIL but raw > prior effective → land effective at raw today (升一級／落地中間帶); not day-1 ladder.
 - **Index Drawdown Gate (Justin 2026-10-01):** when T2108<20, before V-REVERSAL — SPX dd vs 252-session high from Stockbee S&P. ≥8% PASS; <5% FAIL (no V-REVERSAL, ⚠️ 非底部訊號); 5–8% NEUTRAL (V-REVERSAL OK but 首注輕試 + Exposure 10% cap). Stance-only; no TOTAL/band change. See `regime-modifiers-and-stance` Step 5 + `docs/CHANGELOG-v6.4.6.md`.
 - **今日動作＋Trial (Justin 2026-10-22):** top-bar action layer; Trial three-gate carve-out; skill challenged **once** then follow rules — do not re-litigate philosophy in each daily.
+- **CUPSIR Gates 1 & 4 (Justin 2026-11-24):** after Trial, overlay stop-swing gates. Missing 52W / 200MA → appendix DATA GAP only; never trip main DATA GATE; never invent. See `/workspace/docs/cupsir-gates-1-and-4-2026-11-24.md`.
 
-Refs: `/workspace/refactored_market_awareness/docs/` + `CHANGELOG-v6.4.6.md` + `CHANGELOG-v6.4.5.md` + `今日動作-trial-carve-out-2026-10-22.md`.
+Refs: `/workspace/refactored_market_awareness/docs/` + `CHANGELOG-v6.4.6.md` + `CHANGELOG-v6.4.5.md` + `今日動作-trial-carve-out-2026-10-22.md` + `/workspace/docs/cupsir-gates-1-and-4-2026-11-24.md`.
 
 **US Monitor date lock (Justin forever 2026-09-18; sheet→Market Master 2026-10-22, **US-only**):** sheet stamp S = US session S−1; for Regime session D use Summary/History **label D+1**; disclose stamp→session. Prefer exact session Date when tab is session-dated. **HK Monitor is NOT D+1.** See `docs/cup-market-monitor.md`.
+
+## Delivery / Notion self-push (append to market-awareness-orchestrator; Justin 2026-11-24)
+
+After Soft Final + self-VERIFY (WV skipped unless Justin re-opens): this bot runs [Notion Final Sync](sand-workflow:notion-final-sync) itself.
+
+```bash
+python3 /workspace/notion-briefs-import/upsert_final.py \
+  --library regime \
+  --path /workspace/market-awareness/YYYY-MM-DD/regime-daily-YYYY-MM-DD.md \
+  --name "Regime YYYY-MM-DD｜…｜TOTAL …｜…｜…" \
+  --date YYYY-MM-DD \
+  --md5 <digest>
+```
+
+`--name` and `--prop` values must be read from the Final file (never invented). Create-new default. Never `--update` / `--page-id` unless Justin explicitly asked to revise that same page. Confirm receipt `body_verified` / `attachment` / state written (`market-awareness`). Then short vault index via `/workspace/obsidian-captain/scripts/add_final_note.py --library regime`. Deliver in **this** chat: Notion-only short status (動作／TOTAL／倉位上限, file-accurate) + link; no full markdown paste once synced. Do not hand off routine sync to 總指揮; escalate only on failure (path, md5, error). Token from process.env `NOTION_API_KEY` or `NOTION_TOKEN` only — never paste or write it.
