@@ -1,3 +1,12 @@
+## 2026-11-27 US swing 模擬倉 skills backup
+- Skills vs live `/home/box/agent-data/workflows/`: `us-swing-sim-open`, `us-swing-sim-track`, `us-swing-sim-reconcile` already matched disk (md5 `4540a230`, `c46bbb30`, `f448ca4d`; last skill refresh 2026-11-09). Left unchanged.
+- Related (not rewritten): `jev-fleet-decisions` already current from the 2026-11-27 Second brain backup.
+- Added script backup (runtime path unchanged) under `bots/us-swing-sim/scripts/`: pre_open_check, track_session, open_working_limit, size_position, hermes_gate, sheet_safe_sync, sync_sheet, verify_sheet_readback, sim_lib, book_snapshot, soft_final_stub, tests, `README-scripts.md` (from `/workspace/us-swing-sim/tools/`; excluded `__pycache__`).
+- Added `bots/us-swing-sim/rules.json` snapshot of locked paper rules (`state/rules.json`, updated 2026-11-21; includes sheet-sync-even-quiet-v1; supply-half-fill-v1 remains revoked).
+- Secret scan: no plaintext tokens/keys. Sheet / TV / Drive ids in scripts are path references only.
+- Visibility: repo must stay **private** (archive policy).
+- Tag: `backup-us-swing-sim-2026-11-27`.
+
 ## 2026-11-27 Second brain skills backup
 - Refreshed `skills/us-second-brain-3-picks/SKILL.md` from disk `/home/box/agent-data/workflows/us-second-brain-3-picks/` (script-first Soft Final draft + judgment_flags; 書面語 template).
 - Unchanged (already matched disk): `skills/us-second-brain-notion-sync/`, `skills/us-swing-session-overview/`, `skills/jev-fleet-decisions/`.

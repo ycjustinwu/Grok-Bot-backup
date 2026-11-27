@@ -1,0 +1,485 @@
+{
+  "updated_hkt": "2026-11-21 15:30 HKT",
+  "approved_by": "Justin",
+  "rules": [
+    {
+      "rule_id": "stalk-working-orders-v1",
+      "approved_hkt": "2026-10-16 13:06 HKT",
+      "approved_by": "Justin",
+      "text": "Stalk = place working limit/conditional orders immediately (not watchlist-only). Fill moves to positions/; invalidate cancels order.",
+      "layers": {
+        "orders": "working limit / buy-stop / conditional — not filled",
+        "positions": "filled paper positions",
+        "watchlist": "observe only, no working order (deferred names)"
+      }
+    },
+    {
+      "rule_id": "stalk-lifetime-v1",
+      "approved_hkt": "2026-10-16 13:13 HKT",
+      "approved_by": "Justin",
+      "text": "Stalk lifetime: cancel working order on (1) structure invalidation on the ticket, (2) 5 US sessions without fill (default), (3) earnings−1 session expire if set, (4) thesis dead / Setup drop, (5) price left zone — do not chase-raise limit. Regime is reference: Deep Bear/0% keeps paper_probe working orders unless kill/expire. Turn not Favor for that name's sleeve (Favor→Neutral/Avoid or Focus Short hits sleeve) → cancel that name's working order. Regime improve does not auto size-up; next stalks may drop paper_probe when exposure allows. No silent stop/zone edits; session-close confirmation unless gap through invalidation. Concrete left-zone: also see `limit-away-5pct-cancel-v1` (Close ≥5% past limit → auto cancel).",
+      "defaults": {
+        "max_stalk_sessions": 5,
+        "earnings_expire_sessions_before": 1,
+        "favor_fade_action": "cancel_working",
+        "regime_worsen_wipe_all": false,
+        "session_close_confirm": true,
+        "limit_away_rule": "limit-away-5pct-cancel-v1"
+      }
+    },
+    {
+      "rule_id": "watchlist-journal-format-v2",
+      "approved_hkt": "2026-10-16 13:23 HKT",
+      "approved_by": "Justin correction",
+      "text": "Watchlist = Second brain stalk names (e.g. CRL+DK). Journal = after real execute: track SL, targets, exposure, marks. OPS lines only for working/skip/rules."
+    },
+    {
+      "rule_id": "notional-cap-20pct-v1",
+      "approved_hkt": "2026-10-16 14:31 HKT",
+      "approved_by": "Justin",
+      "text": "Per-name notional cap = 20% of equity ($20,000 on $100k). shares = floor(R / stop%); notional = shares × entry; if notional > 20% equity, resize shares = floor(0.20 × equity / entry) and record effective_R. No slippage adjustment on paper fills (Justin 2026-10-16).",
+      "defaults": {
+        "equity_usd": 100000,
+        "max_notional_pct": 0.2,
+        "slippage_pct": 0.0
+      }
+    },
+    {
+      "rule_id": "stalk-logic-audit-v1",
+      "approved_hkt": "2026-10-16 14:38 HKT",
+      "approved_by": "Justin",
+      "text": "Every Second brain stalk gets a Logic_Audit row from list day (box logic-audit/<TICKER>.json + Sheet tab Logic_Audit). Track pass updates T+1/T+3/T+5 closes+returns, MFE/MAE vs baseline_close (prior US session close). Grades: 追蹤中 / 精準到價 / 假突破止蝕 / 未到價過期 / 結構作廢. Independent of paper P&L. Reconcile: if closed audits n<30, state 樣本不足 and do not draw setup/exit conclusions from grades. Fill sets filled=Y; cancel/expire sets grade.",
+      "defaults": {
+        "baseline": "prior_us_session_close",
+        "horizons": [
+          "T+1",
+          "T+3",
+          "T+5"
+        ],
+        "mfe_mae_window_sessions": 5,
+        "min_sample_for_conclusions": 30,
+        "independent_of_pnl": true
+      }
+    },
+    {
+      "rule_id": "9ema-grace-below-entry-v1",
+      "approved_hkt": "2026-10-16 16:16 HKT",
+      "approved_by": "Justin",
+      "effective_date": "2026-10-16",
+      "text": "IF entry price is BELOW the 9EMA at entry (entry_below_9ema=true), THEN do NOT exit on session close below 9EMA until 3 full US sessions have elapsed AFTER the entry session. Convention: entry_session_date = US session of fill = session 0; sessions_held = count of completed US session closes with date > entry_session_date; EMA9_EXIT is suppressed while sessions_held < 3; first eligible check is when sessions_held reaches 3 (close of the 3rd session after entry). IF entry is AT or ABOVE 9EMA at entry → no grace; normal close-below-9EMA full exit from the first post-entry mark onward. Hard SL UNAFFECTED: session close below stop / gap through stop still full exit immediately. Soft rules unchanged: trim consider (+3 sessions), time stop ask-Justin, thesis/structure invalid.",
+      "defaults": {
+        "grace_sessions_after_entry": 3,
+        "entry_day_counts_as": 0,
+        "sessions_held_def": "completed_US_closes_strictly_after_entry_session_date",
+        "compare": "entry_price < ema9_at_entry → entry_below_9ema true; entry >= ema9 → false",
+        "hard_sl_unaffected": true,
+        "soft_rules_unaffected": true,
+        "exit_reason_when_fires": "EMA9_EXIT"
+      },
+      "status": "superseded",
+      "superseded_by": "9ema-grace-3sessions-v2",
+      "superseded_hkt": "2026-10-20 07:20 HKT",
+      "superseded_note": "Justin widened grace to ALL positions first 3 sessions (not only entry_below_9ema)."
+    },
+    {
+      "rule_id": "limit-single-price-v1",
+      "approved_hkt": "2026-10-17 08:23 HKT",
+      "approved_by": "Justin",
+      "effective_date": "2026-10-17",
+      "text": "Working LIMIT buy/sell orders use ONE price (limit_price), not a range (no limit_low/limit_high bands). Fill rule: session Low <= limit_price (buy) or High >= limit_price (sell) → fill at limit_price with no slippage. Conditional reclaim/hold gates are separate order_types and must not be disguised as a limit range. Historical filled zone orders (e.g. CRL limit_zone 300–306) stay as-is in ledger history; new/amended working orders must be single-price.",
+      "defaults": {
+        "order_type": "limit_buy | limit_sell",
+        "required_field": "limit_price",
+        "forbidden_on_limit": [
+          "limit_low",
+          "limit_high",
+          "zone"
+        ],
+        "fill": "touched = fill @ limit_price; slippage_pct=0",
+        "no_retroactive_fill_on_amend": true
+      }
+    },
+    {
+      "rule_id": "concrete-plan-v1",
+      "approved_hkt": "2026-10-17 08:26 HKT",
+      "approved_by": "Justin",
+      "effective_date": "2026-10-17",
+      "text": "Every stalk / working order / position plan MUST be concrete numbers, not vague language. Required fields: single entry `limit_price` (not a range; also `limit-single-price-v1`), `stop` (hard number), `shares`, `r_usd` (R$), hard `invalidation` level or condition, `max_stalk_sessions` (default 5 per stalk-lifetime-v1). Forbidden as fill gates: vague reclaim wording, \"hold EMA\" / \"reclaim and hold\", zone/range limits (limit_low–limit_high), and \"consider\" used as an entry/fill trigger. Time stop still asks Justin; trim 1/3+BE at sessions_held=3 is AUTO (`trim-1-3-be-auto-v1`) — but entry / stop / size / invalidation must always be numbers before a working order is placed. Missing any required number → skip + say what is missing; do not invent.",
+      "defaults": {
+        "required_fields": [
+          "limit_price",
+          "stop",
+          "shares",
+          "r_usd",
+          "invalidation",
+          "max_stalk_sessions"
+        ],
+        "max_stalk_sessions_default": 5,
+        "forbidden_fill_gates": [
+          "vague_reclaim_language",
+          "hold_EMA",
+          "reclaim_and_hold",
+          "limit_zone_range",
+          "consider_as_fill_trigger"
+        ],
+        "soft_rules_ask_justin": [
+          "time_stop"
+        ],
+        "on_missing_numbers": "skip_and_name_missing",
+        "does_not_change": [
+          "CRL filled @306",
+          "DK limit_buy @76.50"
+        ],
+        "auto_rules": [
+          "trim_1_3_be_at_sessions_held_3"
+        ]
+      }
+    },
+    {
+      "rule_id": "9ema-grace-3sessions-v2",
+      "approved_hkt": "2026-10-20 07:20 HKT",
+      "approved_by": "Justin",
+      "effective_date": "2026-10-20",
+      "supersedes": "9ema-grace-below-entry-v1",
+      "text": "ALL open positions get a 9EMA exit grace for the first 3 US sessions after entry. Convention: entry_session_date = US session of fill = session 0; sessions_held = count of completed US session closes with date > entry_session_date; EMA9_EXIT is suppressed while sessions_held < 3; first eligible check is when sessions_held reaches 3 (close of the 3rd session after entry). Applies regardless of whether entry was above or below 9EMA at fill (entry_below_9ema is informational only, no longer a grace gate). Hard SL UNAFFECTED: session close below stop / gap through stop still full exit immediately. Soft: time stop ask-Justin, thesis/structure invalid. Trim 1/3+BE at sessions_held=3 is AUTO (`trim-1-3-be-auto-v1`, Justin 2026-10-22).",
+      "defaults": {
+        "grace_sessions_after_entry": 3,
+        "entry_day_counts_as": 0,
+        "sessions_held_def": "completed_US_closes_strictly_after_entry_session_date",
+        "applies_to": "all_positions",
+        "entry_below_9ema_role": "informational_only_not_a_grace_gate",
+        "hard_sl_unaffected": true,
+        "soft_rules_unaffected": true,
+        "exit_reason_when_fires": "EMA9_EXIT"
+      }
+    },
+    {
+      "rule_id": "tv-us-shortlist-sync-v1",
+      "approved_hkt": "2026-10-20 11:24 HKT",
+      "approved_by": "Justin",
+      "effective_date": "2026-10-20",
+      "text": "After every US swing sim post-close track pass, sync TradingView watchlist **us shortlist** (id `351605193`) to match the paper book. INCLUDE (union): all open positions under positions/ + all working orders under orders/ + active watchlist stalks under watchlist/ (exclude FORMAT/_TEMPLATE/_index). REMOVE: any symbol currently on the TV list that is no longer in that union. Symbol format EXCHANGE:TICKER (known map: NYSE:CRL, NYSE:DK, NASDAQ:FRSH, NASDAQ:LIFE, NASDAQ:AUGO; resolve unknown via mcp-tv-search-symbols stock). Tools: user-Tradingview-xai mcp-watchlist-get-watchlist → add via mcp-watchlist-add-to-watchlist → remove via mcp-watchlist-remove-from-watchlist. Do not sync closed/cancelled/expired names. Run as final step after Sheet + Drive sync. Journal one OPS line with added/removed (or 'no-op').",
+      "defaults": {
+        "watchlist_id": "351605193",
+        "watchlist_name": "us shortlist",
+        "include": [
+          "positions",
+          "working_orders",
+          "watchlist_stalks"
+        ],
+        "exclude_files": [
+          "FORMAT.md",
+          "_TEMPLATE.json",
+          "_index.json"
+        ],
+        "symbol_format": "EXCHANGE:TICKER",
+        "known_map": {
+          "CRL": "NYSE:CRL",
+          "DK": "NYSE:DK",
+          "FRSH": "NASDAQ:FRSH",
+          "LIFE": "NASDAQ:LIFE",
+          "AUGO": "NASDAQ:AUGO"
+        },
+        "resolve_unknown": "mcp-tv-search-symbols stock",
+        "tools": {
+          "get": "mcp-watchlist-get-watchlist",
+          "add": "mcp-watchlist-add-to-watchlist",
+          "remove": "mcp-watchlist-remove-from-watchlist",
+          "namespace": "user-Tradingview-xai"
+        },
+        "cadence": "end_of_every_post_close_track",
+        "journal": "OPS line added/removed or no-op"
+      }
+    },
+    {
+      "rule_id": "trim-1-3-be-auto-v1",
+      "approved_hkt": "2026-10-22 07:05 HKT",
+      "approved_by": "Justin",
+      "effective_date": "2026-10-22",
+      "text": "When sessions_held first reaches 3 (entry session=0; same convention as 9ema-grace-3sessions-v2), AUTO trim 1/3 and move stop to breakeven (BE=entry). Do NOT ask Justin. Timing: on the post-close track pass that first sets sessions_held>=3, queue a pending market_open_sell for the NEXT US cash open (sell floor(shares/3) @ Open; remain shares; stop→entry). Fill on that open print (TV MCP session Open; no slippage invent). Mark position.trim_1_3_done=true so it only fires once. Shares: trim=floor(shares/3), remain=shares-trim. After fill: journal TRIM_1_3; recompute r_usd on remain vs BE (≈0 risk from entry); update cash. Hard SL / EMA9 / thesis / time-stop unchanged. If already trimmed or pending_instruction TRIM_1_3_BE exists → skip. Justin 2026-10-22:「呢個當必做，下次唔使問」— supersedes soft 'consider trim' ask.",
+      "defaults": {
+        "trigger": "sessions_held_first_reaches_3",
+        "trim_fraction": "1/3",
+        "trim_shares": "floor(shares/3)",
+        "new_stop": "entry (BE)",
+        "execute_at": "next_US_market_open",
+        "fill_price": "session_Open_TV_MCP",
+        "ask_justin": false,
+        "once_per_position": true,
+        "flag": "trim_1_3_done",
+        "exit_reason": "TRIM_1_3",
+        "supersedes": "soft consider trim ask at +3 sessions"
+      }
+    },
+    {
+      "rule_id": "limit-away-5pct-cancel-v1",
+      "approved_hkt": "2026-10-22 07:15 HKT",
+      "approved_by": "Justin",
+      "effective_date": "2026-10-22",
+      "text": "On each post-close track, for every WORKING limit order: compare session Close (TV MCP) to limit_price. If price is ≥5% away on the wrong side of the limit, AUTO cancel — do NOT ask Justin. Buy limit: cancel when Close ≥ limit_price × 1.05 (ran above / left zone). Sell limit: cancel when Close ≤ limit_price × 0.95. Metric = session close only (not H/L). Journal CANCEL + free R reserved; Logic_Audit grade 未到價過期; remove from TV us shortlist. Does not change Hard SL / fill rules / stalk max-5. Justin 2026-10-22 after LIFE:「下次自己做，排limit 5% 外就取消得；計收市價」.",
+      "defaults": {
+        "metric": "session_close",
+        "threshold_pct": 0.05,
+        "buy_cancel_when": "Close >= limit_price * 1.05",
+        "sell_cancel_when": "Close <= limit_price * 0.95",
+        "ask_justin": false,
+        "grade_on_cancel": "未到價過期",
+        "source": "TradingView MCP close",
+        "applies_to": [
+          "limit_buy",
+          "limit_sell"
+        ],
+        "does_not_apply_to": [
+          "filled",
+          "pending_market_open trim already approved"
+        ]
+      }
+    },
+    {
+      "rule_id": "post-trim-hold-v1",
+      "approved_hkt": "2026-10-30 06:36 HKT",
+      "approved_by": "Justin",
+      "effective_date": "2026-10-29",
+      "authorized_by": "[pt65u]",
+      "text": "For any position that has completed trim-1-3-be (trim_1_3_done=true) AND sessions_held >= 5 (or any already-trimmed name at/after the 5-session time-stop window): do NOT ask time-stop; HOLD until Hard SL / BE stop hit (session close below stop) OR close below 9EMA (EMA9_EXIT, grace already expired). Applies to CRL / FRSH / HAFN now and future. Justin 2026-10-30:「所有已滿5日，trim左，繼續持有unless touch breakeven stop or close below 9ema」.",
+      "defaults": {
+        "trigger": "trim_1_3_done AND sessions_held >= 5",
+        "ask_justin_time_stop": false,
+        "hold_until": [
+          "hard_sl_or_be_stop_session_close",
+          "EMA9_EXIT"
+        ],
+        "does_not_exit_on": [
+          "time_stop"
+        ],
+        "applies_now": [
+          "CRL",
+          "FRSH",
+          "HAFN"
+        ],
+        "flag": "post_trim_hold"
+      }
+    },
+    {
+      "rule_id": "better-price-v1",
+      "approved_hkt": "2026-10-30 06:45 HKT",
+      "approved_by": "Justin",
+      "effective_date": "2026-10-29",
+      "authorized_by": "[pt66u]",
+      "text": "When a working LIMIT is marketable at the Open (or fill print), fill at the BETTER price vs limit — never worse (no adverse slippage). Buy limit: if Open (or executable print) < limit_price → fill @ that lower price (NOT at limit). Sell limit (mirror): if Open (or print) > limit_price → fill @ that higher price. If Open is on the unfavorable side of limit but the limit is still touched (buy: Low<=limit; sell: High>=limit) → fill @ limit_price per limit-single-price-v1. Justin 2026-10-30:「CRWD 因為limit at 260.25, must be better filled at 254.335… If sell, same logic, 調返轉」. Example applied: CRWD L260.25 → Open 254.335 fill.",
+      "defaults": {
+        "buy_fill": "min(limit_price, open_or_executable_print) when marketable",
+        "sell_fill": "max(limit_price, open_or_executable_print) when marketable",
+        "never_worse_than_limit": true,
+        "overrides_when_open_better": "limit-single-price-v1 fill-at-limit only when Open is not better",
+        "example": "CRWD buy L260.25 Open 254.335 → fill 254.335"
+      }
+    },
+    {
+      "rule_id": "away-at-place-observe-v1",
+      "approved_hkt": "2026-11-01",
+      "approved_by": "Justin",
+      "effective_date": "2026-11-01",
+      "authorized_by": "[pt74u]",
+      "source": "W44 execution-eval + chat t74u Patch all improvement",
+      "text": "At OPEN Soft Final: before placing a working limit, check session Close (or last mark Close). Buy: if Close ≥ limit_price × 1.05 → place OBSERVE only (watchlist), never working. Sell: if Close ≤ limit_price × 0.95 → OBSERVE only. Aligns place-time with `limit-away-5pct-cancel-v1` (track still AUTO cancels working that later leave the band). Do not chase-raise the limit to stay inside away.",
+      "defaults": {
+        "metric": "session_close_or_last_mark_close",
+        "threshold_pct": 0.05,
+        "buy_observe_when": "Close >= limit_price * 1.05",
+        "sell_observe_when": "Close <= limit_price * 0.95",
+        "action": "OBSERVE_only_no_working",
+        "aligns_with": "limit-away-5pct-cancel-v1",
+        "ask_justin": false
+      }
+    },
+    {
+      "rule_id": "better-price-stop-reanchor-v1",
+      "approved_hkt": "2026-11-01",
+      "approved_by": "Justin",
+      "effective_date": "2026-11-01",
+      "authorized_by": "[pt74u]",
+      "source": "W44 execution-eval + chat t74u; extends better-price-v1",
+      "extends": "better-price-v1",
+      "text": "On better-price fill (Open/print better than limit per `better-price-v1`): AUTO recompute stop and R$. Prefer same $ risk from original plan: plan_$risk = |plan_entry − plan_stop|; new_stop = entry − plan_$risk (long) or entry + plan_$risk (short). If plan_$risk unavailable, keep same stop% vs new entry. Then R$ = shares × |entry − stop|. Soft Final / journal / position file must show both new stop and R$. Never leave plan stop glued to old limit when fill price moved.",
+      "defaults": {
+        "trigger": "better_price_fill",
+        "prefer": "same_dollar_risk_from_plan_entry_minus_stop",
+        "fallback": "same_stop_pct_vs_new_entry",
+        "r_usd": "shares * abs(entry - stop)",
+        "ask_justin": false,
+        "soft_final_must_show": [
+          "entry",
+          "stop",
+          "r_usd"
+        ]
+      }
+    },
+    {
+      "rule_id": "cash-slot-pregate-v1",
+      "approved_hkt": "2026-11-01",
+      "approved_by": "Justin",
+      "effective_date": "2026-11-01",
+      "authorized_by": "[pt74u]",
+      "source": "W44 execution-eval + chat t74u",
+      "text": "Before OPEN Soft Final locks working orders: require (1) Σ working notional ≤ available cash AND (2) open_count + count(working that could fill) ≤ 7. If either fails: keep only highest-priority ≤N names that fit both gates; demote the rest to OBSERVE in the **same** Soft Final. No later cash-cap / slot patch after Soft Final.",
+      "defaults": {
+        "gates": [
+          "sum_working_notional_le_cash",
+          "open_plus_working_le_7"
+        ],
+        "on_fail": "keep_highest_priority_fit_rest_OBSERVE_same_Soft_Final",
+        "no_post_soft_final_cash_cap_patch": true
+      }
+    },
+    {
+      "rule_id": "soft-final-crowding-header-v1",
+      "approved_hkt": "2026-11-01",
+      "approved_by": "Justin",
+      "effective_date": "2026-11-01",
+      "authorized_by": "[pt74u]",
+      "source": "W44 execution-eval + chat t74u",
+      "text": "Every Soft Final header must include crowding one-liner: OPEN x/7 · cash · R reserved · working notional. Missing any field → Soft Final incomplete (do not claim Done).",
+      "defaults": {
+        "required_header_fields": [
+          "OPEN_x/7",
+          "cash",
+          "R_reserved",
+          "working_notional"
+        ]
+      }
+    },
+    {
+      "rule_id": "soft-final-void-authorize-v1",
+      "approved_hkt": "2026-11-01",
+      "approved_by": "Justin",
+      "effective_date": "2026-11-01",
+      "authorized_by": "[pt74u]",
+      "source": "W44 execution-eval + chat t74u",
+      "text": "Soft Final void / reverse / re-OPEN that voids a prior Soft Final for the same bar-date requires Justin or 總指揮 AUTHORIZE. Default: one Soft Final per bar-date unless authorized. Do not silently void and rewrite book state.",
+      "defaults": {
+        "void_requires": [
+          "Justin",
+          "總指揮"
+        ],
+        "one_final_per_bar_date": true,
+        "authorize_token": "AUTHORIZE"
+      }
+    },
+    {
+      "rule_id": "sheet-readback-done-v1",
+      "approved_hkt": "2026-11-01",
+      "approved_by": "Justin",
+      "effective_date": "2026-11-01",
+      "authorized_by": "[pt74u]",
+      "source": "W44 execution-eval + chat t74u",
+      "text": "After fill / cancel / stop-recalc that changes Positions or Dashboard: Soft Final (or track Done) only after Sheet Positions + Dashboard readback matches ledger. If mismatch → explicit FAIL (do not claim Done). No change → Sheet rebuild may SKIP with note.",
+      "defaults": {
+        "triggers": [
+          "fill",
+          "cancel",
+          "stop_recalc"
+        ],
+        "readback_tabs": [
+          "Positions",
+          "Dashboard"
+        ],
+        "done_requires": "readback_match_or_explicit_FAIL"
+      }
+    },
+    {
+      "rule_id": "no-reopen-3sess-v1",
+      "approved_hkt": "2026-11-01",
+      "approved_by": "Justin",
+      "effective_date": "2026-11-01",
+      "authorized_by": "[pt74u]",
+      "source": "W44 execution-eval + chat t74u",
+      "text": "Do not re-OPEN the same ticker within ~3 US sessions of cancel / observe / fill-exit unless (a) new limit is inside the away band (Close within 5% of L) AND (b) size-down to paper_probe or ≤0.5R. Else OBSERVE / SKIP.",
+      "defaults": {
+        "cooldown_us_sessions": 3,
+        "exception_requires": [
+          "new_L_inside_away_band",
+          "size_down_paper_probe_or_le_0_5R"
+        ],
+        "applies_after": [
+          "cancel",
+          "observe",
+          "fill_exit"
+        ]
+      }
+    },
+    {
+      "rule_id": "weekly-exec-eval-v1",
+      "approved_hkt": "2026-11-01",
+      "approved_by": "Justin",
+      "effective_date": "2026-11-01",
+      "authorized_by": "[pt74u]",
+      "source": "W44 execution-eval + chat t74u",
+      "text": "Every Sunday: write `/workspace/us-swing-sim/weekly/YYYY-Www-execution-eval.md` with four blocks — (1) planned vs actual (2) failed / reverse (3) flaws / root cause (4) improvement plan. Paper execution only.",
+      "defaults": {
+        "cadence": "Sunday",
+        "path_pattern": "/workspace/us-swing-sim/weekly/YYYY-Www-execution-eval.md",
+        "blocks": [
+          "planned_vs_actual",
+          "failed_reverse",
+          "flaws_root_cause",
+          "improvement_plan"
+        ]
+      }
+    },
+    {
+      "rule_id": "sheet-sync-even-quiet-v1",
+      "approved_hkt": "2026-11-21",
+      "approved_by": "Justin",
+      "effective_date": "2026-11-21",
+      "authorized_by": "[pt96u]",
+      "source": "Justin t96u: Update excel even doesnt hv action",
+      "defaults": {
+        "applies_to": [
+          "post-close track"
+        ],
+        "skip_on_quiet": false,
+        "protocol": "safe-sync-v1",
+        "pre_open_sync": false
+      },
+      "text": "After every post-close track (including quiet / empty-book / no fills / no cancels / no exits), still run safe-sync-v1: bash tools/sheet_safe_sync.sh → batch clear → write×6 → charts → verify_sheet_readback.py. Do not SKIP the Google Sheet just because positions, orders, or observe did not change. Dashboard equity curve must refresh each post-close session (UPSERT marks_session from portfolio). Pre-open checks still do not sync the Sheet (they do not change cash/shares/NAV). Journal leave alone. Justin t96u 2026-11-21:「Update excel even doesnt hv action」."
+    }
+  ],
+  "last_patch": {
+    "patch_id": "RULES-20261121-sheet-sync-even-quiet",
+    "authorized_by": [
+      "[pt96u]"
+    ],
+    "rule_ids_added": [
+      "sheet-sync-even-quiet-v1"
+    ],
+    "source": "Justin t96u — update Excel even when the post-close track has no action"
+  },
+  "observe-daily-clean-v1": {
+    "id": "observe-daily-clean-v1",
+    "approved": "2026-11-04",
+    "justin": "Keep RDWR only; clean observe daily as OBSERVE-CLEAN-20261104",
+    "summary": "Each Soft Final/TRACK day: prune observe if thesis/SL broken, no concrete L/SL, or stale residual; do not carry junk observes. Current keep: RDWR only until dropped by same criteria."
+  },
+  "thin-room-manual-v1": {
+    "id": "thin-room-manual-v1",
+    "status": "permanent",
+    "approved_hkt": "2026-11-06",
+    "summary": "thin_room default OFF; apply half-size only with explicit --thin-room (Room∈[1.0,1.5] or Justin force). UNTY acceptance uses full size."
+  },
+  "paper-probe-bear-half-r-v1": {
+    "id": "paper-probe-bear-half-r-v1",
+    "status": "permanent",
+    "approved_hkt": "2026-11-06",
+    "summary": "Deep Bear / AUTHORIZE smaller-bet → auto paper_probe R$ ×0.5 (--paper-probe-r 0.5). Explicit override still allowed."
+  },
+  "revoked": [],
+  "revoked_rules": [
+    {
+      "rule_id": "supply-half-fill-v1",
+      "revoked_hkt": "2026-11-10 06:47 HKT",
+      "authorized_by": "[pt92u]",
+      "reason": "Justin: reverse, do not apply this rule / 之前selling rule 冇呢樣"
+    }
+  ]
+}
