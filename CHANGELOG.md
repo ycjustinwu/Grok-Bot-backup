@@ -1,3 +1,11 @@
+## 2026-11-27 Second brain skills backup
+- Refreshed `skills/us-second-brain-3-picks/SKILL.md` from disk `/home/box/agent-data/workflows/us-second-brain-3-picks/` (script-first Soft Final draft + judgment_flags; 書面語 template).
+- Unchanged (already matched disk): `skills/us-second-brain-notion-sync/`, `skills/us-swing-session-overview/`, `skills/jev-fleet-decisions/`.
+- Added script backup (runtime path unchanged) under `bots/second-brain/scripts/`: `hermes_soft_final.py`, `soft_final_draft.py`, `README.md`, `download_notes.md` (from `/workspace/second-brain/scripts/`; excluded `__pycache__`).
+- Secret scan: no plaintext tokens/keys; Drive folder id in `download_notes.md` is a path reference only.
+- Visibility: confirmed private (repo had been public; set back to private to match archive policy).
+- Tag: `backup-second-brain-2026-11-27`.
+
 ## 2026-11-21 named incremental backup (`2026-11-21T232720+0800`)
 
 - Bots named: `us-market-daily-brief` (no fleet fan-out).

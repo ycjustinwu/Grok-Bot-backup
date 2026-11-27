@@ -112,7 +112,7 @@ Source: `/home/box/agent-data/workflows`
 | us-focus-catalyst | yes | unchanged |
 | us-market-daily-brief | yes | unchanged |
 | us-rotation-structure | yes | unchanged |
-| us-second-brain-3-picks | yes | unchanged |
+| us-second-brain-3-picks | yes | updated 2026-11-27 |
 | us-second-brain-notion-sync | yes | unchanged |
 | us-swing-rs-enhance | yes | unchanged |
 | us-swing-sector-wind | yes | unchanged |

@@ -20,18 +20,23 @@ Default trigger: **Hermes Drive session ready** (`Drive US_Stock_Data/<Mon D>/` 
 Before any LLM ranking / §3.3 drafting from raw Hermes CSV/jsonl:
 
 1. Ensure the session pack is local (Drive MCP download — see `/workspace/second-brain/scripts/download_notes.md`).
-2. Run:
+2. Run the single command (sibling `soft_final_draft.py` is imported automatically):
 
 ```bash
 python3 /workspace/second-brain/scripts/hermes_soft_final.py \
   --pack-dir <local-hermes-pack> \
   --out-dir /workspace/second-brain/YYYY-MM-DD \
-  --prior-stalks <optional>
+  --prior-dir <optional previous Soft out-dir> \
+  --prior-pack-dir <optional previous Hermes pack> \
+  --drive-folder <optional Drive folder URL or id> \
+  --book TEM@72.21,UNTY@57.46
 ```
 
-3. Read `ranked_candidates.json` + `handoff_blocks.md` + `soft_final_stub.md` + `script_verify.json`.
-4. **LLM must NOT re-rank from raw CSV/jsonl when script output exists.** Fill Soft Final PLACEHOLDERs only (tape, Stockbee/regime/brief, reflection, X, Notion/overview/Jev). May **demote** script stalks; never upgrade WATCH/AVOID; never invent prices/targets — Contract copy in handoff wins.
-5. If script exit `2` (missing/date mismatch) → stop and report. Exit `3` (no survivors) → Soft Final **cannot find**; do not pad.
+`--prior-dir` / `--prior-pack-dir` auto-discover when `--out-dir` is `/workspace/second-brain/YYYY-MM-DD`. `--run-date` defaults to today Asia/Hong_Kong; `--tc` defaults to `TC-YYYYMMDD-SB-novN`.
+
+3. Read `attention-3-picks.draft.md` + `judgment_flags.json` first, then `ranked_candidates.json` + `handoff_blocks.md` + `handoff_blocks.script.md` + `script_verify.json` as needed. `soft_final_stub.md` is a deprecated one-line pointer — do not fill old PLACEHOLDERs.
+4. **LLM must NOT re-rank from raw CSV/jsonl when script output exists.** Start from the draft + `judgment_flags.json`. May **confirm or undo a soft demote** of a script STALK (soft-demote is a draft suggestion only; `ranked_candidates.json` / `handoff_blocks.script.md` keep the pre-demote script stalks). Never upgrade WATCH/AVOID; never invent prices/targets — Contract copy in handoff wins. Do not recap regime / US Brief / Market Master / RS overview. Do not load those full reports unless a flag says a conflict must be checked. Never treat index BUY as buyable (`verdicts_US.jsonl` wins). If `story_in_pack` is set, no further S4 unless Justin asks. Never auto-wake 模擬倉.
+5. If script exit `2` (missing/date mismatch) → stop and report. Exit `3` (no *script* survivors) → Soft Final **cannot find**; do not pad. Exit `0` with draft Soft stalks = 無 after soft-demote is also cannot-find — do not pad.
 
 Docs: `/workspace/second-brain/scripts/README.md`.
 
@@ -100,13 +105,15 @@ Before locking the list, answer in the note (short, plain):
 4. **Why this ticker vs the big trend?** — Specific setup / earnings path / RS vs peers / Speak_Up.
 5. **Evidence conflict?** — If high-RS sector ETFs dual-decline, treat as rollover risk.
 
-## Output shape (every run) — Hermes §3.3 handoff ONLY per stalk
+## Output shape (every run)
 
-Lead with tape one-liner (regime label + exposure cue + what’s working / dying).
+Human Soft Final and the chat summary follow `/workspace/second-brain/templates/soft-final-output.md` (worked example: `/workspace/second-brain/2026-11-12/attention-3-picks.md`). Use Traditional Chinese **書面語**, not colloquial Cantonese.
 
-Brief **Stockbee read** (1–3 lines).
+Start from the script's `attention-3-picks.draft.md` (and upload helper `attention-3-picks-notion.md`). Polish 獨立判斷 if needed; do not rebuild the header / tables / PINNED from scratch unless a flag is wrong.
 
-Then for each stalk (0–3), emit **exactly** this block (no Adj risk-reward lines, no invented T1/T2/T3, no old ENTRY ZONE / PRIMARY TARGET fields):
+Assume Justin has already read that day's regime, US Brief, Market Master, and RS overview — do **not** recap those reports. Lead with the decision and stock-selection tables; add independent judgment and things he might miss. Process metadata (PINNED_INPUTS) stays at the bottom.
+
+For each Soft stalk (0–3), also emit **exactly** this Hermes §3.3 block in `handoff_blocks.md` (no Adj risk-reward lines, no invented T1/T2/T3, no old ENTRY ZONE / PRIMARY TARGET fields):
 
 ```
 <TICKER> · <Setup_Family>/<Setup_Code> · <verdict> · quality <Grade>
@@ -119,19 +126,15 @@ why: <一句，引用 Speak_Up 或 Quality detail>
 
 Required fields: Setup_Family/Setup_Code, verdict, quality Grade, Entry_Ref/Entry_Src, Invalidate_Below/Stop_Type_Plan, Risk_Pct_Plan/Risk_ADR_Plan, Room_To_Supply_R → Supply_Level/Supply_Source, soft Supply_Soft_Level/Room_To_Soft_R, RS_Score/RS_Status, earnings flag+date, Speak_Up, why.
 
-Include a short **Reflection** block.
-
-**Observe list (optional):** 2–5 non-stalk names for Justin — remarks only. **Do not** auto-route to 美股 Swing Setup (US Setup deprecated). Do not message Setup bot.
-
-End with **What I can dig on X** (≤7 lines). Then run digs.
+**Observe / 其他備註:** non-stalk names — remarks only. **Do not** auto-route to 美股 Swing Setup (US Setup deprecated) or 模擬倉. Do not message Setup bot.
 
 Save: `/workspace/second-brain/YYYY-MM-DD/attention-3-picks.md`
 
 After Final: run [US second-brain Notion sync](sand-workflow:us-second-brain-notion-sync) unless TC says skip Notion.
 
-## After shortlist → session overview
+## Session overview
 
-Same session: run [US swing session overview](sand-workflow:us-swing-session-overview) for the same YYYY-MM-DD. Do not skip unless Justin says so.
+Do **not** write or sync a US swing session overview unless Justin specifically requests it.
 
 ## X dig
 
@@ -165,8 +168,9 @@ When Justin replies, stay on the shortlist: levels, invalidation, alternate name
 - [ ] A1–A3 honored; no WATCH/AVOID upgrades; no invented targets
 - [ ] ≤3 stalks; never force 3; thin_room tagged when Room < 2
 - [ ] Did not run Hermes scan/L2/S4; did not wake Scanner/Setup for US
-- [ ] Overview scheduled same session; note saved under `/workspace/second-brain/YYYY-MM-DD/`
-- [ ] PINNED_INPUTS lists exact Drive file paths for the session
+- [ ] Soft Final follows the 書面語 output template; started from `attention-3-picks.draft.md` + `judgment_flags.json`; no regime/brief/MM/RS recap; those reports not fully loaded unless a flag required a conflict check; overview skipped unless Justin asked
+- [ ] Soft demote of a script STALK was only confirmed or undone — WATCH/AVOID never upgraded; index BUY never treated as buyable
+- [ ] PINNED_INPUTS lists exact local pack / context *paths* (no inlined report bodies)
 
 ## Anti-jobs
 
